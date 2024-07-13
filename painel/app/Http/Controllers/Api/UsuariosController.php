@@ -27,7 +27,7 @@ class UsuariosController extends Controller
                 return response()->json(['mensagem' => 'Nenhum usuário encontrado'], 404);
             }
         } catch (\Exception $e) {
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -42,7 +42,7 @@ class UsuariosController extends Controller
             
             return response()->json(['mensagem' => 'Usuário não encontrado'], 404);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 

@@ -28,7 +28,7 @@ class ReviewsController extends Controller
                 return response()->json(['mensagem' => 'Nenhum review encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -44,7 +44,7 @@ class ReviewsController extends Controller
                 return response()->json(['mensagem' => 'Review não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -151,7 +151,7 @@ class ReviewsController extends Controller
             $review->delete();
             return response()->json(['mensagem' => 'Review removido com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 }

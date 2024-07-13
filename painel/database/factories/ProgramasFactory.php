@@ -5,6 +5,8 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+use App\Models\Programas;
+
 class ProgramasFactory extends Factory
 {
     /**
@@ -12,6 +14,9 @@ class ProgramasFactory extends Factory
      *
      * @return array
      */
+
+    protected $model = Programas::class;
+    
     public function definition()
     {
         $faker = \Faker\Factory::create();

@@ -22,7 +22,7 @@ class PedidosMusicaisController extends Controller
                 return response()->json(['mensagem' => 'Nenhum pedido musical encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -39,7 +39,7 @@ class PedidosMusicaisController extends Controller
                 return response()->json(['mensagem' => 'Pedido musical não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -66,7 +66,7 @@ class PedidosMusicaisController extends Controller
         }catch(ValidationException $erro){
             return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -101,7 +101,7 @@ class PedidosMusicaisController extends Controller
             $pedido->save();
             return response()->json($pedido, 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -117,7 +117,7 @@ class PedidosMusicaisController extends Controller
             $pedido->delete();
             return response()->json(['mensagem' => 'Pedido musical deletado com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 }

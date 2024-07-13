@@ -27,7 +27,7 @@ class RepositorioDeArquivosController extends Controller
                 return response()->json(['mensagem' => 'Nenhum arquivo encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -43,7 +43,7 @@ class RepositorioDeArquivosController extends Controller
                 return response()->json(['mensagem' => 'Arquivo não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -70,7 +70,7 @@ class RepositorioDeArquivosController extends Controller
         }catch(ValidationException $erro){
             return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -112,7 +112,7 @@ class RepositorioDeArquivosController extends Controller
         }catch(ValidationException $erro){
             return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
@@ -130,7 +130,7 @@ class RepositorioDeArquivosController extends Controller
 
             return response()->json(['mensagem' => 'Arquivo removido com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor'], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 }
