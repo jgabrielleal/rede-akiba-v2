@@ -13,7 +13,7 @@ class CalendarioController extends Controller
     public function retornaTodoCalendarioDeEventos()
     {
         try{
-            $calendario = Calendario::with('designado')->paginate(10);
+            $calendario = Calendario::with(['designado'])->paginate(10);
 
             if($calendario->isNotEmpty()){
                 return response()->json($calendario, 200);
@@ -21,7 +21,7 @@ class CalendarioController extends Controller
                 return response()->json(['mensagem' => 'Nenhum evento encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -37,7 +37,7 @@ class CalendarioController extends Controller
                 return response()->json(['mensagem' => 'Evento não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -62,9 +62,9 @@ class CalendarioController extends Controller
 
             return response()->json($evento, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -98,9 +98,9 @@ class CalendarioController extends Controller
             $evento->save();
             return response()->json($evento, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -116,7 +116,7 @@ class CalendarioController extends Controller
             $evento->delete();
             return response()->json(['mensagem' => 'Evento removido com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

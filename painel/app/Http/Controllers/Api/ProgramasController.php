@@ -20,7 +20,7 @@ class ProgramasController extends Controller
     public function retornaTodosProgramas()
     {
         try{
-            $programas = Programas::with('locutor')->paginate(10);
+            $programas = Programas::with(['locutor'])->paginate(10);
 
             if($programas->isNotEmpty()){
                 return response()->json($programas, 200);
@@ -28,7 +28,7 @@ class ProgramasController extends Controller
                 return response()->json(['mensagem' => 'Nenhum programa encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -44,7 +44,7 @@ class ProgramasController extends Controller
                 return response()->json(['mensagem' => 'Programa não encontrado'], 404);
             }
         } catch (\Exception $erro) {
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -66,7 +66,7 @@ class ProgramasController extends Controller
 
             return response()->json($programa, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -114,7 +114,7 @@ class ProgramasController extends Controller
             $programa->save();
             return response()->json($programa, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }

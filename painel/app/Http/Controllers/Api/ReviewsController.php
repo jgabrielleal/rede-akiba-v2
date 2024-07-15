@@ -20,7 +20,7 @@ class ReviewsController extends Controller
     public function retornaTodosReviews()
     {
         try{
-            $reviews = Reviews::with('autor')->paginate(10);
+            $reviews = Reviews::with(['autor'])->paginate(10);
 
             if($reviews->isNotEmpty()){
                 return response()->json($reviews, 200);
@@ -28,7 +28,7 @@ class ReviewsController extends Controller
                 return response()->json(['mensagem' => 'Nenhum review encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -44,7 +44,7 @@ class ReviewsController extends Controller
                 return response()->json(['mensagem' => 'Review não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -54,7 +54,7 @@ class ReviewsController extends Controller
             $validacao = $request->validate([
                 'autor' => 'required|exists:usuarios,id',
                 'imagem_em_destaque' => 'required|image|mimes:jpeg,png,jpg,gif',
-                'capa_do_review' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'capa_da_review' => 'required|image|mimes:jpeg,png,jpg,gif',
                 'titulo' => 'required',
                 'sinopse' => 'required',
                 'conteudo' => 'required',
@@ -65,7 +65,7 @@ class ReviewsController extends Controller
                 'slug' => Str::slug($request->titulo),
                 'autor' => $request->autor,
                 'imagem_em_destaque' =>$this->uploadImage($request, 'imagem_em_destaque'),
-                'capa_do_review' => $this->uploadImage($request, 'capa_do_review'),
+                'capa_da_review' => $this->uploadImage($request, 'capa_da_review'),
                 'titulo' => $request->titulo,
                 'sinopse' => $request->sinopse,
                 'conteudo' => $request->conteudo,
@@ -74,7 +74,7 @@ class ReviewsController extends Controller
 
             return response()->json($review, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -130,7 +130,7 @@ class ReviewsController extends Controller
             $review->save();
             return response()->json($review, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -151,7 +151,7 @@ class ReviewsController extends Controller
             $review->delete();
             return response()->json(['mensagem' => 'Review removido com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

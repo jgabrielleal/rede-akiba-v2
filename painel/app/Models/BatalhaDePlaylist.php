@@ -34,11 +34,11 @@ class BatalhaDePlaylist extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function primeiroCompetidor(){
+    public function primeiro_competidor(){
         return $this->belongsTo(Usuarios::class, 'primeiro_competidor');
     }
 
-    public function segundoCompetidor(){
+    public function segundo_competidor(){
         return $this->belongsTo(Usuarios::class, 'segundo_competidor');
     }
 }

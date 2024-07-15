@@ -17,7 +17,7 @@ class CreateListaDeMusicasTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('numero_de_vezes_tocada')->nullable();
-            $table->string('nome_da_anime')->nullable();
+            $table->string('nome_do_anime')->nullable();
             $table->string('nome_da_musica')->nullable();
             $table->string('nome_do_artista')->nullable();
             $table->string('nome_do_album')->nullable();

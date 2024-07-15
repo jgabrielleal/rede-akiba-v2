@@ -37,7 +37,7 @@ class ProgramasTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_criar_programa()
+    public function test_cadastrar_programa()
     {
         $usuario = Usuarios::factory()->create();
         $novoPrograma = Programas::factory()->make()->toArray();
@@ -59,7 +59,7 @@ class ProgramasTest extends TestCase
         $faker = \Faker\Factory::create();
 
         $dados = [
-            'nome_do_programa' => $faker->firstName,
+            'nome_do_programa' => $faker->firstName(),
             'logo_do_programa' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
         ];
     

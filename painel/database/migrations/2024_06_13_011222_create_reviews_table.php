@@ -21,8 +21,9 @@ class CreateReviewsTable extends Migration
             $table->string('imagem_em_destaque')->nullable();
             $table->string('capa_da_review')->nullable();
             $table->string('titulo')->nullable();
-            $table->string('sinopse')->nullable();
-            $table->string('conteudo')->nullable();
+            $table->string('sinopse', 1000)->nullable();
+            $table->json('conteudo')->nullable();
+            $table->json('reacoes')->nullable();
 
             //Relacionamento
             $table->foreign('autor')->references('id')->on('users');

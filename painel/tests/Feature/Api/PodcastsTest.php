@@ -1,42 +1,36 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature;
 
+use App\Models\Podcasts;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsuariosTest extends TestCase
+class PodcastsTest extends TestCase
 {
-    public function test_listar_usuarios()
+    public function test_listar_podcasts()
     {
-        \App\Models\Usuarios::factory(10)->create();
+        \App\Models\Podcasts::factory(10)->create();
 
-        $response = $this->getJson('/api/usuarios');
+        $response = $this->getJson('/api/podcasts');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [ 
                 '*' => [ 
-                    'id',
                     'slug',
-                    'ativo',
-                    'login',
-                    'senha',
-                    'niveis_de_acesso',
-                    'avatar',
-                    'nome',
-                    'apelido',
-                    'email',
-                    'idade',
-                    'cidade',
-                    'estado',
-                    'pais',
-                    'biografia',
-                    'redes_sociais',
-                    'gostos',
+                    'autor',
+                    'temporada',
+                    'episodio',
+                    'titulo_do_episodio',
+                    'capa_do_episodio',
+                    'descricao_do_episodio',
+                    'conteudo_da_publicacao',
+                    'endereco_do_audio',
+                    'agregadores',
                 ]
             ]
         ]);
@@ -48,45 +42,37 @@ class UsuariosTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_cadastrar_usuario()
+    public function test_cadastrar_podcast()
     {
         $usuario = Usuarios::factory()->create();
-        $novoUsuario = Usuarios::factory()->make()->toArray();
-
+        $novoPodcast = Podcasts::factory()->make()->toArray();
+    
         $response = $this->actingAs($usuario, 'sanctum')
-                    ->withHeader('Accept', 'application/json')
-                    ->json('POST', '/api/usuarios', $novoUsuario);
+        ->withHeader('Accept', 'application/json')
+        ->json('POST', '/api/podcasts', $novoPodcast);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('usuarios', ['email' => $novoUsuario['email']]);
+        $this->assertDatabaseHas('podcasts', ['autor' => $novoPodcast['autor']]);
     }
 
-    public function test_editar_usuario()
+    public function test_editar_podcast()
     {
         $faker = \Faker\Factory::create();
 
         $dados = [
-            'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'nome' => $faker->firstName,
-            'apelido' => $faker->firstName,
-            'email' => $faker->email,
-            'idade' => $faker->numberBetween(18, 100),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'pais' => $faker->country,
-            'biografia' => $faker->text,
+            'titulo_do_episodio' => $faker->sentence(),
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $podcastManipulado = \App\Models\Podcasts::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/usuarios/update/' . $usuarioManipulado->slug, $dados);
+                    ->json('PATCH', '/api/podcasts/update/' . $podcastManipulado->slug, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -95,20 +81,20 @@ class UsuariosTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_usuario()
+    public function test_remover_podcast()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $podcastManipulado = \App\Models\Podcasts::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/usuarios/delete/' . $usuarioManipulado->id);
+                    ->json('DELETE', '/api/podcasts/delete/' . $podcastManipulado->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('usuarios', ['id' => $usuarioManipulado->id]);
+        $this->assertDatabaseMissing('podcasts', ['id' => $podcastManipulado->id]);
     }
 }

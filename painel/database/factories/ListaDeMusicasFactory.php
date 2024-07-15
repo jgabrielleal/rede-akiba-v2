@@ -20,10 +20,11 @@ class ListaDeMusicasFactory extends Factory
     {
         return [
             'numero_de_vezes_tocada' => $this->faker->numberBetween(0, 100),
-            'nome_do_anime' => $this->faker->sentence,
-            'nome_da_musica' => $this->faker->sentence,
-            'nome_do_artista' => $this->faker->name,
-            'ano_de_lancamento' => $this->faker->year,
+            'nome_do_anime' => $this->faker->sentence(),
+            'nome_da_musica' => $this->faker->sentence(),
+            'nome_do_artista' => $this->faker->name(),
+            'nome_do_album' => $this->faker->sentence(),
+            'ano_de_lancamento' => $this->faker->year(),
         ];
     }
 }

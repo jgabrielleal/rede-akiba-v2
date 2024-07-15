@@ -1,42 +1,36 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature;
 
+use App\Models\PedidosMusicais;
+use App\Models\Programas;
+use App\Models\ListaDeMusicas;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsuariosTest extends TestCase
+class PedidosMusicaisTest extends TestCase
 {
-    public function test_listar_usuarios()
+    public function test_listar_pedidos_musicais()
     {
-        \App\Models\Usuarios::factory(10)->create();
+        \App\Models\ListaDeMusicas::factory(10)->create();
+        \App\Models\Programas::factory(10)->create();
+        \App\Models\PedidosMusicais::factory(10)->create();
 
-        $response = $this->getJson('/api/usuarios');
+        $response = $this->getJson('/api/pedidosmusicais');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [ 
                 '*' => [ 
                     'id',
-                    'slug',
-                    'ativo',
-                    'login',
-                    'senha',
-                    'niveis_de_acesso',
-                    'avatar',
-                    'nome',
-                    'apelido',
-                    'email',
-                    'idade',
-                    'cidade',
-                    'estado',
-                    'pais',
-                    'biografia',
-                    'redes_sociais',
-                    'gostos',
+                    'apelido_do_ouvinte',
+                    'endereco_do_ouvinte',
+                    'recado_para_o_locutor',
+                    'programa_no_ar',
+                    'musica_pedida'
                 ]
             ]
         ]);
@@ -48,45 +42,37 @@ class UsuariosTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_cadastrar_usuario()
+    public function test_cadastrar_pedido_musical()
     {
         $usuario = Usuarios::factory()->create();
-        $novoUsuario = Usuarios::factory()->make()->toArray();
-
+        $novoPedido = PedidosMusicais::factory()->make()->toArray();
+    
         $response = $this->actingAs($usuario, 'sanctum')
-                    ->withHeader('Accept', 'application/json')
-                    ->json('POST', '/api/usuarios', $novoUsuario);
+        ->withHeader('Accept', 'application/json')
+        ->json('POST', '/api/pedidosmusicais', $novoPedido);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('usuarios', ['email' => $novoUsuario['email']]);
+        $this->assertDatabaseHas('pedidos_musicais', ['apelido_do_ouvinte' => $novoPedido['apelido_do_ouvinte']]);
     }
 
-    public function test_editar_usuario()
+    public function test_editar_pedido_musical()
     {
         $faker = \Faker\Factory::create();
 
         $dados = [
-            'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'nome' => $faker->firstName,
-            'apelido' => $faker->firstName,
-            'email' => $faker->email,
-            'idade' => $faker->numberBetween(18, 100),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'pais' => $faker->country,
-            'biografia' => $faker->text,
+            'recado_para_o_locutor' => $faker->text(),
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $pedidoMusicalManipulado = \App\Models\PedidosMusicais::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/usuarios/update/' . $usuarioManipulado->slug, $dados);
+                    ->json('PATCH', '/api/pedidosmusicais/update/' . $pedidoMusicalManipulado->id, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -95,20 +81,21 @@ class UsuariosTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_usuario()
+    public function test_remover_pedido_musical()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $pedidoMusicalManipulado = \App\Models\PedidosMusicais::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/usuarios/delete/' . $usuarioManipulado->id);
+                    ->json('DELETE', '/api/pedidosmusicais/delete/' . $pedidoMusicalManipulado->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('usuarios', ['id' => $usuarioManipulado->id]);
+        $this->assertDatabaseMissing('pedidos_musicais', ['id' => $pedidoMusicalManipulado->id]);
     }
+
 }

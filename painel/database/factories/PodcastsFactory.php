@@ -26,7 +26,7 @@ class PodcastsFactory extends Factory
             'autor' => $this->faker->randomElement($usuarios),
             'temporada' => $this->faker->numberBetween(1, 10),
             'episodio' => $this->faker->numberBetween(1, 100),
-            'titulo' => $this->faker->sentence,
+            'titulo_do_episodio' => $this->faker->sentence,
             'capa_do_episodio' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
             'descricao_do_episodio' => $this->faker->text(),
             'conteudo_da_publicacao' => $this->faker->text(),

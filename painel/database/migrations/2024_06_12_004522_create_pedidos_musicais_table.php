@@ -18,7 +18,7 @@ class CreatePedidosMusicaisTable extends Migration
             $table->timestamps();
             $table->string('apelido_do_ouvinte')->nullable();
             $table->string('endereco_do_ouvinte')->nullable();
-            $table->string('recado_para_o_locutor')->nullable();
+            $table->string('recado_para_o_locutor', 1000)->nullable();
             $table->unsignedBigInteger('programa_no_ar');
             $table->unsignedBigInteger('musica_pedida');
 

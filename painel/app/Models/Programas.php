@@ -41,11 +41,11 @@ class Programas extends Model
         return $this->belongsTo(Usuarios::class, 'locutor');
     }
 
-    public function noAr(){
+    public function programa(){
         return $this->hasMany(NoAr::class, 'programa');
     }
 
-    public function ouvinteDoMes(){
+    public function programa_favorito(){
         return $this->hasOne(OuvinteDoMes::class, 'programa_favorito');
     }
 }

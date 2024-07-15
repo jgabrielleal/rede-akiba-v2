@@ -28,7 +28,7 @@ class OuvinteDoMesController extends Controller
                 return response()->json(['mensagem' => 'Ouvinte não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -69,7 +69,7 @@ class OuvinteDoMesController extends Controller
             $ouvinte->save();
             return response()->json($ouvinte, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }

@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-use App\Models\Usuario; 
+use App\Models\Usuarios; 
 
 class UsuariosFactory extends Factory
 {
@@ -15,7 +15,7 @@ class UsuariosFactory extends Factory
      * @return array
      */
 
-    protected $model = Usuario::class;
+    protected $model = Usuarios::class;
 
     public function definition()
     {

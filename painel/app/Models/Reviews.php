@@ -31,6 +31,7 @@ class Reviews extends Model
         'titulo',
         'sinopse',
         'conteudo',
+        'reacoes',
     ];
 
     /**
@@ -40,6 +41,7 @@ class Reviews extends Model
      */
     protected $casts = [
         'conteudo' => 'array',
+        'reacoes' => 'array',
     ];
 
 
@@ -48,7 +50,7 @@ class Reviews extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function uploader(){
-        return $this->belongsTo(Usuarios::class, 'uploader');
+    public function autor(){
+        return $this->belongsTo(Usuarios::class, 'autor');
     }
 }

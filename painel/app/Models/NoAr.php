@@ -45,8 +45,4 @@ class NoAr extends Model
     public function programa(){
         return $this->belongsTo(Programas::class, 'programa');
     }
-
-    public function pedidosMusicais(){
-        return $this->hasMany(PedidosMusicais::class, 'programas_no_ar');
-    }
 }

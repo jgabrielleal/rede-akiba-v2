@@ -23,7 +23,7 @@ class CreateEventosTable extends Migration
             $table->string('capa_do_evento')->nullable();
             $table->string('datas')->nullable();
             $table->string('local')->nullable();
-            $table->string('conteudo')->nullable();
+            $table->string('conteudo', 1000)->nullable();
 
             //Relacionamento
             $table->foreign('autor')->references('id')->on('users');

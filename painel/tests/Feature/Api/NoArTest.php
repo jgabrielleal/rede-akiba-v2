@@ -40,7 +40,7 @@ class NoArTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_criar_registro_no_historico_no_ar()
+    public function test_cadastrar_registro_no_historico_no_ar()
     {
         $usuario = Usuarios::factory()->create();
         $novoRegistro = NoAr::factory()->make()->toArray();

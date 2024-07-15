@@ -1,42 +1,36 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature;
 
+use App\Models\Materias;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsuariosTest extends TestCase
+class MateriasTest extends TestCase
 {
-    public function test_listar_usuarios()
+    public function test_listar_historico_no_ar()
     {
-        \App\Models\Usuarios::factory(10)->create();
+        \App\Models\Materias::factory(10)->create();
 
-        $response = $this->getJson('/api/usuarios');
+        $response = $this->getJson('/api/materias');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [ 
                 '*' => [ 
-                    'id',
                     'slug',
-                    'ativo',
-                    'login',
-                    'senha',
-                    'niveis_de_acesso',
-                    'avatar',
-                    'nome',
-                    'apelido',
-                    'email',
-                    'idade',
-                    'cidade',
-                    'estado',
-                    'pais',
-                    'biografia',
-                    'redes_sociais',
-                    'gostos',
+                    'publicado',
+                    'autor',
+                    'imagem_em_destaque',
+                    'capa_da_materia',
+                    'titulo',
+                    'conteudo',
+                    'tags', 
+                    'fontes_de_pesquisa',
+                    'reacoes'
                 ]
             ]
         ]);
@@ -48,45 +42,37 @@ class UsuariosTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_cadastrar_usuario()
+    public function test_cadastrar_materias()
     {
         $usuario = Usuarios::factory()->create();
-        $novoUsuario = Usuarios::factory()->make()->toArray();
-
+        $novaMateria = Materias::factory()->make()->toArray();
+    
         $response = $this->actingAs($usuario, 'sanctum')
-                    ->withHeader('Accept', 'application/json')
-                    ->json('POST', '/api/usuarios', $novoUsuario);
+        ->withHeader('Accept', 'application/json')
+        ->json('POST', '/api/materias', $novaMateria);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('usuarios', ['email' => $novoUsuario['email']]);
+        $this->assertDatabaseHas('materias', ['autor' => $novaMateria['autor']]);
     }
 
-    public function test_editar_usuario()
+    public function test_editar_materia()
     {
         $faker = \Faker\Factory::create();
 
         $dados = [
-            'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'nome' => $faker->firstName,
-            'apelido' => $faker->firstName,
-            'email' => $faker->email,
-            'idade' => $faker->numberBetween(18, 100),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'pais' => $faker->country,
-            'biografia' => $faker->text,
+            'titulo' => $faker->sentence(),
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $materiaManipulada = \App\Models\Materias::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/usuarios/update/' . $usuarioManipulado->slug, $dados);
+                    ->json('PATCH', '/api/materias/update/' . $materiaManipulada->slug, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -95,20 +81,20 @@ class UsuariosTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_usuario()
+    public function test_remover_materia()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $materiaManipulada = \App\Models\Materias::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/usuarios/delete/' . $usuarioManipulado->id);
+                    ->json('DELETE', '/api/materias/delete/' . $materiaManipulada->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('usuarios', ['id' => $usuarioManipulado->id]);
+        $this->assertDatabaseMissing('materias', ['id' => $materiaManipulada->id]);
     }
 }

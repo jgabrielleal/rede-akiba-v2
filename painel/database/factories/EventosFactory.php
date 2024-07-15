@@ -14,20 +14,20 @@ class EventosFactory extends Factory
      *
      * @return array
      */
+
+    protected $model = Eventos::class;
+
     public function definition()
     {
         $usuarios = \App\Models\Usuarios::pluck('id')->toArray();
 
         return [
-            'slug' =>  Str::slug($this->faker->sentence($nbWords = 6, $variableNbWords = true)),
+            'slug' =>  Str::slug($this->faker->sentence()),
             'autor' => $this->faker->randomElement($usuarios),
-            'titulo' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
+            'titulo' => $this->faker->sentence(),
             'imagem_em_destaque' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
             'capa_do_evento' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'datas' => [
-                $this->faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = null),
-                $this->faker->dateTimeBetween($startDate = 'now', $endDate = '+1 years', $timezone = null),
-            ],
+            'datas' => $this->faker->date(),
             'local' => $this->faker->address(),
             'conteudo' => $this->faker->text(),
         ];

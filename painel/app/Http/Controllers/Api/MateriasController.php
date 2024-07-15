@@ -20,7 +20,7 @@ class MateriasController extends Controller
     public function retornaTodasMaterias()
     {
         try{
-            $materias = Materias::with('autor')->paginate(10);
+            $materias = Materias::with(['autor'])->paginate(10);
 
             if($materias->isNotEmpty()){
                 return response()->json($materias, 200);
@@ -28,7 +28,7 @@ class MateriasController extends Controller
                 return response()->json(['mensagem' => 'Nenhuma matéria encontrada'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -44,7 +44,7 @@ class MateriasController extends Controller
                 return response()->json(['mensagem' => 'Matéria não encontrada'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -52,7 +52,7 @@ class MateriasController extends Controller
     {
         try{
             $validacao = $request->validate([
-                'publicada' => 'required',
+                'publicado' => 'required|boolean',
                 'autor' => 'required|exists:usuarios,id',
                 'imagem_em_destaque' => 'required|image|mimes:jpeg,png,jpg,gif',
                 'capa_da_materia' => 'required|image|mimes:jpeg,png,jpg,gif',
@@ -65,7 +65,7 @@ class MateriasController extends Controller
 
             $materia = Materias::create([
                 'slug' => Str::slug($request->titulo),
-                'publicada' => $request->publicada,
+                'publicado' => $request->publicado,
                 'autor' => $request->autor,
                 'imagem_em_destaque' => $this->uploadImage($request, 'imagem_em_destaque'),
                 'capa_da_materia' => $this->uploadImage($request, 'capa_da_materia'),
@@ -77,10 +77,11 @@ class MateriasController extends Controller
             ]);
 
             return response()->json($materia, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+        } catch (ValidationException $erro) {
+            // Retorna uma resposta JSON com os detalhes dos erros de validação
+            return response()->json(['mensagem' => 'Erro de validação', 'erros' => $erro->getMessage()], 422);
+        } catch (\Exception $erro) {
+            return response()->json(['mensagem' => 'Erro interno do servidor', 'erro' => $erro->getMessage()], 500);
         }
     }
 
@@ -133,9 +134,9 @@ class MateriasController extends Controller
             $materia->save();
             return response()->json($materia, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -154,7 +155,7 @@ class MateriasController extends Controller
             $materia->delete();
             return response()->json(['mensagem' => 'Matéria removida com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

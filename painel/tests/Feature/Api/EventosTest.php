@@ -1,20 +1,21 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature;
 
+use App\Models\Eventos;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsuariosTest extends TestCase
+class EventosTest extends TestCase
 {
-    public function test_listar_usuarios()
+    public function test_listar_eventos()
     {
-        \App\Models\Usuarios::factory(10)->create();
+        \App\Models\Eventos::factory(10)->create();
 
-        $response = $this->getJson('/api/usuarios');
+        $response = $this->getJson('/api/eventos');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
@@ -22,21 +23,12 @@ class UsuariosTest extends TestCase
                 '*' => [ 
                     'id',
                     'slug',
-                    'ativo',
-                    'login',
-                    'senha',
-                    'niveis_de_acesso',
-                    'avatar',
-                    'nome',
-                    'apelido',
-                    'email',
-                    'idade',
-                    'cidade',
-                    'estado',
-                    'pais',
-                    'biografia',
-                    'redes_sociais',
-                    'gostos',
+                    'autor',
+                    'imagem_em_destaque',
+                    'capa_do_evento',
+                    'datas',
+                    'local',
+                    'conteudo',
                 ]
             ]
         ]);
@@ -48,45 +40,37 @@ class UsuariosTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_cadastrar_usuario()
+    public function test_cadastrar_evento()
     {
         $usuario = Usuarios::factory()->create();
-        $novoUsuario = Usuarios::factory()->make()->toArray();
-
+        $novoEvento = Eventos::factory()->make()->toArray();
+    
         $response = $this->actingAs($usuario, 'sanctum')
-                    ->withHeader('Accept', 'application/json')
-                    ->json('POST', '/api/usuarios', $novoUsuario);
+        ->withHeader('Accept', 'application/json')
+        ->json('POST', '/api/eventos', $novoEvento);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('usuarios', ['email' => $novoUsuario['email']]);
+        $this->assertDatabaseHas('eventos', ['autor' => $novoEvento['autor']]);
     }
 
-    public function test_editar_usuario()
+    public function test_editar_evento()
     {
         $faker = \Faker\Factory::create();
 
         $dados = [
-            'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'nome' => $faker->firstName,
-            'apelido' => $faker->firstName,
-            'email' => $faker->email,
-            'idade' => $faker->numberBetween(18, 100),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'pais' => $faker->country,
-            'biografia' => $faker->text,
+            'titulo' => $faker->sentence(),
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $eventoManipulado = \App\Models\Eventos::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/usuarios/update/' . $usuarioManipulado->slug, $dados);
+                    ->json('PATCH', '/api/eventos/update/' . $eventoManipulado->slug, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -95,20 +79,20 @@ class UsuariosTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_usuario()
+    public function test_remover_eventos()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $eventoManipulado = \App\Models\Eventos::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/usuarios/delete/' . $usuarioManipulado->id);
+                    ->json('DELETE', '/api/eventos/delete/' . $eventoManipulado->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('usuarios', ['id' => $usuarioManipulado->id]);
+        $this->assertDatabaseMissing('eventos', ['id' => $eventoManipulado->id]);
     }
 }

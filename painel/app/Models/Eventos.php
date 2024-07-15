@@ -16,7 +16,7 @@ class Eventos extends Model
      *
      * @var string
      */
-    protected $table = 'calendario_da_equipe';
+    protected $table = 'eventos';
 
      /**
      * The attributes that are mass assignable.

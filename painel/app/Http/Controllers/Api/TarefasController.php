@@ -13,7 +13,7 @@ class TarefasController extends Controller
     public function retornaTodasTarefas()
     {
         try{
-            $tarefas = Tarefas::with('administrador', 'executante')->paginate(10);
+            $tarefas = Tarefas::with(['administrador', 'executante'])->paginate(10);
 
             if($tarefas->isNotEmpty()){
                 return response()->json($tarefas, 200);
@@ -21,7 +21,7 @@ class TarefasController extends Controller
                 return response()->json(['mensagem' => 'Nenhuma tarefa encontrada'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -37,7 +37,7 @@ class TarefasController extends Controller
                 return response()->json(['mensagem' => 'Tarefa não encontrada'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -60,7 +60,7 @@ class TarefasController extends Controller
 
             return response()->json($tarefa, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -96,7 +96,7 @@ class TarefasController extends Controller
             $tarefa->save();
             return response()->json($tarefa, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -114,7 +114,7 @@ class TarefasController extends Controller
             $tarefa->delete();
             return response()->json(['mensagem' => 'Tarefa removida com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

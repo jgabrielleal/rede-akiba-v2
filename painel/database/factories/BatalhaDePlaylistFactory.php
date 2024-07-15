@@ -16,6 +16,7 @@ class BatalhaDePlaylistFactory extends Factory
     public function definition()
     {
         $usuario = \App\Models\Usuarios::pluck('id')->toArray();
+        
         return [
             'imagem' =>  \Illuminate\Http\UploadedFile::fake()->image('banner.jpg'),
             'primeiro_competidor' => $this->faker->randomElement($usuario),

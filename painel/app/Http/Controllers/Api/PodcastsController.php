@@ -20,7 +20,7 @@ class PodcastsController extends Controller
     public function retornaTodosPodcasts()
     {
         try{
-            $podcasts = Podcasts::with('autor')->paginate(10);
+            $podcasts = Podcasts::with(['autor'])->paginate(10);
 
             if($podcasts->isNotEmpty()){
                 return response()->json($podcasts, 200);
@@ -28,7 +28,7 @@ class PodcastsController extends Controller
                 return response()->json(['mensagem' => 'Nenhum podcast encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -44,7 +44,7 @@ class PodcastsController extends Controller
                 return response()->json(['mensagem' => 'Podcast não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -55,12 +55,12 @@ class PodcastsController extends Controller
                 'autor' => 'required|exists:usuarios,id',
                 'temporada' => 'required',
                 'episodio' => 'required',
-                'titulo' => 'required',
+                'titulo_do_episodio' => 'required',
                 'capa_do_episodio' => 'required',
                 'descricao_do_episodio' => 'required',
                 'conteudo_da_publicacao' => 'required',
                 'endereco_do_audio' => 'required',
-                'aggregadores' => 'required',
+                'agregadores' => 'required',
             ]);
 
             $podcast = Podcasts::create([
@@ -69,7 +69,7 @@ class PodcastsController extends Controller
                 'temporada' => $request->temporada,
                 'episodio' => $request->episodio,
                 'titulo' => $request->titulo,
-                'capa_do_episodio' => $this->uploadImagem($request, 'capa_do_episodio'),
+                'capa_do_episodio' => $this->uploadImage($request, 'capa_do_episodio'),
                 'descricao_do_episodio' => $request->descricao_do_episodio,
                 'conteudo_da_publicacao' => $request->conteudo_da_publicacao,
                 'endereco_do_audio' => $request->endereco_do_audio,
@@ -78,9 +78,9 @@ class PodcastsController extends Controller
 
             return response()->json($podcast, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -132,7 +132,7 @@ class PodcastsController extends Controller
             $podcast->save();
             return response()->json($podcast, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -152,7 +152,7 @@ class PodcastsController extends Controller
             $podcast->delete();
             return response()->json(['mensagem' => 'Podcast deletado com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

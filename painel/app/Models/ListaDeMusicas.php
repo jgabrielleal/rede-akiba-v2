@@ -47,11 +47,11 @@ class ListaDeMusicas extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function pedidosMusicais(){
+    public function pedidos_musicais(){
         return $this->hasMany(PedidosMusicais::class);
     }
 
-    public function topDeMusicas(){
+    public function top_de_musicas(){
         return $this->hasMany(TopDeMusicas::class);
     }
 }

@@ -109,12 +109,12 @@ Route::prefix('materias')->middleware('auth:sanctum')->group(function(){
     Route::delete('/delete/{id}', [MateriasController::class, 'removerMateriaEspecifica']);
 });
 
-Route::get('reviews', [ReviewsController::class, 'retornaTodasReviews']);
-Route::get('reviews/{slug}', [ReviewsController::class, 'retornaReviewEspecifica']);
+Route::get('reviews', [ReviewsController::class, 'retornaTodosReviews']);
+Route::get('reviews/{slug}', [ReviewsController::class, 'retornaReviewEspecifico']);
 Route::prefix('reviews')->middleware('auth:sanctum')->group(function(){
     Route::post('/', [ReviewsController::class, 'cadastraReview']);
-    Route::patch('/update/{slug}', [ReviewsController::class, 'atualizaReviewEspecifica']);
-    Route::delete('/delete/{id}', [ReviewsController::class, 'removerReviewEspecifica']);
+    Route::patch('/update/{slug}', [ReviewsController::class, 'atualizaReviewEspecifico']);
+    Route::delete('/delete/{id}', [ReviewsController::class, 'removerReviewEspecifico']);
 });
 
 Route::get('eventos', [EventosController::class, 'retornaTodosEventos']);

@@ -17,10 +17,10 @@ class TopDeMusicasController extends Controller
     use UploadImage;
     use RemoveImage;
     
-    public function retornaTodosTopDeMusica()
+    public function retornaTodosTopDeMusicas()
     {
         try{
-            $topDeMusicas = TopDeMusicas::with('musica')->paginate(10);
+            $topDeMusicas = TopDeMusicas::with(['musica'])->paginate(10);
 
             if($topDeMusicas->isNotEmpty()){
                 return response()->json($topDeMusicas, 200);
@@ -28,7 +28,7 @@ class TopDeMusicasController extends Controller
                 return response()->json(['mensagem' => 'Nenhum top de música encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -44,7 +44,7 @@ class TopDeMusicasController extends Controller
                 return response()->json(['mensagem' => 'Top de música não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -61,9 +61,9 @@ class TopDeMusicasController extends Controller
 
             return response()->json($TopDeMusica, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -103,9 +103,9 @@ class TopDeMusicasController extends Controller
             $topDeMusica->save();
             return response()->json($topDeMusica, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -123,7 +123,7 @@ class TopDeMusicasController extends Controller
             $topDeMusica->delete();
             return response()->json(['mensagem' => 'Top de música removido com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

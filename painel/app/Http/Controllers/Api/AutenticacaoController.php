@@ -23,7 +23,7 @@ class AutenticacaoController extends Controller
             
             return response()->json(['mensagem' => 'Credenciais inválidas'], 401);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor',  $erro->getMessage()], 500);
         }
     }
 

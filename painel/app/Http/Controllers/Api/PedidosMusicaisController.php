@@ -13,16 +13,18 @@ class PedidosMusicaisController extends Controller
 {
     public function retornaTodosPedidosMusicais()
     {
-        try{
-            $pedidos = PedidosMusicais::where('programa_no_ar', 'musica_pedida')->paginate(10);
-
-            if($pedidos->isNotEmpty()){
+        try {
+            // Carrega os pedidos musicais junto com suas relações. 
+            // Ajuste os nomes das relações conforme o necessário.
+            $pedidos = PedidosMusicais::with(['programa_no_ar', 'musica_pedida'])->paginate(10);
+    
+            if ($pedidos->isNotEmpty()) {
                 return response()->json($pedidos, 200);
-            }else{
+            } else {
                 return response()->json(['mensagem' => 'Nenhum pedido musical encontrado'], 404);
             }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+        } catch (\Exception $erro) {
+            return response()->json(['mensagem' => 'Erro interno do servidor', 'erro' => $erro->getMessage()], 500);
         }
     }
 
@@ -39,7 +41,7 @@ class PedidosMusicaisController extends Controller
                 return response()->json(['mensagem' => 'Pedido musical não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -64,9 +66,9 @@ class PedidosMusicaisController extends Controller
 
             return response()->json($pedido, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -101,7 +103,7 @@ class PedidosMusicaisController extends Controller
             $pedido->save();
             return response()->json($pedido, 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -117,7 +119,7 @@ class PedidosMusicaisController extends Controller
             $pedido->delete();
             return response()->json(['mensagem' => 'Pedido musical deletado com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

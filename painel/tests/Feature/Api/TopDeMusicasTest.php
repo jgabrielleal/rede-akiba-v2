@@ -1,42 +1,32 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature;
 
+use App\Models\TopDeMusicas;
+use App\Models\ListaDeMusicas;
+use App\Models\PedidosMusicais;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsuariosTest extends TestCase
+class TopDeMusicasTest extends TestCase
 {
-    public function test_listar_usuarios()
+    public function test_listar_top_de_musicias()
     {
-        \App\Models\Usuarios::factory(10)->create();
+        \App\Models\ListaDeMusicas::factory(10)->create();
+        \App\Models\TopDeMusicas::factory(10)->create();
 
-        $response = $this->getJson('/api/usuarios');
+        $response = $this->getJson('/api/topdemusicas');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [ 
                 '*' => [ 
                     'id',
-                    'slug',
-                    'ativo',
-                    'login',
-                    'senha',
-                    'niveis_de_acesso',
                     'avatar',
-                    'nome',
-                    'apelido',
-                    'email',
-                    'idade',
-                    'cidade',
-                    'estado',
-                    'pais',
-                    'biografia',
-                    'redes_sociais',
-                    'gostos',
+                    'musica'
                 ]
             ]
         ]);
@@ -48,45 +38,37 @@ class UsuariosTest extends TestCase
         $this->assertCount(10, $response->json('data'));
     }
 
-    public function test_cadastrar_usuario()
+    public function test_cadastrar_posicao_top_de_musica()
     {
         $usuario = Usuarios::factory()->create();
-        $novoUsuario = Usuarios::factory()->make()->toArray();
-
+        $novaPosicao = TopDeMusicas::factory()->make()->toArray();
+    
         $response = $this->actingAs($usuario, 'sanctum')
-                    ->withHeader('Accept', 'application/json')
-                    ->json('POST', '/api/usuarios', $novoUsuario);
+        ->withHeader('Accept', 'application/json')
+        ->json('POST', '/api/topdemusicas', $novaPosicao);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('usuarios', ['email' => $novoUsuario['email']]);
+        $this->assertDatabaseHas('top_de_musicas', ['musica' => $novaPosicao['musica']]);
     }
 
-    public function test_editar_usuario()
+    public function test_editar_posicao_top_de_musicas()
     {
         $faker = \Faker\Factory::create();
 
         $dados = [
             'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'nome' => $faker->firstName,
-            'apelido' => $faker->firstName,
-            'email' => $faker->email,
-            'idade' => $faker->numberBetween(18, 100),
-            'cidade' => $faker->city,
-            'estado' => $faker->state,
-            'pais' => $faker->country,
-            'biografia' => $faker->text,
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $topDeMusicaManipulado = \App\Models\TopDeMusicas::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/usuarios/update/' . $usuarioManipulado->slug, $dados);
+                    ->json('PATCH', '/api/topdemusicas/update/' . $topDeMusicaManipulado->id, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -95,20 +77,20 @@ class UsuariosTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_usuario()
+    public function test_remover_posicao_top_de_musica()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $usuarioManipulado = \App\Models\Usuarios::factory()->create();
+        $topDeMusicaManipulado = \App\Models\TopDeMusicas::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/usuarios/delete/' . $usuarioManipulado->id);
+                    ->json('DELETE', '/api/topdemusicas/delete/' . $topDeMusicaManipulado->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('usuarios', ['id' => $usuarioManipulado->id]);
+        $this->assertDatabaseMissing('pedidos_musicais', ['id' => $topDeMusicaManipulado->id]);
     }
 }

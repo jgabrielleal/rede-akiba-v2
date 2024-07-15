@@ -22,11 +22,11 @@ class ReviewsFactory extends Factory
         $usuarios = \App\Models\Usuarios::pluck('id')->toArray();
 
         return [
-            'slug' =>  Str::slug($this->faker->sentence($nbWords = 6, $variableNbWords = true)),
+            'slug' =>  Str::slug($this->faker->name()),
             'autor' => $this->faker->randomElement($usuarios),
             'imagem_em_destaque' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'capa_do_review' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
-            'titulo' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
+            'capa_da_review' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
+            'titulo' => $this->faker->sentence(),
             'sinopse' => $this->faker->text(),
             'conteudo' => $this->faker->text(),
             'reacoes' => [

@@ -13,7 +13,7 @@ class NoArController extends Controller
     public function retornaTodosOsRegistrosDoNoAr()
     {
         try{
-            $noAr = NoAr::with('programa')->paginate(10);
+            $noAr = NoAr::with(['programa'])->paginate(10);
 
             if($noAr->isNotEmpty()){
                 return response()->json($noAr, 200);
@@ -21,7 +21,7 @@ class NoArController extends Controller
                 return response()->json(['mensagem' => 'Nenhum registro no histórico de programação encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -37,7 +37,7 @@ class NoArController extends Controller
                 return response()->json(['mensagem' => 'Registro no histórico de programação não encontrado'], 404);
             }
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -63,9 +63,9 @@ class NoArController extends Controller
 
             return response()->json($noAr, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -100,9 +100,9 @@ class NoArController extends Controller
             $NoAr->save();
             return response()->json($NoAr, 200);
         }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->errors()], 400);
+            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 
@@ -118,7 +118,7 @@ class NoArController extends Controller
             $noAr->delete();
             return response()->json(['mensagem' => 'Registro no histórico de programação removido com sucesso'], 200);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }
 }

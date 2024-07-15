@@ -37,11 +37,11 @@ class PedidosMusicais extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function programaNoAr(){
+    public function programa_no_ar(){
         return $this->belongsTo(NoAr::class, 'programa_no_ar');
     }
 
-    public function musicaPedida(){
+    public function musica_pedida(){
         return $this->belongsTo(ListaDeMusicas::class, 'musica_pedida');
     }
 }

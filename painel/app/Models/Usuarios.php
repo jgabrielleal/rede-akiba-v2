@@ -82,63 +82,63 @@ class Usuarios extends Authenticatable
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-    public function avisosDestinatario(){
+    public function avisos_para_equipe_destinatario(){
         return $this->hasMany(AvisosParaEquipe::class, 'destinatario');
     }
 
-    public function avisosRemente(){
+    public function avisos_para_equipe_remetente(){
         return $this->hasMany(AvisosParaEquipe::class, 'remetente');
     }
 
-    public function calendario(){
+    public function calendario_designado(){
         return $this->hasMany(Calendario::class, 'designado');
     }
 
-    public function eventos(){
+    public function eventos_autor(){
         return $this->hasMany(Eventos::class, 'autor');
     }
 
-    public function formularios(){
+    public function formularios_ultima_visualizacao(){
         return $this->hasMany(Formularios::class, 'ultima_visualizacao');
     }
 
-    public function materias(){
+    public function materias_autor(){
         return $this->hasMany(Materias::class, 'autor');
     }
 
-    public function podcasts(){
+    public function podcasts_autor(){
         return $this->hasMany(Podcasts::class, 'autor');
     }
 
-    public function programas(){
+    public function programas_locutor(){
         return $this->hasMany(Programas::class, 'locutor');
     }
 
-    public function repositorioDeArquivos(){
+    public function repositorio_de_arquivos_uploader(){
         return $this->hasMany(RepositorioDeArquivos::class, 'uploader');
     }
 
-    public function reviews(){
+    public function reviews_autor(){
         return $this->hasMany(Reviews::class, 'autor');
     }
 
-    public function tarefasAdministrador(){
+    public function tarefas_administrador(){
         return $this->hasMany(Tarefas::class, 'administrador');
     }
 
-    public function tarefasExecutante(){
+    public function tarefas_executante(){
         return $this->hasMany(Tarefas::class, 'executante');
     }
 
-    public function videosDoYoutube(){
+    public function videos_do_youtube(){
         return $this->hasMany(VideosDoYoutube::class, 'autor');
     }
 
-    public function batalhaDePlaylistPrimeiroCompetidor(){
+    public function batalha_de_playlist_primeiro_competidor(){
         return $this->hasMany(BatalhaDePlaylist::class, 'primeiro_competidor');
     }
 
-    public function batalhaDePlaylistSegundoCompetidor(){
+    public function batalha_de_playlist_segundo_competidor(){
         return $this->hasMany(BatalhaDePlaylist::class, 'segundo_competidor');
     }
 }
