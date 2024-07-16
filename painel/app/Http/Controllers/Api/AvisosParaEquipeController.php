@@ -13,7 +13,7 @@ class AvisosParaEquipeController extends Controller
     public function retornaTodosOsAvisosParaEquipe()
     {
         try{
-            $avisos = AvisosParaEquipe::with(['remente', 'destinatario'])->paginate(10);
+            $avisos = AvisosParaEquipe::with(['remetente', 'destinatario'])->paginate(10);
 
             if($avisos->isNotEmpty()){
                 return response()->json($avisos, 200);
@@ -45,13 +45,13 @@ class AvisosParaEquipeController extends Controller
     {
         try{
             $validacao = $request->validate([
-                'remenete' => 'required|exists:usuarios,id',
+                'remetente' => 'required|exists:usuarios,id',
                 'destinatario' => 'required|exists:usuarios,id',   
                 'mensagem' => 'required',
             ]);
 
             $aviso = AvisosParaEquipe::create([
-                'remente' => $request->remente,
+                'remetente' => $request->remetente,
                 'destinatario' => $request->destinatario,
                 'mensagem' => $request->mensagem,
             ]);
@@ -60,7 +60,7 @@ class AvisosParaEquipeController extends Controller
         }catch(ValidationException $erro){
             return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
         }
     }
 
