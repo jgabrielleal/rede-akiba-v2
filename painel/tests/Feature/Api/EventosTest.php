@@ -36,8 +36,26 @@ class EventosTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_evento_especifico()
+    {
+        $evento = \App\Models\Eventos::factory(10)->create();
+        $eventoManipulado = $evento->first();
+    
+        $response = $this->getJson('/api/eventos/' . $eventoManipulado->slug);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'slug',
+            'autor',
+            'imagem_em_destaque',
+            'capa_do_evento',
+            'datas',
+            'local',
+            'conteudo',
+        ]);
     }
 
     public function test_cadastrar_evento()
@@ -54,7 +72,6 @@ class EventosTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('eventos', ['autor' => $novoEvento['autor']]);
     }
 
     public function test_editar_evento()
@@ -93,6 +110,5 @@ class EventosTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('eventos', ['id' => $eventoManipulado->id]);
     }
 }

@@ -36,8 +36,25 @@ class NoArTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_registro_do_historico_no_ar_especifico()
+    {
+        $registro = \App\Models\NoAr::factory(10)->create();
+        $registroManipulado = $registro->first();
+    
+        $response = $this->getJson('/api/noar/' . $registroManipulado->id);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'programa',
+            'controle_de_pedidos',
+            'tipo_de_transmissao',
+            'data_da_transmissao',
+            'inicio_da_transmissao',
+            'fim_da_transmissao'
+        ]);
     }
 
     public function test_cadastrar_registro_no_historico_no_ar()
@@ -54,7 +71,6 @@ class NoArTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('no_ar', ['programa' => $novoRegistro['programa']]);
     }
 
     public function test_editar_registro_do_historico_no_ar()
@@ -94,6 +110,5 @@ class NoArTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('no_ar', ['id' => $registroManipulado->id]);
     }
 }

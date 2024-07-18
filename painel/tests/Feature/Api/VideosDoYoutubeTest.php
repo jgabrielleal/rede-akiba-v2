@@ -2,31 +2,29 @@
 
 namespace Tests\Feature;
 
-use App\Models\TopDeMusicas;
-use App\Models\ListaDeMusicas;
-use App\Models\PedidosMusicais;
+use App\Models\VideosDoYoutube;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TopDeMusicasTest extends TestCase
+class VideosDoYoutubeTest extends TestCase
 {
-    public function test_listar_top_de_musicias()
+    public function test_listar_videos()
     {
-        \App\Models\ListaDeMusicas::factory(10)->create();
-        \App\Models\TopDeMusicas::factory(10)->create();
+        \App\Models\VideosDoYoutube::factory(10)->create();
 
-        $response = $this->getJson('/api/topdemusicas');
+        $response = $this->getJson('/api/videos');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [ 
                 '*' => [ 
                     'id',
-                    'avatar',
-                    'musica'
+                    'autor',
+                    'titulo_do_video',
+                    'identificador_do_video'
                 ]
             ]
         ]);
@@ -34,54 +32,56 @@ class TopDeMusicasTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+
     }
 
-    public function test_recuperar_posicao_do_top_de_musica_especifico()
+
+    public function test_recuperar_video_especifico()
     {
-        $posicao = \App\Models\TopDeMusicas::factory(10)->create();
-        $posicaoManipulada = $posicao->first();
+        $videos = \App\Models\VideosDoYoutube::factory(10)->create();
+        $videoManipulado = $videos->first();
     
-        $response = $this->getJson('/api/topdemusicas/' . $posicaoManipulada->id);
+        $response = $this->getJson('/api/videos/' . $videoManipulado->id);
         $response->assertStatus(200);
     
         $response->assertJsonStructure([
             'id',
-            'avatar',
-            'musica'
+            'autor',
+            'titulo_do_video',
+            'identificador_do_video'
         ]);
     }
 
-    public function test_cadastrar_posicao_top_de_musica()
+    public function test_cadastrar_video()
     {
         $usuario = Usuarios::factory()->create();
-        $novaPosicao = TopDeMusicas::factory()->make()->toArray();
+        $videoManipulado = VideosDoYoutube::factory()->make()->toArray();
     
         $response = $this->actingAs($usuario, 'sanctum')
         ->withHeader('Accept', 'application/json')
-        ->json('POST', '/api/topdemusicas', $novaPosicao);
+        ->json('POST', '/api/videos', $videoManipulado);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('top_de_musicas', ['musica' => $novaPosicao['musica']]);
     }
 
-    public function test_editar_posicao_top_de_musicas()
+    public function test_editar_video()
     {
         $faker = \Faker\Factory::create();
 
         $dados = [
-            'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
+            'titulo_do_video' => $faker->sentence(),
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $topDeMusicaManipulado = \App\Models\TopDeMusicas::factory()->create();
+        $videoManipulado = \App\Models\VideosDoYoutube::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/topdemusicas/update/' . $topDeMusicaManipulado->id, $dados);
+                    ->json('PATCH', '/api/videos/update/' . $videoManipulado->id, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -90,14 +90,14 @@ class TopDeMusicasTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_posicao_top_de_musica()
+    public function test_remover_video()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $topDeMusicaManipulado = \App\Models\TopDeMusicas::factory()->create();
+        $videoManipulado = \App\Models\VideosDoYoutube::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/topdemusicas/delete/' . $topDeMusicaManipulado->id);
+                    ->json('DELETE', '/api/videos/delete/' . $videoManipulado->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -105,4 +105,5 @@ class TopDeMusicasTest extends TestCase
     
         $response->assertStatus(200);
     }
+
 }

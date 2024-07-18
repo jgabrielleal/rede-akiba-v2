@@ -2,31 +2,28 @@
 
 namespace Tests\Feature;
 
-use App\Models\TopDeMusicas;
-use App\Models\ListaDeMusicas;
-use App\Models\PedidosMusicais;
+use App\Models\Formularios;
 use App\Models\Usuarios;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TopDeMusicasTest extends TestCase
+class FormulariosTest extends TestCase
 {
-    public function test_listar_top_de_musicias()
+    public function test_listar_formularios()
     {
-        \App\Models\ListaDeMusicas::factory(10)->create();
-        \App\Models\TopDeMusicas::factory(10)->create();
+        \App\Models\Formularios::factory(10)->create();
 
-        $response = $this->getJson('/api/topdemusicas');
+        $response = $this->getJson('/api/formularios');
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
             'data' => [ 
                 '*' => [ 
-                    'id',
-                    'avatar',
-                    'musica'
+                    'ultima_visualizacao',
+                    'tipo_de_formulario',
+                    'conteudo_do_formulario',
                 ]
             ]
         ]);
@@ -36,52 +33,54 @@ class TopDeMusicasTest extends TestCase
         }
     }
 
-    public function test_recuperar_posicao_do_top_de_musica_especifico()
+    public function test_recuperar_formulario_especifico()
     {
-        $posicao = \App\Models\TopDeMusicas::factory(10)->create();
-        $posicaoManipulada = $posicao->first();
+        $formulario = \App\Models\Formularios::factory(10)->create();
+        $formularioManipulado = $formulario->first();
     
-        $response = $this->getJson('/api/topdemusicas/' . $posicaoManipulada->id);
+        $response = $this->getJson('/api/formularios/' . $formularioManipulado->id);
         $response->assertStatus(200);
     
         $response->assertJsonStructure([
             'id',
-            'avatar',
-            'musica'
+            'ultima_visualizacao',
+            'tipo_de_formulario',
+            'conteudo_do_formulario',
         ]);
     }
 
-    public function test_cadastrar_posicao_top_de_musica()
+    public function test_cadastrar_formulario()
     {
         $usuario = Usuarios::factory()->create();
-        $novaPosicao = TopDeMusicas::factory()->make()->toArray();
+        $novoFormulario = Formularios::factory()->make()->toArray();
     
         $response = $this->actingAs($usuario, 'sanctum')
         ->withHeader('Accept', 'application/json')
-        ->json('POST', '/api/topdemusicas', $novaPosicao);
+        ->json('POST', '/api/formularios', $novoFormulario);
 
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('top_de_musicas', ['musica' => $novaPosicao['musica']]);
     }
 
-    public function test_editar_posicao_top_de_musicas()
+    public function test_editar_formulario()
     {
         $faker = \Faker\Factory::create();
 
+        $ultimaVisualizacao = \App\Models\Usuarios::factory()->create();
+
         $dados = [
-            'avatar' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
+            'ultima_visualizacao' => $ultimaVisualizacao->id,
         ];
     
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $topDeMusicaManipulado = \App\Models\TopDeMusicas::factory()->create();
+        $formularioManipulado = \App\Models\Formularios::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('PATCH', '/api/topdemusicas/update/' . $topDeMusicaManipulado->id, $dados);
+                    ->json('PATCH', '/api/formularios/update/' . $formularioManipulado->id, $dados);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
@@ -90,14 +89,14 @@ class TopDeMusicasTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_remover_posicao_top_de_musica()
+    public function test_remover_formulario()
     {
         $usuarioAutenticado = \App\Models\Usuarios::factory()->create();
-        $topDeMusicaManipulado = \App\Models\TopDeMusicas::factory()->create();
+        $formularioManipulado = \App\Models\Formularios::factory()->create();
     
         $response = $this->actingAs($usuarioAutenticado, 'sanctum')
                     ->withHeader('Accept', 'application/json')
-                    ->json('DELETE', '/api/topdemusicas/delete/' . $topDeMusicaManipulado->id);
+                    ->json('DELETE', '/api/formularios/delete/' . $formularioManipulado->id);
     
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());

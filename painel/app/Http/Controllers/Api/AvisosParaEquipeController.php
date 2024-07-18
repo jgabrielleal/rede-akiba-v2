@@ -31,7 +31,7 @@ class AvisosParaEquipeController extends Controller
             $aviso = AvisosParaEquipe::where('id', $id)->first();
 
             if($aviso !== null){
-                $aviso->load('remente', 'destinatario');
+                $aviso->load('remetente', 'destinatario');
                 return response()->json($aviso, 200);
             }else{
                 return response()->json(['mensagem' => 'Aviso não encontrado'], 404);

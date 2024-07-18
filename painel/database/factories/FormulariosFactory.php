@@ -23,13 +23,11 @@ class FormulariosFactory extends Factory
         return [
             'ultima_visualizacao' => $this->faker->randomElement($usuarios),
             'tipo_de_formulario' => $this->faker->randomElement(['contato', 'recrutamento', 'parceria', 'anuncio']),
-            'dados_do_formulario' => [
-                [
-                    'nome' => $this->faker->name(),
-                    'email' => $this->faker->unique()->safeEmail(),
-                    'telefone' => $this->faker->phoneNumber(),
-                    'mensagem' => $this->faker->sentence($nbWords = 6, $variableNbWords = true),
-                ]
+            'conteudo_do_formulario' => [
+                'nome' => $this->faker->name(),
+                'email' => $this->faker->unique()->safeEmail(),
+                'telefone' => $this->faker->phoneNumber(),
+                'mensagem' => $this->faker->sentence(),
             ]
         ];
     }

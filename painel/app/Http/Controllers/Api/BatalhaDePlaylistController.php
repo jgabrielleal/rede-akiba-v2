@@ -45,7 +45,7 @@ class BatalhaDePlaylistController extends Controller
             $validacao = $request->validate([
                 'imagem' => 'image|mimes:jpeg,png,jpg,gif',
                 'primeiro_competidor' => 'required|exists:usuarios,id',
-                'segundo_competidor' => 'required|exists:usuarios,id',
+                'segundo_competidor' => 'required|exists:usuarios,id'
             ]);
 
             $camposAtualizaveis = [

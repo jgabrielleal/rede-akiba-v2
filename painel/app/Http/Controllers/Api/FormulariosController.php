@@ -44,17 +44,12 @@ class FormulariosController extends Controller
     public function cadastraFormulario(Request $request)
     {
         try{
-            $validacao = $request->validate([
-                'tipo_de_formulario' => 'required',
-                'dados_do_formulario' => 'required',
-            ]);
-
             $formulario = Formularios::create([
-                'tipo_de_formulario' => $validacao['tipo_de_formulario'],
-                'dados_do_formulario' => $validacao['dados_do_formulario'],
+                'tipo_de_formulario' => $request->tipo_de_formulario,
+                'dados_do_formulario' => $request->dados_do_formulario,
             ]);
 
-            return response()->json($formulario, 201);
+            return response()->json($formulario, 200);
         }catch(ValidationException $erro){
             return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
         }catch(\Exception $erro){
@@ -67,7 +62,7 @@ class FormulariosController extends Controller
         try{
             $formulario = Formularios::where('id', $id)->first();
 
-            if(!$programa){
+            if(!$formulario){
                 return response()->json(['mensagem' => 'Formulário não encontrado'], 404);
             }
 
@@ -99,7 +94,7 @@ class FormulariosController extends Controller
     public function removerFormularioEspecifico($id)
     {
         try{
-            $formulario = Formuarios::find($id);
+            $formulario = Formularios::find($id);
 
             if(!$formulario){
                 return response()->json(['mensagem' => 'Formulário não encontrado'], 404);

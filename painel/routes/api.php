@@ -133,13 +133,13 @@ Route::prefix('videos')->middleware('auth:sanctum')->group(function(){
     Route::delete('/delete/{id}', [VideosDoYoutubeController::class, 'removerVideoEspecifico']);
 });
 
-Route::get('batalhadoplaylist', [BatalhaDePlaylistController::class, 'retornaBatalhaDePlaylistEspecifica']);
-Route::prefix('batalhadoplaylist')->middleware('auth:sanctum')->group(function(){
+Route::get('batalhadeplaylist', [BatalhaDePlaylistController::class, 'retornaBatalhaDePlaylistEspecifica']);
+Route::prefix('batalhadeplaylist')->middleware('auth:sanctum')->group(function(){
     Route::patch('/update', [BatalhaDePlaylistController::class, 'atualizaBatalhaDePlaylistEspecifica']);
 });
 
-Route::get('ouvintesdomes', [OuvinteDoMesController::class, 'retornaOuvinteDoMesEspecifico']);
-Route::prefix('videos')->middleware('auth:sanctum')->group(function(){
+Route::get('ouvintedomes', [OuvinteDoMesController::class, 'retornaOuvinteDoMesEspecifico']);
+Route::prefix('ouvintedomes')->middleware('auth:sanctum')->group(function(){
     Route::patch('/update', [OuvinteDoMesController::class, 'atualizaOuvinteDoMesEspecifico']);
 });
 

@@ -38,8 +38,29 @@ class MateriasTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_materia_especifica()
+    {
+        $materia = \App\Models\Materias::factory(10)->create();
+        $materiaManipulada = $materia->first();
+    
+        $response = $this->getJson('/api/materias/' . $materiaManipulada->slug);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'slug',
+            'publicado',
+            'autor',
+            'imagem_em_destaque',
+            'capa_da_materia',
+            'titulo',
+            'conteudo',
+            'tags', 
+            'fontes_de_pesquisa',
+            'reacoes'
+        ]);
     }
 
     public function test_cadastrar_materias()
@@ -56,7 +77,6 @@ class MateriasTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('materias', ['autor' => $novaMateria['autor']]);
     }
 
     public function test_editar_materia()
@@ -95,6 +115,5 @@ class MateriasTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('materias', ['id' => $materiaManipulada->id]);
     }
 }

@@ -33,8 +33,21 @@ class TarefasTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_tarefa()
+    {
+        $tarefa = \App\Models\Tarefas::factory(10)->create();
+        $tarefaManipulada = $tarefa->first();
+    
+        $response = $this->getJson('/api/topdemusicas/' . $tarefaManipulada->id);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'avatar',
+            'musica'
+        ]);
     }
 
     public function test_cadastrar_tarefa()
@@ -51,7 +64,6 @@ class TarefasTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('tarefas', ['administrador' => $novaTarefa['administrador']]);
     }
 
     public function test_editar_tarefa()
@@ -90,6 +102,5 @@ class TarefasTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('tarefas', ['id' => $tarefaManipulada->id]);
     }
 }

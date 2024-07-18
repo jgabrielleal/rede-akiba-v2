@@ -46,6 +46,5 @@ class Programas extends Model
     }
 
     public function programa_favorito(){
-        return $this->hasOne(OuvinteDoMes::class, 'programa_favorito');
-    }
+        return $this->hasMany(OuvinteDoMes::class, 'programa_favorito');    }
 }

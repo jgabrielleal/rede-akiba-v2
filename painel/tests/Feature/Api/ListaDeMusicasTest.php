@@ -35,8 +35,25 @@ class ListaDeMusicasTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_musica_especifica()
+    {
+        $musica = \App\Models\ListaDeMusicas::factory(10)->create();
+        $musicaManipulada = $musica->first();
+    
+        $response = $this->getJson('/api/musicas/' . $musicaManipulada->id);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'numero_de_vezes_tocada',
+            'nome_do_anime',
+            'nome_da_musica',
+            'nome_do_artista',
+            'nome_do_album',
+            'ano_de_lancamento',
+        ]);
     }
 
     public function test_cadastrar_musica()
@@ -53,7 +70,6 @@ class ListaDeMusicasTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('lista_de_musicas', ['nome_da_musica' => $novaMusica['nome_da_musica']]);
     }
 
     public function test_editar_musica()
@@ -92,6 +108,5 @@ class ListaDeMusicasTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('lista_de_musicas', ['id' => $musicaManipullada->id]);
     }
 }

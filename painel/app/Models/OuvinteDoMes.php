@@ -37,6 +37,6 @@ class OuvinteDoMes extends Model
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
     public function programa_favorito(){
-        return $this->hasOne(Programas::class, 'programa_favorito');
+        return $this->belongsTo(Programas::class, 'programa_favorito');
     }
 }

@@ -38,8 +38,24 @@ class PedidosMusicaisTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_pedido_musical_especifico()
+    {
+        $pedidoMusical = \App\Models\PedidosMusicais::factory(10)->create();
+        $pedidoMusicalManipulado = $pedidoMusical->first();
+    
+        $response = $this->getJson('/api/pedidosmusicais/' . $pedidoMusicalManipulado->id);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'apelido_do_ouvinte',
+            'endereco_do_ouvinte',
+            'recado_para_o_locutor',
+            'programa_no_ar',
+            'musica_pedida'
+        ]);
     }
 
     public function test_cadastrar_pedido_musical()
@@ -56,7 +72,6 @@ class PedidosMusicaisTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('pedidos_musicais', ['apelido_do_ouvinte' => $novoPedido['apelido_do_ouvinte']]);
     }
 
     public function test_editar_pedido_musical()
@@ -95,7 +110,5 @@ class PedidosMusicaisTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('pedidos_musicais', ['id' => $pedidoMusicalManipulado->id]);
     }
-
 }

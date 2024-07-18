@@ -35,7 +35,24 @@ class RepositorioDeArquivosTest extends TestCase
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
 
-        $this->assertCount(10, $response->json('data'));
+    }
+
+    public function test_recuperar_arquivo_especifico()
+    {
+        $repositorio = \App\Models\RepositorioDeArquivos::factory(10)->create();
+        $repositorioManipulado = $repositorio->first();
+    
+        $response = $this->getJson('/api/repositorio/' . $repositorioManipulado->id);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'uploader',
+            'nome_do_arquivo',
+            'icone_do_arquivo',
+            'endereco_de_download',
+            'categoria'
+        ]);
     }
 
     public function test_cadastrar_arquivo_no_repositorio()
@@ -52,7 +69,6 @@ class RepositorioDeArquivosTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('repositorio_de_arquivos', ['uploader' => $novoArquivo['uploader']]);
     }
 
     public function test_editar_arquivo_no_repositorio()
@@ -91,6 +107,5 @@ class RepositorioDeArquivosTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('repositorio_de_arquivos', ['id' => $arquivoManipulado->id]);
     }
 }

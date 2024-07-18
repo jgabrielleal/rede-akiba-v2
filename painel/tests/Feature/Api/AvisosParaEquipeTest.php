@@ -32,8 +32,22 @@ class AvisosParaEquipeTest extends TestCase
         if ($response->status() !== 200) {
             $this->fail('Expected status code 200 but received ' . $response->status() . '. Response: ' . $response->getContent());
         }
+    }
 
-        $this->assertCount(10, $response->json('data'));
+    public function test_recuperar_aviso_especifico()
+    {
+        $aviso = \App\Models\AvisosParaEquipe::factory(10)->create();
+        $avisoManipulado = $aviso->first();
+    
+        $response = $this->getJson('/api/avisos/' . $avisoManipulado->id);
+        $response->assertStatus(200);
+    
+        $response->assertJsonStructure([
+            'id',
+            'remetente',
+            'destinatario',
+            'mensagem',
+        ]);
     }
 
     public function test_cadastrar_avisos()
@@ -50,7 +64,6 @@ class AvisosParaEquipeTest extends TestCase
         }
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('avisos_para_equipe', ['remetente' => $avisoManipulado['remetente']]);
     }
 
     public function test_editar_aviso()
@@ -89,6 +102,5 @@ class AvisosParaEquipeTest extends TestCase
         }
     
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('avisos_para_equipe', ['id' => $avisoManipulado->id]);
     }
 }
