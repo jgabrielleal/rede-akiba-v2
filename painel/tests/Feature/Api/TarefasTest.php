@@ -40,13 +40,15 @@ class TarefasTest extends TestCase
         $tarefa = \App\Models\Tarefas::factory(10)->create();
         $tarefaManipulada = $tarefa->first();
     
-        $response = $this->getJson('/api/topdemusicas/' . $tarefaManipulada->id);
+        $response = $this->getJson('/api/tarefas/' . $tarefaManipulada->id);
         $response->assertStatus(200);
     
         $response->assertJsonStructure([
             'id',
-            'avatar',
-            'musica'
+            'administrador',
+            'executante',
+            'tarefa_a_ser_executada',
+            'tarefa_concluida'
         ]);
     }
 

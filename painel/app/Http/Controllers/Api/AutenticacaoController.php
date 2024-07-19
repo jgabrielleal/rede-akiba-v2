@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Usuarios;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
