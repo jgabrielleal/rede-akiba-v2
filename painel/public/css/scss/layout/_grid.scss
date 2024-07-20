@@ -1,0 +1,21 @@
+.container{
+    width: 85%;
+    margin: 0 auto;
+    @include break(md){
+        width: 75rem;
+    }
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@for $i from 1 through 20{
+    .col-#{$i}{
+        width: 100%;
+        @include break(md){
+            width: calc(100% / 20) * $i;
+        }
+    }
+}
