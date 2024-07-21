@@ -3,25 +3,25 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\AutenticacaoController;
-use App\Http\Controllers\Api\UsuariosController;
-use App\Http\Controllers\Api\ProgramasController;
-use App\Http\Controllers\Api\NoArController;
-use App\Http\Controllers\Api\PedidosMusicaisController;
-use App\Http\Controllers\Api\ListaDeMusicasController;
-use App\Http\Controllers\Api\PodcastsController;
-use App\Http\Controllers\Api\TopDeMusicasController;
-use App\Http\Controllers\Api\MateriasController;
-use App\Http\Controllers\Api\ReviewsController;
-use App\Http\Controllers\Api\EventosController;
-use App\Http\Controllers\Api\VideosDoYoutubeController;
-use App\Http\Controllers\Api\BatalhaDePlaylistController;
-use App\Http\Controllers\Api\OuvinteDoMesController;
-use App\Http\Controllers\Api\FormulariosController;
-use App\Http\Controllers\Api\TarefasController;
-use App\Http\Controllers\Api\AvisosParaEquipeController;
-use App\Http\Controllers\Api\CalendarioController;
-use App\Http\Controllers\Api\RepositorioDeArquivosController;
+use App\Http\Controllers\AutenticacaoController;
+use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\ProgramasController;
+use App\Http\Controllers\NoArController;
+use App\Http\Controllers\PedidosMusicaisController;
+use App\Http\Controllers\ListaDeMusicasController;
+use App\Http\Controllers\PodcastsController;
+use App\Http\Controllers\TopDeMusicasController;
+use App\Http\Controllers\MateriasController;
+use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\EventosController;
+use App\Http\Controllers\VideosDoYoutubeController;
+use App\Http\Controllers\BatalhaDePlaylistController;
+use App\Http\Controllers\OuvinteDoMesController;
+use App\Http\Controllers\FormulariosController;
+use App\Http\Controllers\TarefasController;
+use App\Http\Controllers\AvisosParaEquipeController;
+use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\RepositorioDeArquivosController;
 
 
 /*
@@ -40,8 +40,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('autenticacao/login', [AutenticacaoController::class, 'login']);
-Route::prefix('autenticacao')->middleware('auth:sanctum')->group(function () {
-    Route::get('/logged', [AutenticacaoController::class, 'logado']);
+Route::prefix('autenticacao')->group(function () {
+    Route::post('/logged', [AutenticacaoController::class, 'logado']);
     Route::post('/logout', [AutenticacaoController::class, 'deslogar']);
 });
 

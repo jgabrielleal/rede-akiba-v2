@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'Usuarios',
     ],
 
     /*
@@ -65,6 +65,7 @@ return [
             'model' => App\Models\Usuarios::class,
         ],
 
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -88,7 +89,7 @@ return [
 
     'passwords' => [
         'users' => [
-            'provider' => 'users',
+            'provider' => 'Usuarios',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
