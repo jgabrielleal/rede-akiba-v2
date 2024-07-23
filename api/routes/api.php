@@ -41,8 +41,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('autenticacao/login', [AutenticacaoController::class, 'login']);
 Route::prefix('autenticacao')->group(function () {
-    Route::post('/logged', [AutenticacaoController::class, 'logado']);
-    Route::post('/logout', [AutenticacaoController::class, 'deslogar']);
+    Route::post('/logado', [AutenticacaoController::class, 'logado']);
+    Route::post('/deslogar', [AutenticacaoController::class, 'deslogar']);
 });
 
 Route::get('usuarios', [UsuariosController::class, 'retornaTodosUsuarios']);

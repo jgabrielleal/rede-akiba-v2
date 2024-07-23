@@ -1,6 +1,20 @@
+import React from "react"
+import { useLogin } from "@services/login/mutations"
+
 export default function Formulario(){
+    const { mutate: Login } = useLogin();
+    
+    function onSubmit(event: React.FormEvent<HTMLFormElement>){
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        
+        const login = formData.get('login');
+        const senha = formData.get('senha'); 
+        Login({ login, senha });
+    }
+
     return(
-        <form>
+        <form onSubmit={onSubmit}>
             <input 
                 type="text" 
                 id="login" 
