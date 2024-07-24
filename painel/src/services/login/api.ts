@@ -1,15 +1,11 @@
-import axios from 'axios';
+import { api } from '@services/axios.default'
 
 export async function Login(data:any){
     console.log(data)
     try {
-        const response = await axios.post(`${import.meta.env.VITE_API}/autenticacao/login`, {
+        const response = await api.post(`${import.meta.env.VITE_API}/autenticacao/login`, {
             login: data.login,
             senha: data.senha
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
         });
         return response;
     } catch (error: any) {
@@ -19,12 +15,8 @@ export async function Login(data:any){
 
 export async function Logado(token: string){
     try{
-        const response = await axios.post(`${import.meta.env.VITE_API}/autenticacao/logado`, {
+        const response = await api.post(`${import.meta.env.VITE_API}/autenticacao/logado`, {
             token: token,
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
         });
         return response;
     }catch(error: any){
@@ -34,12 +26,8 @@ export async function Logado(token: string){
 
 export function Deslogar(token: string){
     try{
-        const response = axios.post(`${import.meta.env.VITE_API}/autenticacao/deslogar`,{
+        const response = api.post(`${import.meta.env.VITE_API}/autenticacao/deslogar`,{
             token: token,
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
         });
         return response;
     }catch(error: any){

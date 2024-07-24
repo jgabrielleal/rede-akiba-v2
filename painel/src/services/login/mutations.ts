@@ -9,9 +9,9 @@ export function useLogin(){
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data:any) => Login(data),
-        onSuccess: (response: any) => {
-            queryClient.setQueryData(['Login'], response.data.token);
-            localStorage.setItem('token', response.data.token);
+        onSuccess: async (response: any) => {
+            await queryClient.invalidateQueries({ queryKey: ['Login'] });
+            localStorage.setItem('aki-token', response.data.token);
             toast.success('Login realizado com sucesso!');
         },
         onMutate: () => {
@@ -38,8 +38,8 @@ export function useDeslogar(){
         onError: (response: any) => {
             toast.error(response.data);
         },
-        onSettled: () => {
-            queryClient.invalidateQueries({queryKey: ['Login']});
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['Login'] });
         }
     })
 }

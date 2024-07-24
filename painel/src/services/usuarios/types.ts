@@ -1,0 +1,17 @@
+export interface UsuarioType {
+    ativo? : boolean,
+    login? : string,
+    senha? : string,
+    niveis_de_acesso? : object,
+    avatar? : File,
+    nome? : string,
+    apelido? : string,
+    email? : string,
+    idade? : number,
+    cidade? : string,
+    estado? : string,
+    pais? : string,
+    biografia? : string,
+    redes_sociais? : object,
+    gostos? : object,
+}
