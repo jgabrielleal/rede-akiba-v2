@@ -14,12 +14,8 @@ export function useLogin(){
             localStorage.setItem('aki-token', response.data.token);
             toast.success('Login realizado com sucesso!');
         },
-        onMutate: () => {
-            console.log('Realizando o login...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao fazer login:', error)
-            toast.error(error);
         },
     })
 }

@@ -13,9 +13,6 @@ export function useCreatePrograma(onSuccessCallback: Function){
         onSuccess: () => {
             onSuccessCallback()
         },
-        onMutate: () => {
-            console.log('Criando programa...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao criar um programa:', error)
         },
@@ -32,9 +29,6 @@ export function useUpdatePrograma(slug: string, onSuccessCallback: Function){
         onSuccess: () => {
             onSuccessCallback()
         },
-        onMutate: () => {
-            console.log('Atualizando programa...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao atualizar um programa:', error)
         },
@@ -50,9 +44,6 @@ export function useRemovePrograma(onSuccessCallback: Function){
         mutationFn: (slug: string) => removePrograma(slug),
         onSuccess: () => {
             onSuccessCallback()
-        },
-        onMutate: () => {
-            console.log('Removendo programa...')
         },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao remover um programa:', error)

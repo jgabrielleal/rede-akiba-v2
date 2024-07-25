@@ -13,9 +13,6 @@ export function useCreateUsuario(onSuccessCallback: Function){
         onSuccess: () => {
             onSuccessCallback()
         },
-        onMutate: () => {
-            console.log('Criando o usuário...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao criar o usuário:', error)
         },
@@ -32,9 +29,6 @@ export function useUpdateUsuario(slug: string, onSuccessCallback: Function){
         onSuccess: () => {
             onSuccessCallback()
         },
-        onMutate: () => {
-            console.log('Atualizando o usuário...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao atualizar o usuário:', error)
         },
@@ -50,9 +44,6 @@ export function useRemoveUsuario(onSuccessCallback: Function){
         mutationFn: (id: number) => removeUsuario(id),
         onSuccess: () => {
             onSuccessCallback()
-        },
-        onMutate: () => {
-            console.log('Removendo o usuário...')
         },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao remover o usuário:', error)

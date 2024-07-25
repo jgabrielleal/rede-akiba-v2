@@ -13,9 +13,6 @@ export function useCreateRegistroNoAr(onSuccessCallback: Function){
         onSuccess: () => {
             onSuccessCallback()
         },
-        onMutate: () => {
-            console.log('Criando registro...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao criar um registro:', error)
         },
@@ -32,9 +29,6 @@ export function useUpdateRegistroNoAr(id: string, onSuccessCallback: Function){
         onSuccess: () => {
             onSuccessCallback()
         },
-        onMutate: () => {
-            console.log('Atualizando registro...')
-        },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao atualizar um registro:', error)
         },
@@ -50,9 +44,6 @@ export function useDeleteRegistroNoAr(onSuccessCallback: Function){
         mutationFn: (id: string) => deleteRegistroNoAr(id),
         onSuccess: () => {
             onSuccessCallback()
-        },
-        onMutate: () => {
-            console.log('Removendo registro...')
         },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao remover um registro:', error)
