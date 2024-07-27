@@ -125,9 +125,9 @@ Route::prefix('eventos')->middleware('auth:sanctum')->group(function(){
     Route::delete('/delete/{id}', [EventosController::class, 'removerEventoEspecifico']);
 });
 
-Route::get('videos', [VideosDoYoutubeController::class, 'retornaTodosVideos']);
-Route::get('videos/{id}', [VideosDoYoutubeController::class, 'retornaVideoEspecifico']);
-Route::prefix('videos')->middleware('auth:sanctum')->group(function(){
+Route::get('videosdoyoutube', [VideosDoYoutubeController::class, 'retornaTodosVideos']);
+Route::get('videosdoyoutube/{id}', [VideosDoYoutubeController::class, 'retornaVideoEspecifico']);
+Route::prefix('videosdoyoutube')->middleware('auth:sanctum')->group(function(){
     Route::post('/', [VideosDoYoutubeController::class, 'cadastraVideo']);
     Route::patch('/update/{id}', [VideosDoYoutubeController::class, 'atualizaVideoEspecifico']);
     Route::delete('/delete/{id}', [VideosDoYoutubeController::class, 'removerVideoEspecifico']);
