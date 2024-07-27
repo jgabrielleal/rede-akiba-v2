@@ -3,7 +3,7 @@ export interface UsuarioType {
     login? : string,
     senha? : string,
     niveis_de_acesso? : object,
-    avatar? : string,
+    avatar? : File,
     nome? : string,
     apelido? : string,
     email? : string,

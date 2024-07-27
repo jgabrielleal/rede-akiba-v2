@@ -1,7 +1,7 @@
 export interface ReviewsTypes{
     autor?: number,
-    imagem_em_destaque?: string,
-    capa_da_review?: string,
+    imagem_em_destaque?: File,
+    capa_da_review?: File,
     titulo?: string,
     sinopse?: string,
     conteudo?: object,
