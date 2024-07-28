@@ -24,7 +24,7 @@ class RepositorioDeArquivosFactory extends Factory
             'uploader' => $this->faker->randomElement($usuarios),
             'nome_do_arquivo' => $this->faker->sentence(),
             'icone_do_arquivo' =>  \Illuminate\Http\UploadedFile::fake()->image('icon.jpg'),
-            'endereco_de_download' => $this->faker->url(),
+            'endereco_do_download' => $this->faker->url(),
             'categoria' => $this->faker->randomElement(['Softwares', 'Pacotes', 'Outro']),
         ];
     }

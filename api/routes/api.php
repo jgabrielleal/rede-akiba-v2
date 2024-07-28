@@ -159,9 +159,9 @@ Route::prefix('tarefas')->middleware('auth:sanctum')->group(function(){
     Route::delete('/delete/{id}', [TarefasController::class, 'removerTarefaEspecifica']);
 });
 
-Route::get('avisos', [AvisosParaEquipeController::class, 'retornaTodosOsAvisosParaEquipe']);
-Route::get('avisos/{id}', [AvisosParaEquipeController::class, 'retornaAvisoParaEquipeEspecifico']);
-Route::prefix('avisos')->middleware('auth:sanctum')->group(function(){
+Route::get('avisosparaequipe', [AvisosParaEquipeController::class, 'retornaTodosOsAvisosParaEquipe']);
+Route::get('avisosparaequipe/{id}', [AvisosParaEquipeController::class, 'retornaAvisoParaEquipeEspecifico']);
+Route::prefix('avisosparaequipe')->middleware('auth:sanctum')->group(function(){
     Route::post('/', [AvisosParaEquipeController::class, 'cadastraAvisoParaEquipe']);
     Route::patch('/update/{id}', [AvisosParaEquipeController::class, 'atualizaAvisoParaEquipeEspecifico']);
     Route::delete('/delete/{id}', [AvisosParaEquipeController::class, 'removerAvisoParaEquipeEspecifico']);
@@ -175,9 +175,9 @@ Route::prefix('calendario')->middleware('auth:sanctum')->group(function(){
     Route::delete('/delete/{id}', [CalendarioController::class, 'removerEventoDoCalendarioEspecifico']);
 });
 
-Route::get('repositorio', [RepositorioDeArquivosController::class, 'retornaTodoRepositorio']);
-Route::get('repositorio/{id}', [RepositorioDeArquivosController::class, 'retornaArquivoDoRepositorioEspecifico']);
-Route::prefix('repositorio')->middleware('auth:sanctum')->group(function(){
+Route::get('repositoriodearquivos', [RepositorioDeArquivosController::class, 'retornaTodoRepositorio']);
+Route::get('repositoriodearquivos/{id}', [RepositorioDeArquivosController::class, 'retornaArquivoDoRepositorioEspecifico']);
+Route::prefix('repositoriodearquivos')->middleware('auth:sanctum')->group(function(){
     Route::post('/', [RepositorioDeArquivosController::class, 'cadastraArquivoNoRepositorio']);
     Route::patch('/update/{id}', [RepositorioDeArquivosController::class, 'atualizaArquivoDoRepositorioEspecifico']);
     Route::delete('/delete/{id}', [RepositorioDeArquivosController::class, 'removerArquivoDoRepositorioEspecifico']);

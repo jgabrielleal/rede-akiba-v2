@@ -54,7 +54,7 @@ class RepositorioDeArquivosController extends Controller
                 'uploader' => 'required|exists:usuarios,id',
                 'nome_do_arquivo' => 'required',
                 'icone_do_arquivo' => 'required|image|mimes:jpeg,png,jpg,gif',
-                'endereco_de_download' => 'required',
+                'endereco_do_download' => 'required',
                 'categoria' => 'required',
             ]); 
 
@@ -62,7 +62,7 @@ class RepositorioDeArquivosController extends Controller
                 'uploader' => $request->uploader,
                 'nome_do_arquivo' => $request->nome_do_arquivo,
                 'icone_do_arquivo' => $this->uploadImage($request, 'icone_do_arquivo'),
-                'endereco_de_download' => $request->endereco_de_download,
+                'endereco_do_download' => $request->endereco_do_download,
                 'categoria' => $request->categoria,
             ]);
 
@@ -92,7 +92,7 @@ class RepositorioDeArquivosController extends Controller
                 'uploader',
                 'nome_do_arquivo',
                 'icone_do_arquivo',
-                'endereco_de_download',
+                'endereco_do_download',
                 'categoria',
             ];
         

@@ -25,7 +25,7 @@ class RepositorioDeArquivosTest extends TestCase
                     'uploader',
                     'nome_do_arquivo',
                     'icone_do_arquivo',
-                    'endereco_de_download',
+                    'endereco_do_download',
                     'categoria'
                 ]
             ]
@@ -50,7 +50,7 @@ class RepositorioDeArquivosTest extends TestCase
             'uploader',
             'nome_do_arquivo',
             'icone_do_arquivo',
-            'endereco_de_download',
+            'endereco_do_download',
             'categoria'
         ]);
     }

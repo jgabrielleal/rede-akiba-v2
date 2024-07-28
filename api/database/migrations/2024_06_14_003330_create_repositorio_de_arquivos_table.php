@@ -19,7 +19,7 @@ class CreateRepositorioDeArquivosTable extends Migration
             $table->unsignedInteger('uploader');
             $table->string('nome_do_arquivo')->nullable();
             $table->string('icone_do_arquivo')->nullable();
-            $table->string('endereco_de_download')->nullable();
+            $table->string('endereco_do_download')->nullable();
             $table->string('categoria')->nullable();
 
             //Relacionamentos
