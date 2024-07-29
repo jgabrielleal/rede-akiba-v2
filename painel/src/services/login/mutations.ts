@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { 
     Login,
@@ -6,6 +7,7 @@ import {
 } from './api';
 
 export function useLogin(){
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data:any) => Login(data),
@@ -13,6 +15,7 @@ export function useLogin(){
             await queryClient.invalidateQueries({ queryKey: ['Login'] });
             localStorage.setItem('aki-token', response.data.token);
             toast.success('Login realizado com sucesso!');
+            navigate('dashboard')
         },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao fazer login:', error)

@@ -18,7 +18,7 @@ export async function Logado(token: string){
         const response = await api.post(`${import.meta.env.VITE_API}/autenticacao/logado`, {
             token: token,
         });
-        return response;
+        return response.data;
     }catch(error: any){
         throw error;
     }
