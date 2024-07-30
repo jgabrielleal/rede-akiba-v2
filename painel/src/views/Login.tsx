@@ -1,7 +1,7 @@
 import logomarca from "/images/logo.png";
 import PageName from "@utils/PageName";
 import Formulario from "@components/Login/Formulario";
-import Rodape from "@layouts/Rodape";
+import Rodape from "@/layout/Rodape";
 
 export default function Login(){
     PageName("Realize o Login");
