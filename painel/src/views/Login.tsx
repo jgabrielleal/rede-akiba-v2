@@ -14,11 +14,12 @@ export default function Login(){
                         className="w-36"
                         src={logomarca} 
                         alt="logomarca"
-                        title="logomarca da Rede Akiba"
-                        loading="lazy"
+                        title="Logomarca da Rede Akiba"
                     />
                 </div>
-                <strong className="block w-full text-center mt-4 mb-2 font-averta font-light text-aurora">Realize o login para acessar:</strong>
+                <strong className="block w-full text-center mt-4 mb-2 font-averta font-light text-aurora">
+                    Realize o login para acessar:
+                </strong>
                 <Formulario />
                 <Rodape tipo="login"/>
             </section>
