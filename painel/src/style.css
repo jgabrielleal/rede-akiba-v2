@@ -17,6 +17,10 @@
     font-display: swap;
 }
 
+/**
+    NAVBAR STYLES
+    - Define a configuração de hover para os itens do navbar
+**/
 .nav-hover:hover{
     color: #0091FF; 
 }
