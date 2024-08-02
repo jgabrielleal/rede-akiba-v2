@@ -16,3 +16,11 @@
     font-weight: 800;
     font-display: swap;
 }
+
+.nav-hover:hover{
+    color: #0091FF; 
+}
+
+.nav-hover:hover img{
+    filter: invert(39%) sepia(59%) saturate(2524%) hue-rotate(186deg) brightness(100%) contrast(111%);
+}
