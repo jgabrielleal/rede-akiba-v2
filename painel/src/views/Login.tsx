@@ -1,6 +1,9 @@
 import logomarca from "/images/logo.png";
+
 import PageName from "@utils/PageName";
-import Formulario from "@components/Login/Formulario";
+
+import LoginFormulario from "@components/Login/LoginFormulario";
+
 import Rodape from "@/layout/Rodape";
 
 export default function Login(){
@@ -20,7 +23,7 @@ export default function Login(){
                 <strong className="block w-full text-center mt-4 mb-2 font-averta font-light text-aurora">
                     Realize o login para acessar:
                 </strong>
-                <Formulario />
+                <LoginFormulario />
                 <Rodape tipo="login"/>
             </section>
         </div>

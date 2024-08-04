@@ -14,10 +14,10 @@ export function useLogin(){
         onSuccess: async (response: any) => {
             await queryClient.invalidateQueries({ queryKey: ['Login'] });
             localStorage.setItem('aki-token', response.data.token);
-            toast.success('Login realizado com sucesso!');
             navigate('dashboard')
         },
         onError: (error: any) => {
+            toast.error('Credenciais invalidas')
             console.log('Ocorreu um erro ao fazer login:', error)
         },
     })
@@ -31,11 +31,8 @@ export function useDeslogar(){
             toast.dismiss();
             toast.success('Deslogado com sucesso!');
         },
-        onMutate: () => {
-            toast.loading("Deslogando...");
-        },
         onError: (response: any) => {
-            toast.error(response.data);
+            console.log('Ocorreu um erro ao deslogar:', response)
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Login'] });

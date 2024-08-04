@@ -19,7 +19,7 @@
 
 /**
     NAVBAR STYLES
-    - Define a configuração de hover para os itens do navbar
+    - Define a configuração de hover para os itens do navbar e a animação de abertura e fechamento do menu
 **/
 .nav-hover:hover{
     color: #0091FF; 
@@ -27,4 +27,34 @@
 
 .nav-hover:hover img{
     filter: invert(39%) sepia(59%) saturate(2524%) hue-rotate(186deg) brightness(100%) contrast(111%);
+}
+
+.nav-animation-open{
+    animation: nav-animation-open 0.5s linear forwards;
+}
+
+.nav-animation-close{
+    animation: nav-animation-close 0.5s linear forwards;
+}
+
+@keyframes nav-animation-open {
+    0% {
+        width: 0;
+        right: -5rem;
+    }
+    100% {
+        width: 11rem;
+    }
+    
+}
+
+@keyframes nav-animation-close {
+    0% {
+        width: 11rem;
+    }
+    100% {
+        width: 0;
+        right: -5rem;
+    }
+    
 }

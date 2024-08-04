@@ -1,7 +1,9 @@
-export default function Dashboard(){
-    return(
-        <div>
-            <h1>Dashboard</h1>
-        </div>
+import BoasVindas from "@components/Dashboard/BoasVindas";
+
+export default function Dashboard() {
+    return (
+        <>
+            <BoasVindas />
+        </>
     )
 }

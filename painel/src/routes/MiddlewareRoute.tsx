@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { useLogado } from '@services/login/queries';
+
 import Loading from '@/components/Loading/Loading';
 
 interface MiddlewareRouteProps {

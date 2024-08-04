@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import MiddlewareRoute from './MiddlewareRoute';
+
 import Login from '@views/Login';
 import Layout from '@/views/Layout';
 import Dashboard from '@views/Dashboard';
