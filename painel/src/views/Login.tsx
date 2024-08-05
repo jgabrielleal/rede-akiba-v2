@@ -1,13 +1,10 @@
 import logomarca from "/images/logo.png";
-
-import PageName from "@utils/PageName";
-
-import LoginFormulario from "@components/Login/LoginFormulario";
-
-import Rodape from "@/layout/Rodape";
+import LoginFormulario from "@/components/partials/Login/LoginFormulario";
+import { usePageName } from "@/hooks/usePageName";
+import Rodape from "@/components/layout/Rodape";
 
 export default function Login(){
-    PageName("Realize o Login");
+    usePageName("Realize o Login");
 
     return(
         <div className="w-screen h-screen bg-azul-escuro flex justify-center items-center animate-fade-in">

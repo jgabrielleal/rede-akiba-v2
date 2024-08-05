@@ -1,7 +1,6 @@
 import { api } from '@services/axios.default'
 
 export async function Login(data:any){
-    console.log(data)
     try {
         const response = await api.post(`${import.meta.env.VITE_API}/autenticacao/login`, {
             login: data.login,

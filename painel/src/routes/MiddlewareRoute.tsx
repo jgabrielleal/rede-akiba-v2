@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useLogado } from '@services/login/queries';
-
-import Loading from '@/components/Loading/Loading';
+import Loading from '@/components/partials/Loading/Loading';
 
 interface MiddlewareRouteProps {
     view: React.ComponentType<any>;

@@ -1,4 +1,4 @@
-import BoasVindas from "@components/Dashboard/BoasVindas";
+import BoasVindas from "@/components/partials/Dashboard/BoasVindas";
 
 export default function Dashboard() {
     return (

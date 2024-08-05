@@ -1,7 +1,6 @@
 import { useLogado } from '@services/login/queries';
-
-import BoasVindasPlaceholder from '@/placeholders/Dashboard/BoasVindasPlaceholder';
-import BoasVindasFallback from '@/placeholders/Dashboard/BoasVindasFallback';
+import BoasVindasPlaceholder from '@/components/skeletons/Dashboard/BoasVindas/BoasVindasPlaceholder';
+import BoasVindasFallback from '@/components/skeletons/Dashboard/BoasVindas/BoasVindasFallback';
 
 export default function BoasVindas(){
     const { data: logado, isLoading, isError } = useLogado(localStorage.getItem('token') || '');

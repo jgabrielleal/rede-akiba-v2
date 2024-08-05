@@ -20,10 +20,9 @@
     /* Paths */
     "paths": {
       "@/*": ["./src/*"],
-      "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@views/*": ["./src/views/*"],
       "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layout/*"],
       "@services/*": ["./src/services/*"],
       "@routes/*": ["./src/routes/*"]
     },

@@ -1,3 +1,3 @@
-export default function PageName(name:string){
+export function usePageName(name:string){
     document.title = name + " • AKI Painel - Rede Akiba "
 }

@@ -4,16 +4,15 @@ import * as path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, './src'),
-      "@utils": path.resolve(__dirname, './src/utils'),
+      "@hooks": path.resolve(__dirname, './src/hooks'),
       "@views": path.resolve(__dirname, './src/views'),
       "@components": path.resolve(__dirname, './src/components'),
-      "@layouts": path.resolve(__dirname, './src/layout'),
       "@services": path.resolve(__dirname, './src/services'),
       "@routes": path.resolve(__dirname, './src/routes'),
     }
   },
-  plugins: [react()],
 })
