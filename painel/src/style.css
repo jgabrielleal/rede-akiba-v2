@@ -18,6 +18,30 @@
 }
 
 /**
+    TITLE DEFAULT STYLES
+    - Define a estilização padrão para os títulos
+**/
+.title-default h6 {
+    color: #FFA919 !important;
+    font-family: 'Averta', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .title-default h6::after {
+    width: 100%;
+    position: absolute;
+    content: "";
+    border-bottom: 0.1rem solid #FFA919 !important;
+    margin-top: 0.9rem;
+    margin-left: 0.6rem;
+  }
+  
+
+/**
     NAVBAR STYLES
     - Define a configuração de hover para os itens do navbar e a animação de abertura e fechamento do menu
 **/
