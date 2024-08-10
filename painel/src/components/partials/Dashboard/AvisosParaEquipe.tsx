@@ -6,11 +6,17 @@ import AvisosParaEquipeFallback from "@/components/skeletons/Dashboard/AvisosPar
 export default function AvisosParaEquipe() {
     const { data: avisosParaEquipe, isLoading } = useAvisosParaEquipe();
 
-    if(isLoading){
+    function listaDeAvisos(){
+        if(avisosParaEquipe && avisosParaEquipe.data){
+            return avisosParaEquipe.data.data
+        }
+    }
+
+    if (isLoading) {
         return <AvisosParaEquipePlaceholder />
     }
 
-    if(!avisosParaEquipe?.data){
+    if (!avisosParaEquipe?.data) {
         return <AvisosParaEquipeFallback />
     }
 
@@ -19,39 +25,17 @@ export default function AvisosParaEquipe() {
             <div className="title-default">
                 <h6>Avisos para equipe</h6>
             </div>
-            <div className="flex justify-center lg:justify-start gap-3 flex-wrap  mt-3">
-                <div className="w-full lg:w-[18.18rem] h-40 bg-azul-claro rounded-md p-3">
-                    <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
-                        Takashi<MdOutlineKeyboardDoubleArrowRight className="mt-1"/>teste
-                    </h6>
-                    <p className="font-averta text-aurora text-xs line-clamp-6 mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere quam eu dolor dignissim, id scelerisque augue efficitur. Cras rhoncus arcu dolor, vel tincidunt purus lobortis a. Curabitur finibus id lacus quis lacinia. Sed tempus sollicitudin nibh, eget pharetra orci. Duis semper tortor est, nec lobortis sapien laoreet a. Etiam eget purus vitae lorem feugiat dignissim. Nullam suscipit, ligula eget scelerisque vehicula, lacus velit mattis mi, et porta nulla mi eu enim. Maecenas eget justo a dolor pharetra gravida ut non urna. Curabitur vulputate elit quis nulla placerat, non tempor justo maximus. Cras sed arcu eget nunc aliquam suscipit. Proin consequat purus molestie turpis facilisis tristique.
-                    </p>
-                </div>
-                <div className="w-full lg:w-[18.18rem] h-40 bg-azul-claro rounded-md p-3">
-                    <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
-                        Takashi<MdOutlineKeyboardDoubleArrowRight className="mt-1"/>teste
-                    </h6>
-                    <p className="font-averta text-aurora text-xs line-clamp-6 mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere quam eu dolor dignissim, id scelerisque augue efficitur. Cras rhoncus arcu dolor, vel tincidunt purus lobortis a. Curabitur finibus id lacus quis lacinia. Sed tempus sollicitudin nibh, eget pharetra orci. Duis semper tortor est, nec lobortis sapien laoreet a. Etiam eget purus vitae lorem feugiat dignissim. Nullam suscipit, ligula eget scelerisque vehicula, lacus velit mattis mi, et porta nulla mi eu enim. Maecenas eget justo a dolor pharetra gravida ut non urna. Curabitur vulputate elit quis nulla placerat, non tempor justo maximus. Cras sed arcu eget nunc aliquam suscipit. Proin consequat purus molestie turpis facilisis tristique.
-                    </p>
-                </div>
-                <div className="w-full lg:w-[18.18rem] h-40 bg-azul-claro rounded-md p-3">
-                    <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
-                        Takashi<MdOutlineKeyboardDoubleArrowRight className="mt-1"/>teste
-                    </h6>
-                    <p className="font-averta text-aurora text-xs line-clamp-6 mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere quam eu dolor dignissim, id scelerisque augue efficitur. Cras rhoncus arcu dolor, vel tincidunt purus lobortis a. Curabitur finibus id lacus quis lacinia. Sed tempus sollicitudin nibh, eget pharetra orci. Duis semper tortor est, nec lobortis sapien laoreet a. Etiam eget purus vitae lorem feugiat dignissim. Nullam suscipit, ligula eget scelerisque vehicula, lacus velit mattis mi, et porta nulla mi eu enim. Maecenas eget justo a dolor pharetra gravida ut non urna. Curabitur vulputate elit quis nulla placerat, non tempor justo maximus. Cras sed arcu eget nunc aliquam suscipit. Proin consequat purus molestie turpis facilisis tristique.
-                    </p>
-                </div>
-                <div className="w-full lg:w-[18.18rem] h-40 bg-azul-claro rounded-md p-3">
-                    <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
-                        Takashi<MdOutlineKeyboardDoubleArrowRight className="mt-1"/>teste
-                    </h6>
-                    <p className="font-averta text-aurora text-xs line-clamp-6 mt-1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere quam eu dolor dignissim, id scelerisque augue efficitur. Cras rhoncus arcu dolor, vel tincidunt purus lobortis a. Curabitur finibus id lacus quis lacinia. Sed tempus sollicitudin nibh, eget pharetra orci. Duis semper tortor est, nec lobortis sapien laoreet a. Etiam eget purus vitae lorem feugiat dignissim. Nullam suscipit, ligula eget scelerisque vehicula, lacus velit mattis mi, et porta nulla mi eu enim. Maecenas eget justo a dolor pharetra gravida ut non urna. Curabitur vulputate elit quis nulla placerat, non tempor justo maximus. Cras sed arcu eget nunc aliquam suscipit. Proin consequat purus molestie turpis facilisis tristique.
-                    </p>
-                </div>
+            <div className="flex justify-center lg:justify-start gap-3 flex-wrap mt-3">
+                {listaDeAvisos().slice(0, 4).map((aviso: any, index: number) => (
+                    <div key={index} className="w-full lg:w-[18.18rem] h-40 bg-azul-claro rounded-md p-3">
+                        <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
+                            {aviso.remetente.apelido}<MdOutlineKeyboardDoubleArrowRight className="mt-1" />{aviso.destinatario.apelido}
+                        </h6>
+                        <p className="font-averta text-aurora text-xs line-clamp-6 mt-1">
+                            {aviso.mensagem}
+                        </p>
+                    </div>
+                ))}
             </div>
         </section>
     )
