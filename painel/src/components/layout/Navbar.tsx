@@ -15,8 +15,8 @@ import perfil from '/svgs/navbar/PERFIL.svg'
 
 export default function Navbar() {
     const { data: logado } = useLogado(localStorage.getItem('token') || '')
+    const data = logado?.data
     const { navlist, toggle } = useNavbarToggle();
-
     return (
         <nav className="bg-aurora h-15">
             <div className="w-10/12 xl:w-[75rem] h-12 mx-auto">
@@ -32,21 +32,21 @@ export default function Navbar() {
                             <img src={dashboard} alt="Icone dashboard" />Dashboard
                         </Link>
                     </li>
-                    {(logado?.niveis_de_acesso.includes("administrador") || logado?.niveis_de_acesso.includes("redator")) && (
+                    {(data?.niveis_de_acesso.includes("administrador") || data?.niveis_de_acesso.includes("redator")) && (
                         <li>
                             <Link to="#" className="nav-hover font-averta font-bold uppercase italic flex gap-1 mb-3" aria-label="ir para matérias">
                                 <img src={materias} alt="Icone matérias" />Matérias
                             </Link>
                         </li>
                     )}
-                    {(logado?.niveis_de_acesso.includes("administrador") || logado?.niveis_de_acesso.includes("locutor")) && (
+                    {(data?.niveis_de_acesso.includes("administrador") || data?.niveis_de_acesso.includes("locutor")) && (
                         <li>
                             <Link to="#" className="nav-hover font-averta font-bold uppercase italic flex gap-1 mb-3" aria-label="ir para locução">
                                 <img src={locucao} alt="Icone locução" />Locução
                             </Link>
                         </li>
                     )}
-                    {logado?.niveis_de_acesso.includes("administrador") && (
+                    {data?.niveis_de_acesso.includes("administrador") && (
                         <>
                             <li>
                                 <Link to="#" className="nav-hover font-averta font-bold uppercase italic flex gap-1 mb-3" aria-label="Ir para rádio">

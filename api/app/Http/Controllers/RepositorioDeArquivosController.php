@@ -24,7 +24,7 @@ class RepositorioDeArquivosController extends Controller
             if($repositorio->isNotEmpty()){
                 return response()->json($repositorio, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum arquivo encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -40,7 +40,7 @@ class RepositorioDeArquivosController extends Controller
                 $repositorio->load('uploader');
                 return response()->json($repositorio, 200);
             }else{
-                return response()->json(['mensagem' => 'Arquivo não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -80,7 +80,7 @@ class RepositorioDeArquivosController extends Controller
             $repositorio = RepositorioDeArquivos::where('id', $id)->first();
 
             if(!$repositorio){
-                return response()->json(['mensagem' => 'Arquivo não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -122,7 +122,7 @@ class RepositorioDeArquivosController extends Controller
             $repositorio = RepositorioDeArquivos::where('id', $id)->first();
 
             if(!$repositorio){
-                return response()->json(['mensagem' => 'Arquivo não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->removeImage($repositorio, 'icone_do_arquivo');

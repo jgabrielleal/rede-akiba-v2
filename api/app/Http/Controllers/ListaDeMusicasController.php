@@ -17,7 +17,7 @@ class ListaDeMusicasController extends Controller
             if($musicas->isNotEmpty()){
                 return response()->json($musicas, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhuma música encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -32,7 +32,7 @@ class ListaDeMusicasController extends Controller
             if($musica !== null){
                 return response()->json($musica, 200);
             }else{
-                return response()->json(['mensagem' => 'Música não encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -72,7 +72,7 @@ class ListaDeMusicasController extends Controller
             $musica = ListaDeMusicas::where('id', $id)->first();
 
             if(!$musica){
-                return response()->json(['mensagem' => 'Música não encontrada'], 404);
+                return response()->noContent();
             }
 
             $camposAtualizaveis = [
@@ -103,7 +103,7 @@ class ListaDeMusicasController extends Controller
             $musica = ListaDeMusicas::find($id);
 
             if(!$musica){
-                return response()->json(['mensagem' => 'Música não encontrada'], 404);
+                return response()->noContent();
             }
 
             $musica->delete();

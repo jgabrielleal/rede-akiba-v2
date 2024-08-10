@@ -18,7 +18,7 @@ class TarefasController extends Controller
             if($tarefas->isNotEmpty()){
                 return response()->json($tarefas, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhuma tarefa encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -34,7 +34,7 @@ class TarefasController extends Controller
                 $tarefa->load('administrador', 'executante');
                 return response()->json($tarefa, 200);
             }else{
-                return response()->json(['mensagem' => 'Tarefa não encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -72,7 +72,7 @@ class TarefasController extends Controller
             $tarefa = Tarefas::where('id', $id)->first();
 
             if(!$tarefa){
-                return response()->json(['mensagem' => 'Tarefa não encontrada'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -108,7 +108,7 @@ class TarefasController extends Controller
             $tarefa = Tarefas::where('id', $id)->first();
 
             if(!$tarefa){
-                return response()->json(['mensagem' => 'Tarefa não encontrada'], 404);
+                return response()->noContent();
             }
 
             $tarefa->delete();

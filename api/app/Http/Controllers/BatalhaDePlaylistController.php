@@ -26,7 +26,7 @@ class BatalhaDePlaylistController extends Controller
                 $batalha->load('segundo_competidor');
                 return response()->json($batalha, 200);
             }else{
-                return response()->json(['mensagem' => 'Batalha não encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -39,7 +39,7 @@ class BatalhaDePlaylistController extends Controller
             $batalha = BatalhaDePlaylist::where('id', 1)->first();
 
             if(!$batalha){
-                return response()->json(['mensagem' => 'Batalha não encontrada'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([

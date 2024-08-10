@@ -25,7 +25,7 @@ class ProgramasController extends Controller
             if($programas->isNotEmpty()){
                 return response()->json($programas, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum programa encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -41,7 +41,7 @@ class ProgramasController extends Controller
                 $programa->load('locutor');
                 return response()->json($programa, 200);
             }else{
-                return response()->json(['mensagem' => 'Programa não encontrado'], 404);
+                return response()->noContent();
             }
         } catch (\Exception $erro) {
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -78,7 +78,7 @@ class ProgramasController extends Controller
             $programa = Programas::where('slug', $slug)->first();
 
             if(!$programa){
-                return response()->json(['mensagem' => 'Programa não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -126,7 +126,7 @@ class ProgramasController extends Controller
             $programa = Programas::find($id);
 
             if(!$programa){
-                return response()->json(['mensagem' => 'Programa não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->removeImage($programa, 'logo_do_programa');

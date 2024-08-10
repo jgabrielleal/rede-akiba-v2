@@ -25,7 +25,7 @@ class PodcastsController extends Controller
             if($podcasts->isNotEmpty()){
                 return response()->json($podcasts, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum podcast encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -41,7 +41,7 @@ class PodcastsController extends Controller
                 $podcast->load('autor');
                 return response()->json($podcast, 200);
             }else{
-                return response()->json(['mensagem' => 'Podcast não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -90,7 +90,7 @@ class PodcastsController extends Controller
             $podcast = Podcasts::where('slug', $slug)->first();
 
             if(!$podcast){
-                return response()->json(['mensagem' => 'Podcast não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -144,7 +144,7 @@ class PodcastsController extends Controller
             $podcast = Podcasts::where('id', $id)->first();
 
             if(!$podcast){
-                return response()->json(['mensagem' => 'Podcast não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->removeImage($podcast, 'capa_do_episodio');

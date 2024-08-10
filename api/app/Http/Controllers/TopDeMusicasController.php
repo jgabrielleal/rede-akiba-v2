@@ -25,7 +25,7 @@ class TopDeMusicasController extends Controller
             if($topDeMusicas->isNotEmpty()){
                 return response()->json($topDeMusicas, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum top de música encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -41,7 +41,7 @@ class TopDeMusicasController extends Controller
                 $topDeMusica->load('musica');
                 return response()->json($topDeMusica, 200);
             }else{
-                return response()->json(['mensagem' => 'Top de música não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -73,7 +73,7 @@ class TopDeMusicasController extends Controller
             $topDeMusica = TopDeMusicas::where('id', $id)->first();
 
             if(!$topDeMusica){
-                return response()->json(['mensagem' => 'Top de música não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -115,7 +115,7 @@ class TopDeMusicasController extends Controller
             $topDeMusica = TopDeMusicas::where('id', $id)->first();
 
             if(!$topDeMusica){
-                return response()->json(['mensagem' => 'Top de música não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->RemoveImage($topDeMusica, 'avatar');

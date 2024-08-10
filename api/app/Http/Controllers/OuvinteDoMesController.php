@@ -25,7 +25,7 @@ class OuvinteDoMesController extends Controller
                 $ouvinte->load('programa_favorito');
                 return response()->json($ouvinte, 200);
             }else{
-                return response()->json(['mensagem' => 'Ouvinte não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -38,7 +38,7 @@ class OuvinteDoMesController extends Controller
             $ouvinte = OuvinteDoMes::where('id', 1)->first();
 
             if(!$ouvinte){
-                return response()->json(['mensagem' => 'Ouvinte não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([

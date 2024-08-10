@@ -18,7 +18,7 @@ class VideosDoYoutubeController extends Controller
             if($videos->isNotEmpty()){
                 return response()->json($videos, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum vídeo encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -34,7 +34,7 @@ class VideosDoYoutubeController extends Controller
                 $video->load('autor');
                 return response()->json($video, 200);
             }else{
-                return response()->json(['mensagem' => 'Vídeo não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -70,7 +70,7 @@ class VideosDoYoutubeController extends Controller
             $video = VideosDoYoutube::where('id', $id)->first();
 
             if(!$video){
-                return response()->json(['mensagem' => 'Vídeo não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -102,7 +102,7 @@ class VideosDoYoutubeController extends Controller
             $video = VideosDoYoutube::find($id);
 
             if(!$video){
-                return response()->json(['mensagem' => 'Vídeo não encontrado'], 404);
+                return response()->noContent();
             }
 
             $video->delete();

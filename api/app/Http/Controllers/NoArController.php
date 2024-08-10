@@ -18,7 +18,7 @@ class NoArController extends Controller
             if($noAr->isNotEmpty()){
                 return response()->json($noAr, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum registro no histórico de programação encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -34,7 +34,7 @@ class NoArController extends Controller
                 $noAr->load('programa');
                 return response()->json($noAr, 200);
             }else{
-                return response()->json(['mensagem' => 'Registro no histórico de programação não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -75,7 +75,7 @@ class NoArController extends Controller
             $NoAr = NoAr::where('id', $id)->first();
 
             if(!$NoAr){
-                return response()->json(['mensagem' => 'Registro no histórico de programação não encontrado'], 404);
+                return response()->json(['mensagem' => 'Registro no histórico de programação não encontrado'], 204);
             }
 
             $validacao = $request->validate([
@@ -112,7 +112,7 @@ class NoArController extends Controller
             $noAr = NoAr::find($id);
 
             if(!$noAr){
-                return response()->json(['mensagem' => 'Registro no histórico de programação não encontrado'], 404);
+                return response()->noContent();
             }
 
             $noAr->delete();

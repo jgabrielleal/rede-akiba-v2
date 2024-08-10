@@ -21,7 +21,7 @@ class PedidosMusicaisController extends Controller
             if ($pedidos->isNotEmpty()) {
                 return response()->json($pedidos, 200);
             } else {
-                return response()->json(['mensagem' => 'Nenhum pedido musical encontrado'], 404);
+                return response()->noContent();
             }
         } catch (\Exception $erro) {
             return response()->json(['mensagem' => 'Erro interno do servidor', 'erro' => $erro->getMessage()], 500);
@@ -38,7 +38,7 @@ class PedidosMusicaisController extends Controller
                 $pedido->load('musica_pedida');
                 return response()->json($pedido, 200);
             }else{
-                return response()->json(['mensagem' => 'Pedido musical não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -78,7 +78,7 @@ class PedidosMusicaisController extends Controller
             $pedido = PedidosMusicais::where('id', $id)->first();
 
             if(!$pedido){
-                return response()->json(['mensagem' => 'Pedido musical não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -113,7 +113,7 @@ class PedidosMusicaisController extends Controller
             $pedido = PedidosMusicais::find($id);
 
             if(!$pedido){
-                return response()->json(['mensagem' => 'Pedido musical não encontrado'], 404);
+                return response()->noContent();
             }
 
             $pedido->delete();

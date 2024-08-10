@@ -25,7 +25,7 @@ class ReviewsController extends Controller
             if($reviews->isNotEmpty()){
                 return response()->json($reviews, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum review encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -41,7 +41,7 @@ class ReviewsController extends Controller
                 $review->load('autor');
                 return response()->json($review, 200);
             }else{
-                return response()->json(['mensagem' => 'Review não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -86,7 +86,7 @@ class ReviewsController extends Controller
             $review = Reviews::where('slug', $slug)->first();
 
             if(!$review){
-                return response()->json(['mensagem' => 'Review não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -142,7 +142,7 @@ class ReviewsController extends Controller
             $review = Reviews::find($id);
 
             if(!$review){
-                return response()->json(['mensagem' => 'Review não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->removeImage($review, 'imagem_em_destaque');

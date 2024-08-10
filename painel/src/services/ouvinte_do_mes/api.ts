@@ -4,7 +4,7 @@ import { OuvinteDoMesTypes } from "./types";
 export async function getOuvinteDoMes(){
     try{
         const response = await api.get('/ouvintedomes');
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }
@@ -13,7 +13,7 @@ export async function getOuvinteDoMes(){
 export async function updateOuvinteDoMes(data: OuvinteDoMesTypes){
     try{
         const response = await api.patch('/ouvintedomes', data);
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }

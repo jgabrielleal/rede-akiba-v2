@@ -25,7 +25,7 @@ class MateriasController extends Controller
             if($materias->isNotEmpty()){
                 return response()->json($materias, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhuma matéria encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -41,7 +41,7 @@ class MateriasController extends Controller
                 $materia->load('autor');
                 return response()->json($materia, 200);
             }else{
-                return response()->json(['mensagem' => 'Matéria não encontrada'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -91,7 +91,7 @@ class MateriasController extends Controller
             $materia = Materias::where('slug', $slug)->first();
 
             if(!$materia){
-                return response()->json(['mensagem' => 'Matéria não encontrada'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -146,7 +146,7 @@ class MateriasController extends Controller
             $materia = Materias::find($id);
 
             if(!$materia){
-                return response()->json(['mensagem' => 'Matéria não encontrada'], 404);
+                return response()->noContent();
             }
 
             $this->removeImage($materia, 'imagem_em_destaque');

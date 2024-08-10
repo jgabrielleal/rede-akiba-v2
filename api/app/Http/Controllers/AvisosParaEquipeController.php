@@ -18,7 +18,7 @@ class AvisosParaEquipeController extends Controller
             if($avisos->isNotEmpty()){
                 return response()->json($avisos, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum aviso encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -34,7 +34,7 @@ class AvisosParaEquipeController extends Controller
                 $aviso->load('remetente', 'destinatario');
                 return response()->json($aviso, 200);
             }else{
-                return response()->json(['mensagem' => 'Aviso não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -70,7 +70,7 @@ class AvisosParaEquipeController extends Controller
             $aviso = AvisosParaEquipe::where('id', $id)->first();
 
             if(!$aviso){
-                return response()->json(['mensagem' => 'Aviso não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -105,7 +105,7 @@ class AvisosParaEquipeController extends Controller
             $aviso = AvisosParaEquipe::where('id', $id)->first();
 
             if(!$aviso){
-                return response()->json(['mensagem' => 'Aviso não encontrado'], 404);
+                return response()->noContent();
             }
 
             $aviso->delete();

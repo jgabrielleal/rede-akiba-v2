@@ -1,6 +1,11 @@
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import { useAvisosParaEquipe } from "@/services/avisos_para_equipe/queries";
 
 export default function AvisosParaEquipe() {
+    const { data: avisosParaEquipe } = useAvisosParaEquipe();
+
+    console.log(avisosParaEquipe);
+
     return (
         <section className="w-10/12 xl:w-[75rem] mx-auto mt-8">
             <div className="title-default">

@@ -18,7 +18,7 @@ class CalendarioController extends Controller
             if($calendario->isNotEmpty()){
                 return response()->json($calendario, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum evento encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -34,7 +34,7 @@ class CalendarioController extends Controller
                 $calendario->load('designado');
                 return response()->json($calendario, 200);
             }else{
-                return response()->json(['mensagem' => 'Evento não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -74,7 +74,7 @@ class CalendarioController extends Controller
             $evento = Calendario::where('id', $id)->first();
 
             if(!$evento){
-                return response()->json(['mensagem' => 'Evento não encontrado'], 404);
+                return response()->json(['mensagem' => 'Evento não encontrado'], 204);
             }
 
             $validacao = $request->validate([
@@ -110,7 +110,7 @@ class CalendarioController extends Controller
             $evento = Calendario::where('id', $id)->first();
 
             if(!$evento){
-                return response()->json(['mensagem' => 'Evento não encontrado'], 404);
+                return response()->noContent();
             }
 
             $evento->delete();

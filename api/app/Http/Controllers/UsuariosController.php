@@ -24,7 +24,7 @@ class UsuariosController extends Controller
             if ($usuarios->isNotEmpty()) {
                 return response()->json($usuarios, 200);
             } else {
-                return response()->json(['mensagem' => 'Nenhum usuário encontrado'], 404);
+                return response()->noContent();
             }
         } catch (\Exception $e) {
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -40,7 +40,7 @@ class UsuariosController extends Controller
                 return response()->json($usuario, 200);
             }
             
-            return response()->json(['mensagem' => 'Usuário não encontrado'], 404);
+            return response()->noContent();
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
@@ -91,7 +91,7 @@ class UsuariosController extends Controller
             $usuario = Usuarios::where('slug', $slug)->first();
         
             if (!$usuario) {
-                return response()->json(['mensagem' => 'Usuário não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -151,7 +151,7 @@ class UsuariosController extends Controller
             $usuario = Usuarios::find($id);
 
             if(!$usuario){
-                return response()->json(['mensagem' => 'Usuário não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->RemoveImage($usuario, 'avatar');

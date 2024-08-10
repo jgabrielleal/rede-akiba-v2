@@ -4,7 +4,7 @@ import { PodcastsTypes } from "./types";
 export async function getPodcasts(){
     try{
         const response = await api.get('/podcasts');
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }
@@ -13,7 +13,7 @@ export async function getPodcasts(){
 export async function getPodcast(slug: string){
     try{
         const response = await api.get(`/podcasts/${slug}`);
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }
@@ -22,7 +22,7 @@ export async function getPodcast(slug: string){
 export async function createPodcast(data: PodcastsTypes){
     try{
         const response = await api.post('/podcasts', data);
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }
@@ -31,7 +31,7 @@ export async function createPodcast(data: PodcastsTypes){
 export async function updatePodcast(slug: string, data: PodcastsTypes){
     try{
         const response = await api.patch(`/podcasts/update/${slug}`, data);
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }
@@ -40,7 +40,7 @@ export async function updatePodcast(slug: string, data: PodcastsTypes){
 export async function removePodcast(id: number){
     try{
         const response = await api.delete(`/podcasts/delete/${id}`);
-        return response.data;
+        return response;
     }catch(error: any){
         throw error;
     }

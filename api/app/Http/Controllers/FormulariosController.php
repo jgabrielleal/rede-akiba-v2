@@ -18,7 +18,7 @@ class FormulariosController extends Controller
             if($formularios->isNotEmpty()){
                 return response()->json($formularios, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum formulário encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -34,7 +34,7 @@ class FormulariosController extends Controller
                 $formulario->load('ultima_visualizacao');
                 return response()->json($formulario, 200);
             }else{
-                return response()->json(['mensagem' => 'Formulário não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -63,7 +63,7 @@ class FormulariosController extends Controller
             $formulario = Formularios::where('id', $id)->first();
 
             if(!$formulario){
-                return response()->json(['mensagem' => 'Formulário não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -97,7 +97,7 @@ class FormulariosController extends Controller
             $formulario = Formularios::find($id);
 
             if(!$formulario){
-                return response()->json(['mensagem' => 'Formulário não encontrado'], 404);
+                return response()->noContent();
             }
 
             $formulario->delete();

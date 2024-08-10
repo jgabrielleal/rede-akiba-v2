@@ -25,7 +25,7 @@ class EventosController extends Controller
             if($eventos->isNotEmpty()){
                 return response()->json($eventos, 200);
             }else{
-                return response()->json(['mensagem' => 'Nenhum evento encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -41,7 +41,7 @@ class EventosController extends Controller
                 $evento->load('autor');
                 return response()->json($evento, 200);
             }else{
-                return response()->json(['mensagem' => 'Evento não encontrado'], 404);
+                return response()->noContent();
             }
         }catch(\Exception $erro){
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
@@ -86,7 +86,7 @@ class EventosController extends Controller
             $evento = Eventos::where('slug', $slug)->first();
 
             if(!$evento){
-                return response()->json(['mensagem' => 'Evento não encontrado'], 404);
+                return response()->noContent();
             }
 
             $validacao = $request->validate([
@@ -140,7 +140,7 @@ class EventosController extends Controller
             $evento = Eventos::find($id);
 
             if(!$evento){
-                return response()->json(['mensagem' => 'Evento não encontrado'], 404);
+                return response()->noContent();
             }
 
             $this->removeImage($evento, 'imagem_em_destaque');

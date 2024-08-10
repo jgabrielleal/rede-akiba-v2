@@ -69,7 +69,7 @@ class AutenticacaoController extends Controller
                 return response()->json(['mensagem' => 'Token invalidado com sucesso'], 200);
             }
     
-            return response()->json(['mensagem' => 'Token não encontrado'], 404);
+            return response()->noContent();
         } catch (\Exception $erro) {
             return response()->json(['mensagem' => 'Erro interno do servidor', 'erro' => $erro->getMessage()], 500);
         }
