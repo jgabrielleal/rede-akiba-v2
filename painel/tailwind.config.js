@@ -11,6 +11,8 @@ export default {
         'creme': "#FFE8BF",
         'laranja': "#FFA919",
         'azul': {
+          'placeholder': "#102b40",
+          'fallback': "#393939",
           'escuro': "#00061A",
           'medio': "#002080",
           'claro': "#0091FF",

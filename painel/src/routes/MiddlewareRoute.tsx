@@ -17,10 +17,6 @@ export default function MiddlewareRoute({ view: View }: MiddlewareRouteProps) {
         }
     }, [logado, isLoading]);
 
-    if (isLoading) {
-        return <Loading/>
-    }
-
     if (logado) {
         return <View />;
     }
