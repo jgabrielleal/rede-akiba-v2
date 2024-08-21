@@ -13,7 +13,7 @@ export function useMusicas(){
 
 export function useMusica(id: number){
     return useQuery({
-        queryKey: ['Musica', id],
+        queryKey: ['Musica'],
         queryFn: () => getMusica(id),
         enabled: !!id
     })

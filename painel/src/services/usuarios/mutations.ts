@@ -33,7 +33,7 @@ export function useUpdateUsuario(slug: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar o usuário:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Usuarios', {slug}] });
+            await queryClient.invalidateQueries({ queryKey: ['Usuarios'] });
         }
     })
 }

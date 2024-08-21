@@ -13,7 +13,7 @@ export function useRegistrosNoAr(){
 
 export function useRegistroNoAr(id: string){
     return useQuery({
-        queryKey: ['NoAr', id],
+        queryKey: ['NoAr'],
         queryFn: () => getRegistroNoAr(id),
         enabled: !!id
     })

@@ -33,7 +33,7 @@ export function useUpdateAvisoParaEquipe(id: number, onSuccessCallback: Function
             console.log('Ocorreu um erro ao atualizar um aviso para equipe:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['AvisosParaEquipe', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['AvisosParaEquipe'] });
         }
     })
 }
@@ -49,7 +49,7 @@ export function useRemoveAvisoParaEquipe(id: number, onSuccessCallback: Function
             console.log('Ocorreu um erro ao remover um aviso para equipe:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['AvisosParaEquipe', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['AvisosParaEquipe'] });
         }
     })
 }

@@ -33,7 +33,7 @@ export function useUpdateRegistroNoAr(id: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar um registro:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['NoAr', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['NoAr'] });
         }
     })
 }

@@ -13,7 +13,7 @@ export function useEventosCalendario(){
 
 export function useEventoCalendario(id: number){
     return useQuery({
-        queryKey: ['EventosCalendario', {id}],
+        queryKey: ['EventosCalendario'],
         queryFn: () => getEventoCalendario(id),
     })
 }

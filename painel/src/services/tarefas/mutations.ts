@@ -33,7 +33,7 @@ export function useUpdateTarefa(id: number, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar uma tarefa:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Tarefas', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['Tarefas'] });
         }
     })
 }

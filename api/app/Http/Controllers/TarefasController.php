@@ -68,36 +68,38 @@ class TarefasController extends Controller
 
     public function atualizaTarefaEspecifica(Request $request, $id)
     {
-        try{
+        try {
+            \Log::info('Request Data:', $request->all());
+    
             $tarefa = Tarefas::where('id', $id)->first();
-
-            if(!$tarefa){
+    
+            if (!$tarefa) {
                 return response()->noContent();
             }
-
+    
             $validacao = $request->validate([
                 'administrador' => 'exists:usuarios,id',
                 'executante' => 'exists:usuarios,id',
             ]);
-
+    
             $camposAtualizaveis = [
                 'administrador',
                 'executante',
                 'tarefa_a_ser_executada',
                 'tarefa_concluida'
             ];
-
-            foreach($camposAtualizaveis as $campo){
-                if($request->has($campo)){
+    
+            foreach ($camposAtualizaveis as $campo) {
+                if ($request->has($campo)) {
                     $tarefa->$campo = $request->$campo;
                 }
             }
-
+    
             $tarefa->save();
             return response()->json($tarefa, 200);
-        }catch(ValidationException $erro){
+        } catch (ValidationException $erro) {
             return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
+        } catch (\Exception $erro) {
             return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
     }

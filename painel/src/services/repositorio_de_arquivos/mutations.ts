@@ -33,7 +33,7 @@ export function useUpdateArquivo(id: number, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar um arquivo:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['RepositorioDeArquivos', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['RepositorioDeArquivos'] });
         }
     })
 }

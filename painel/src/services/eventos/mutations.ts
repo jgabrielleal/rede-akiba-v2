@@ -33,7 +33,7 @@ export function useUpdateEvento(slug: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar um evento:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Eventos', {slug}] });
+            await queryClient.invalidateQueries({ queryKey: ['Eventos'] });
         }
     })
 }

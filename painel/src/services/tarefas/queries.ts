@@ -4,16 +4,16 @@ import {
     getTarefa
 } from './api';
 
-export function useTopDeMusicas(){
+export function useTarefas(){
     return useQuery({
         queryKey: ['Tarefas'],
         queryFn: getTarefas,
     })
 }
 
-export function useTopDeMusica(id: number){
+export function useTarefa(id: number){
     return useQuery({
-        queryKey: ['Tarefas', id],
+        queryKey: ['Tarefas'],
         queryFn: () => getTarefa(id),
         enabled: !!id
     })

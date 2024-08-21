@@ -13,7 +13,7 @@ export function useVideosDoYoutube(){
 
 export function useVideoDoYoutube(id: number){
     return useQuery({
-        queryKey: ['Vídeo', id],
+        queryKey: ['Vídeo'],
         queryFn: () => getVideoDoYoutube(id),
         enabled: !!id
     })

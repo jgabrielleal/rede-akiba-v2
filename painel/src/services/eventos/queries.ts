@@ -13,7 +13,7 @@ export function useEventos(){
 
 export function useEvento(slug: string){
     return useQuery({
-        queryKey: ['Evento', slug],
+        queryKey: ['Evento'],
         queryFn: () => getEvento(slug),
         enabled: !!slug
     })

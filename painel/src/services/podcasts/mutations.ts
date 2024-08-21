@@ -33,7 +33,7 @@ export function useUpdatePodcast(slug: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar um podcast:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Podcasts', {slug}] });
+            await queryClient.invalidateQueries({ queryKey: ['Podcasts'] });
         }
     })
 }

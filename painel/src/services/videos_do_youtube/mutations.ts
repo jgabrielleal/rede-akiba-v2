@@ -33,7 +33,7 @@ export function useUpdateVideoDoYoutube(id: number, onSuccessCallback: Function)
             console.log('Ocorreu um erro ao atualizar um vídeo do youtube', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Vídeos', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['Vídeos'] });
         }
     })
 }

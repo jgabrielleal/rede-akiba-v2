@@ -33,7 +33,7 @@ export function useUpdatePrograma(slug: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar um programa:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Programas', {slug}] });
+            await queryClient.invalidateQueries({ queryKey: ['Programas'] });
         }
     })
 }

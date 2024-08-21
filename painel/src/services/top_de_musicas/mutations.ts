@@ -33,7 +33,7 @@ export function useUpdatePosicaoTopDeMusica(id: number, onSuccessCallback: Funct
             console.log('Ocorreu um erro ao atualizar um top de música:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['TopDeMusicas', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['TopDeMusicas'] });
         }
     })
 }

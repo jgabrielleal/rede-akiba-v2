@@ -33,7 +33,7 @@ export function useUpdateMateria(slug: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar uma matéria:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Materias', {slug}] });
+            await queryClient.invalidateQueries({ queryKey: ['Materias'] });
         }
     })
 }

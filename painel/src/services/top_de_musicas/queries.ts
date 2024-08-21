@@ -13,7 +13,7 @@ export function useTopDeMusicas(){
 
 export function useTopDeMusica(id: number){
     return useQuery({
-        queryKey: ['TopDeMusica', id],
+        queryKey: ['TopDeMusica'],
         queryFn: () => getPosicaoTopDeMusica(id),
         enabled: !!id
     })

@@ -13,7 +13,7 @@ export function useProgramas(){
 
 export function usePrograma(slug: string){
     return useQuery({
-        queryKey: ['Programa', slug],
+        queryKey: ['Programa'],
         queryFn: () => getPrograma(slug),
         enabled: !!slug
     })

@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <div className="h-screen bg-azul-escuro">
+      <div className="bg-azul-escuro">
         <Outlet />
       </div>
       <Rodape tipo="interno" />

@@ -13,7 +13,7 @@ export function usePedidosMusicais(){
 
 export function usePedidoMusical(id: number){
     return useQuery({
-        queryKey: ['PedidoMusical', id],
+        queryKey: ['PedidoMusicais'],
         queryFn: () => getPedidoMusical(id),
         enabled: !!id
     })

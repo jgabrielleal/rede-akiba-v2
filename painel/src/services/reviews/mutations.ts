@@ -33,7 +33,7 @@ export function useUpdateReview(slug: string, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar uma review:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Review', slug] });
+            await queryClient.invalidateQueries({ queryKey: ['Review'] });
         }
     })
 }

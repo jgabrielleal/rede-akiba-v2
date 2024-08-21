@@ -1,6 +1,8 @@
 import BoasVindas from "@/components/partials/Dashboard/BoasVindas";
 import AvisosParaEquipe from "@/components/partials/Dashboard/AvisosParaEquipe";
 import AcoesRapidas from "@/components/partials/Dashboard/AcoesRapidas";
+import StatusDaRadio from "@/components/partials/Dashboard/StatusDaRadio";
+import MinhasTarefas from "@/components/partials/Dashboard/MinhasTarefas";
 
 export default function Dashboard() {
     return (
@@ -8,6 +10,8 @@ export default function Dashboard() {
             <BoasVindas />
             <AvisosParaEquipe/>
             <AcoesRapidas/>
+            <StatusDaRadio/>
+            <MinhasTarefas/>
         </>
     )
 }

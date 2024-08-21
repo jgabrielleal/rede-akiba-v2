@@ -13,7 +13,7 @@ export function useFormularios(){
 
 export function useFormulario(id: string){
     return useQuery({
-        queryKey: ['Formulario', id],
+        queryKey: ['Formularios'],
         queryFn: () => getFormulario(id),
         enabled: !!id
     })

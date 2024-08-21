@@ -33,7 +33,7 @@ export function useUpdateMusica(id: number, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar uma música:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Musicas', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['Musicas'] });
         }
     })
 }

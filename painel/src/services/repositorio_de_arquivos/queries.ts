@@ -13,7 +13,7 @@ export function useArquivos(){
 
 export function useArquivo(id: number){
     return useQuery({
-        queryKey: ['Arquivo', id],
+        queryKey: ['Arquivo'],
         queryFn: () => getArquivo(id),
         enabled: !!id
     })

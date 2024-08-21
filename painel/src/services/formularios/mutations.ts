@@ -17,7 +17,7 @@ export function useCreateFormulario(onSuccessCallback: Function){
             console.log('Ocorreu um erro ao criar um formulário:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Materias'] });
+            await queryClient.invalidateQueries({ queryKey: ['Formularios'] });
         }
     })
 }
@@ -33,7 +33,7 @@ export function useUpdateFormulario(id: number, onSuccessCallback: Function){
             console.log('Ocorreu um erro ao atualizar um formulário:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Materias'] });
+            await queryClient.invalidateQueries({ queryKey: ['Formularios'] });
         }
     })
 }
@@ -49,7 +49,7 @@ export function useRemoveFormulario(onSuccessCallback: Function){
             console.log('Ocorreu um erro ao deletar um formulário:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Materias'] });
+            await queryClient.invalidateQueries({ queryKey: ['Formularios'] });
         }
     })
 }

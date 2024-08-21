@@ -33,7 +33,7 @@ export function useUpdateEventoCalendario(id: number, onSuccessCallback: Functio
             console.log('Ocorreu um erro ao atualizar um evento no calendário:', error)
         },
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['Calendario', {id}] });
+            await queryClient.invalidateQueries({ queryKey: ['Calendario'] });
         }
     })
 }

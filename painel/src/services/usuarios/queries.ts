@@ -13,7 +13,7 @@ export function useUsuarios(){
 
 export function useUsuario(slug: string){
     return useQuery({
-        queryKey: ['Usuario', slug],
+        queryKey: ['Usuario'],
         queryFn: () => getUsuario(slug),
         enabled: !!slug
     })

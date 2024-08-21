@@ -13,7 +13,7 @@ export function useAvisosParaEquipe(){
 
 export function useAvisoParaEquipe(id: number){
     return useQuery({
-        queryKey: ['AvisosParaEquipe', {id}],
+        queryKey: ['AvisosParaEquipe'],
         queryFn: () => getAvisoParaEquipe(id),
     })
 }

@@ -10,6 +10,7 @@ export default {
         'aurora': "#FFF6E6",
         'creme': "#FFE8BF",
         'laranja': "#FFA919",
+        "verde": "#00A86B",
         'azul': {
           'placeholder': "#102b40",
           'fallback': "#393939",

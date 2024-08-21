@@ -13,7 +13,7 @@ export function usePodcasts(){
 
 export function usePodcast(slug: string){
     return useQuery({
-        queryKey: ['Programa', slug],
+        queryKey: ['Programa'],
         queryFn: () => getPodcast(slug),
         enabled: !!slug
     })

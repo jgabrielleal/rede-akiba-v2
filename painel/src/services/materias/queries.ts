@@ -13,7 +13,7 @@ export function useMaterias(){
 
 export function useMateria(slug: string){
     return useQuery({
-        queryKey: ['Materia', slug],
+        queryKey: ['Materia'],
         queryFn: () => getMateria(slug),
         enabled: !!slug
     })

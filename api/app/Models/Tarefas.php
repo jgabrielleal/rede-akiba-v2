@@ -30,6 +30,19 @@ class Tarefas extends Model
         'tarefa_concluida',
     ];
 
+    /**
+     * Get the types attribute.
+     *
+     * @param  mixed  $value
+     * @return bool
+     */
+    /*
+    public function getTarefaConcluidaAttribute($value)
+    {
+        return (bool) $value;
+    }
+    */
+
 
     /**
     * The relations with other models.
