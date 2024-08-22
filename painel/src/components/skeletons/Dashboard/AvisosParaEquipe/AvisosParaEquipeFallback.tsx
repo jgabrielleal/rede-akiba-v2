@@ -15,9 +15,9 @@ export default function AvisosParaEquipeFallback() {
                         Aki-chan<MdOutlineKeyboardDoubleArrowRight className="mt-1" />{logado?.data.apelido}
                     </h6>
                     <p className="font-averta text-aurora text-xs line-clamp-6 mt-1">
-                        Isso é bom? você não tem nenhum aviso agora! :D. Vá assistir
-                        algum anime ou ler um mangá que quando tiver um aviso eu serei
-                        a primeira a te avisar!
+                        Kanashimi {logado?.data.apelido} (◞ ‸ ◟ㆀ). Parece que você não é muito lembrado né?
+                        Mas não se preocupe, quando precisarem de você serei a primeira a te avisar!
+                        （＾ｖ＾）
                     </p>
                 </div>
             </div>

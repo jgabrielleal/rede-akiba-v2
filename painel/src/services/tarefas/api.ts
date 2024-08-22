@@ -6,7 +6,7 @@ export async function getTarefas(){
         const response = await api.get('/tarefas');
         return response.data;
     }catch(error){
-        throw error
+        throw new Error('Erro ao buscar tarefas');
     }
 }
 

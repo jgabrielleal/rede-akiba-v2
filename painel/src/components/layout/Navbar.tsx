@@ -14,7 +14,8 @@ import logs from '/svgs/navbar/LOGS.svg'
 import perfil from '/svgs/navbar/PERFIL.svg'
 
 export default function Navbar() {
-    const { data: logado } = useLogado(localStorage.getItem('token') || '')
+    const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
+    
     const usuarioLogado = logado?.data
     const { navlist, toggle } = useNavbarToggle();
     

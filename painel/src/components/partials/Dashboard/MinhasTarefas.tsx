@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTarefas } from "@/services/tarefas/queries";
 import { useUpdateTarefa } from "@/services/tarefas/mutations";
-import MinhasTarefasLoading from "@/components/skeletons/Dashboard/MinhasTarefas/MinhasTarefasLoading";
+import MinhasTarefasPlaceholder from "@/components/skeletons/Dashboard/MinhasTarefas/MinhasTarefasPlaceholder";
 import MinhasTarefasFallback from "@/components/skeletons/Dashboard/MinhasTarefas/MinhasTarefasFallback";
 
 interface TarefasInterface{
@@ -18,16 +18,16 @@ interface TarefasInterface{
 export default function MinhasTarefas() {
     const [isTarefaSelecionada, setIsTarefaSelecionada] = useState(0);
 
-    const { data: tarefas, isLoading, isError } = useTarefas();
+    const { data: tarefas, isLoading } = useTarefas();
     const { mutate: updateTarefa } = useUpdateTarefa(isTarefaSelecionada, ()=>{
-        toast.success('Tarefa concluída!');
+        toast.success('Sugoi nee!! Tarefinha concluída! (≧▽≦)');
     });
 
     if(isLoading){
-        return <MinhasTarefasLoading />
+        return <MinhasTarefasPlaceholder />
     }
 
-    if(isError){
+    if(!tarefas?.data){
         return <MinhasTarefasFallback />
     }
 
