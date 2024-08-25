@@ -4,7 +4,7 @@ import { CalendarioTypes } from "./types"
 export async function getEventosCalendario(){
     try{
         const response = await api.get('/calendario')
-        return response
+        return response.data
     }catch(error:any){
         throw error
     }

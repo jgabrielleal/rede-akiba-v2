@@ -45,7 +45,7 @@ class CalendarioController extends Controller
     {
         try{
             $validacao = $request->validate([
-                'data' => 'required',
+                'dia' => 'required',
                 'hora' => 'required',
                 'evento' => 'required',
                 'designado' => 'required|exists:usuarios,id',
@@ -53,7 +53,7 @@ class CalendarioController extends Controller
             ]);
 
             $evento = Calendario::create([
-                'data' => $request->data,
+                'dia' => $request->dia,
                 'hora' => $request->hora,
                 'evento' => $request->evento,
                 'designado' => $request->designado,
@@ -82,7 +82,7 @@ class CalendarioController extends Controller
             ]);
 
             $camposAtualizaveis = [
-                'data',
+                'dia',
                 'hora',
                 'evento',
                 'designado',

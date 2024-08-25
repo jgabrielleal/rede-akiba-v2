@@ -4,6 +4,8 @@ import AvisosParaEquipe from "@/components/partials/Dashboard/AvisosParaEquipe";
 import AcoesRapidas from "@/components/partials/Dashboard/AcoesRapidas";
 import StatusDaRadio from "@/components/partials/Dashboard/StatusDaRadio";
 import MinhasTarefas from "@/components/partials/Dashboard/MinhasTarefas";
+import UltimasMaterias from "@/components/partials/Dashboard/UltimasMaterias";
+import Calendario from "@/components/partials/Dashboard/Calendario";
 
 export default function Dashboard() {
     usePageName('Dashboard');
@@ -15,6 +17,8 @@ export default function Dashboard() {
             <AcoesRapidas/>
             <StatusDaRadio/>
             <MinhasTarefas/>
+            <UltimasMaterias/>
+            <Calendario/>
         </>
     )
 }

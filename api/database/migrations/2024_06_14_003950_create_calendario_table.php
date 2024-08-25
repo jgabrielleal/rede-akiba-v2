@@ -17,7 +17,7 @@ class CreateCalendarioTable extends Migration
         Schema::create('calendario', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date('data')->nullable();
+            $table->string('dia')->nullable();
             $table->time('hora')->nullable();
             $table->string('evento')->nullable();
             $table->unsignedBigInteger('designado');

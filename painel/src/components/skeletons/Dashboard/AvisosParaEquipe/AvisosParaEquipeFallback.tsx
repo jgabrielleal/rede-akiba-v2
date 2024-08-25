@@ -9,8 +9,8 @@ export default function AvisosParaEquipeFallback() {
             <div className="title-default">
                 <h6>Avisos para equipe</h6>
             </div>
-            <div className="flex justify-center lg:justify-start gap-3 flex-wrap mt-3">
-                <div className="w-full lg:w-[18.18rem] h-40 bg-azul-fallback rounded-md p-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-3">
+                <div className="w-full h-40 bg-azul-fallback rounded-md p-3">
                     <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
                         Aki-chan<MdOutlineKeyboardDoubleArrowRight className="mt-1" />{logado?.data.apelido}
                     </h6>

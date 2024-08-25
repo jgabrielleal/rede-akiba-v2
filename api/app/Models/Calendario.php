@@ -24,7 +24,7 @@ class Calendario extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'data',
+        'dia',
         'hora',
         'evento',
         'designado',

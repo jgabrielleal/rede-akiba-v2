@@ -6,8 +6,8 @@ import AvisosParaEquipeFallback from "@/components/skeletons/Dashboard/AvisosPar
 export default function AvisosParaEquipe() {
     const { data: avisosParaEquipe, isLoading } = useAvisosParaEquipe();
 
-    function listaDeAvisos(){
-        if(avisosParaEquipe && avisosParaEquipe.data){
+    function listaDeAvisos() {
+        if (avisosParaEquipe && avisosParaEquipe.data) {
             return avisosParaEquipe.data.data
         }
     }
@@ -25,9 +25,9 @@ export default function AvisosParaEquipe() {
             <div className="title-default">
                 <h6>Avisos para equipe</h6>
             </div>
-            <div className="flex justify-center lg:justify-start gap-3 flex-wrap mt-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-3">
                 {listaDeAvisos().slice(0, 4).map((aviso: any, index: number) => (
-                    <div key={index} className="w-full lg:w-[18.18rem] h-40 bg-azul-claro rounded-md p-3">
+                    <div key={index} className="w-full h-40 bg-azul-claro rounded-md p-3">
                         <h6 className="font-averta font-bold text-aurora text-xl uppercase flex items-center gap-1">
                             {aviso.remetente.apelido}<MdOutlineKeyboardDoubleArrowRight className="mt-1" />{aviso.destinatario.apelido}
                         </h6>
