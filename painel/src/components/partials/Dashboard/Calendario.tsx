@@ -58,6 +58,7 @@ function renderConteudo(calendarioData: Calendario[], dia: string) {
 export default function Calendario() {
     const { data: calendario } = useEventosCalendario()
     const calendarioData = calendario?.data
+
     return (
         <section className="w-10/12 xl:w-[75rem] mx-auto mt-8">
             <div className="title-default">

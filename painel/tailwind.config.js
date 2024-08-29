@@ -9,8 +9,12 @@ export default {
       'colors': {
         'aurora': "#FFF6E6",
         'creme': "#FFE8BF",
-        'laranja': "#FFA919",
+        'laranja': {
+            'claro': "#FFA919",
+            'medio': "#ca6533",
+        },
         "verde": "#00A86B",
+        "roxo": "#9866fe",
         'azul': {
           'placeholder': "#102b40",
           'fallback': "#393939",
