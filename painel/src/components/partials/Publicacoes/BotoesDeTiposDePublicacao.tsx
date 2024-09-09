@@ -8,10 +8,10 @@ export default function BotoesDeTiposDePublicacao() {
                 <button className="px-4 py-1 border-4 border-azul-claro rounded-xl font-averta font-bold text-aurora text-xl text-azul-claro uppercase">
                     Matérias
                 </button>
-                <button className="px-4 py-1 border-4 border-roxo rounded-xl font-averta font-bold text-aurora text-xl text-roxo uppercase">
+                <button className="px-4 py-1 border-4 border-roxo rounded-xl font-averta font-bold text-xl text-roxo uppercase">
                     Review
                 </button>
-                <button className="px-4 py-1 border-4 border-laranja-medio rounded-xl font-averta font-bold text-aurora text-xl text-laranja-medio uppercase">
+                <button className="px-4 py-1 border-4 border-laranja-medio rounded-xl font-averta font-bold text-xl text-laranja-medio uppercase">
                     Evento
                 </button>
             </div>

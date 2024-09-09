@@ -8,7 +8,7 @@ export async function Login(data:any){
         });
         return response;
     } catch (error: any) {
-        console.log(error);
+        throw error;
     }
 }
 

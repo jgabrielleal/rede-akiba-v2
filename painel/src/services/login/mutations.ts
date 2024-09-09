@@ -13,7 +13,7 @@ export function useLogin(){
         mutationFn: (data:any) => Login(data),
         onSuccess: async (response: any) => {
             await queryClient.invalidateQueries({ queryKey: ['Login'] });
-            localStorage.setItem('aki-token', response.data.token);
+            localStorage.setItem('aki-token', response?.data?.token);
             navigate('dashboard')
         },
         onError: (error: any) => {

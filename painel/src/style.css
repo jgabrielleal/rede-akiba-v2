@@ -17,6 +17,16 @@
     font-display: swap;
 }
 
+
+/**
+    REACT QUILL STYLES
+    - Define a estilização padrão o framework de edição de texto React Quill
+**/
+.ql-snow{
+    border: 0 !important;
+}
+
+
 /**
     TITLE DEFAULT STYLES
     - Define a estilização padrão para os títulos

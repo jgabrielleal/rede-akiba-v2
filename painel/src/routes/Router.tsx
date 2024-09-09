@@ -3,7 +3,7 @@ import MiddlewareRoute from './MiddlewareRoute';
 import Outlet from '@/views/Layout';
 import Login from '@views/Login';
 import Dashboard from '@views/Dashboard';
-import Materias from '@views/Materias';
+import Publicacoes from '@views/Publicacoes';
 
 export default function Router(){
     return(
@@ -12,7 +12,7 @@ export default function Router(){
                 <Route path="/" element={<Login/>} />
                 <Route path="/" element={<Outlet/>}>
                     <Route path="dashboard" element={<MiddlewareRoute view={Dashboard} />} />
-                    <Route path="materias" element={<MiddlewareRoute view={Materias} />} />
+                    <Route path="materias" element={<MiddlewareRoute view={Publicacoes} />} />
                 </Route>
             </Routes>
         </BrowserRouter>
