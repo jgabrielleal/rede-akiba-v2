@@ -17,7 +17,7 @@ class CreateMateriasTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('slug');
-            $table->boolean('publicado');
+            $table->string('status');
             $table->unsignedBigInteger('autor');
             $table->string('imagem_em_destaque')->nullable();
             $table->string('capa_da_materia')->nullable();

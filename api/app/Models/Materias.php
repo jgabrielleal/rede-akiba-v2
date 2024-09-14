@@ -25,7 +25,7 @@ class Materias extends Model
      */
     protected $fillable = [
         'slug',
-        'publicado',
+        'status',
         'autor',
         'imagem_em_destaque',
         'capa_da_materia',

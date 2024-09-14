@@ -15,9 +15,7 @@ import perfil from '/svgs/navbar/PERFIL.svg'
 
 export default function Navbar() {
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
-    
-    const usuarioLogado = logado?.data
-    const { navlist, toggle } = useNavbarToggle();
+    const { navlist, toggle } = useNavbarToggle();    
     
     return (
         <nav className="bg-aurora h-15">
@@ -34,21 +32,21 @@ export default function Navbar() {
                             <img src={dashboard} alt="Ícone do dashboard" />Dashboard
                         </Link>
                     </li>
-                    {(usuarioLogado?.niveis_de_acesso.includes("administrador") || usuarioLogado?.niveis_de_acesso.includes("redator")) && (
+                    {(logado?.niveis_de_acesso.includes("administrador") || logado?.niveis_de_acesso.includes("redator")) && (
                         <li>
                             <Link to="/materias" className="nav-hover font-averta font-bold uppercase italic flex gap-1 mb-3" title="Ir para matérias" aria-label="Ir para matérias">
                                 <img src={materias} alt="Ícone de matérias" />Matérias
                             </Link>
                         </li>
                     )}
-                    {(usuarioLogado?.niveis_de_acesso.includes("administrador") || usuarioLogado?.niveis_de_acesso.includes("locutor")) && (
+                    {(logado?.niveis_de_acesso.includes("administrador") || logado?.niveis_de_acesso.includes("locutor")) && (
                         <li>
                             <Link to="/locucao" className="nav-hover font-averta font-bold uppercase italic flex gap-1 mb-3" title="Ir para locução" aria-label="Ir para locução">
                                 <img src={locucao} alt="Ícone de locução" />Locução
                             </Link>
                         </li>
                     )}
-                    {usuarioLogado?.niveis_de_acesso.includes("administrador") && (
+                    {logado?.niveis_de_acesso.includes("administrador") && (
                         <>
                             <li>
                                 <Link to="/radio" className="nav-hover font-averta font-bold uppercase italic flex gap-1 mb-3" title="Ir para rádio" aria-label="Ir para rádio">

@@ -4,7 +4,7 @@ import { AvisosParaEquipeTypes } from "./types"
 export async function getAvisosParaEquipe(){
     try{
         const response = await api.get('/avisosparaequipe')
-        return response
+        return response.data.data
     }catch(error){
         throw error
     }

@@ -23,7 +23,7 @@ class MateriasFactory extends Factory
 
         return [
             'slug' =>  Str::slug($this->faker->sentence($nbWords = 6, $variableNbWords = true)),
-            'publicado' => $this->faker->boolean,
+            'status' => $this->faker->name,
             'autor' => $this->faker->randomElement($usuarios),
             'imagem_em_destaque' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),
             'capa_da_materia' => \Illuminate\Http\UploadedFile::fake()->image('imagem.jpg'),

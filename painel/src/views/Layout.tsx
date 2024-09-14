@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <div className="bg-azul-escuro">
+      <div className="bg-azul-escuro bg-fixed pb-10">
         <Outlet />
       </div>
       <Rodape tipo="interno" />

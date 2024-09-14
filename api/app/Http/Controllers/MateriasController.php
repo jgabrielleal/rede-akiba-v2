@@ -52,7 +52,7 @@ class MateriasController extends Controller
     {
         try{
             $validacao = $request->validate([
-                'publicado' => 'required|boolean',
+                'status' => 'required',
                 'autor' => 'required|exists:usuarios,id',
                 'imagem_em_destaque' => 'required|image|mimes:jpeg,png,jpg,gif',
                 'capa_da_materia' => 'required|image|mimes:jpeg,png,jpg,gif',
@@ -65,7 +65,7 @@ class MateriasController extends Controller
 
             $materia = Materias::create([
                 'slug' => Str::slug($request->titulo),
-                'publicado' => $request->publicado,
+                'status' => $request->status,
                 'autor' => $request->autor,
                 'imagem_em_destaque' => $this->uploadImage($request, 'imagem_em_destaque'),
                 'capa_da_materia' => $this->uploadImage($request, 'capa_da_materia'),
@@ -102,7 +102,7 @@ class MateriasController extends Controller
 
             $camposAtualizaveis = [
                 'slug',
-                'publicada',
+                'status',
                 'autor',
                 'imagem_em_destaque',
                 'capa_da_materia',

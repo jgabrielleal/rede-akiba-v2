@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function CapaDaPublicacao() {
+    const { publicacao } = useParams();
+
     const [imagemPreview, setImagemPreview] = useState<string | null>(null);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +20,7 @@ export default function CapaDaPublicacao() {
     return (
         <section className="mb-3">
             <span className="mb-1 block font-averta font-bold text-laranja-claro text-lg uppercase">
-                Capa da matéria
+                Capa {publicacao === "reviews" ? "do review" : publicacao === "eventos" ? "do evento" : "da matéria"}
             </span>
             <label htmlFor="capaDaPublicacao" className={`w-full h-72 ${!imagemPreview && "bg-aurora"} rounded-md overflow-hidden flex justify-center items-center text-azul-claro text-6xl font-averta font-bold`}>
                 {imagemPreview ? (

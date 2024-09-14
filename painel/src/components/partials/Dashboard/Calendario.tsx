@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import { useEventosCalendario } from "@/services/calendario/queries"
 
 interface Calendario {
@@ -12,21 +13,6 @@ interface Calendario {
 }
 
 function renderConteudo(calendarioData: Calendario[], dia: string) {
-    function color(evento: Calendario) {
-        switch (evento.categoria) {
-            case 'programas':
-                return 'bg-azul-claro'
-            case 'lives':
-                return 'bg-[#b82bff]'
-            case 'youtube':
-                return 'bg-[#f43e37]'
-            case 'podcast':
-                return 'bg-[#00a859]'
-            default:
-                return 'bg-azul-claro'
-        }
-    }
-
     function horas(evento: Calendario) {
         const hora = evento.hora.split(':')
         return `${hora[0]}:${hora[1]}H`
@@ -39,7 +25,12 @@ function renderConteudo(calendarioData: Calendario[], dia: string) {
     return (
         <>
             {eventosOrdenados?.map((evento: Calendario, index: number) => (
-                <div key={index} className={`${color(evento)} py-2 px-2 rounded-md mb-3`}>
+                <div key={index} className={classNames('py-2 px-2 rounded-md mb-3', {
+                    'bg-azul-claro': evento.categoria === 'programas',
+                    'bg-[#b82bff]': evento.categoria === 'lives',
+                    'bg-[#f43e37]': evento.categoria === 'youtube',
+                    'bg-[#00a859]': evento.categoria === 'podcast',
+                })}>
                     <span className="block text-aurora text-2xl text-center font-averta uppercase">
                         {horas(evento)}
                     </span>

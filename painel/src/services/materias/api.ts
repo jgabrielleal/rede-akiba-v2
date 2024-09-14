@@ -1,9 +1,9 @@
 import { api } from "@services/axios.default";
 import { MateriasTypes } from "./types";
 
-export async function getMaterias(){
+export async function getMaterias(pageParam: number){
     try{
-        const response = await api.get('/materias');
+        const response = await api.get('/materias?page=' + pageParam);
         return response.data;
     }catch(error:any){
         throw error;

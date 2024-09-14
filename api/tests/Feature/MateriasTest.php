@@ -22,7 +22,7 @@ class MateriasTest extends TestCase
             'data' => [ 
                 '*' => [ 
                     'slug',
-                    'publicado',
+                    'status',
                     'autor',
                     'imagem_em_destaque',
                     'capa_da_materia',
@@ -51,7 +51,7 @@ class MateriasTest extends TestCase
         $response->assertJsonStructure([
             'id',
             'slug',
-            'publicado',
+            'status',
             'autor',
             'imagem_em_destaque',
             'capa_da_materia',

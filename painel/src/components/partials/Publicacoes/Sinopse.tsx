@@ -1,10 +1,7 @@
-import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-export default function EscrevaSuaPublicacao() {
-    const { publicacao } = useParams();
-
+export default function Sinopse() {
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -18,11 +15,11 @@ export default function EscrevaSuaPublicacao() {
     };
 
     return (
-        <section>
+        <section className="mb-3">
             <span className="mb-1 block font-averta font-bold text-laranja-claro text-lg uppercase">
-                {publicacao === "eventos" ? "Escreva sobre o evento" : "Escreva sua matéria"}
+                Sinopse do anime
             </span>            
-            <div className="bg-aurora h-96 rounded-md">
+            <div className="bg-aurora h-60 rounded-md">
                 <ReactQuill theme="snow" modules={modules} />
             </div>
         </section>

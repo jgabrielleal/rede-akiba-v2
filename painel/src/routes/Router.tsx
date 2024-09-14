@@ -12,7 +12,7 @@ export default function Router(){
                 <Route path="/" element={<Login/>} />
                 <Route path="/" element={<Outlet/>}>
                     <Route path="dashboard" element={<MiddlewareRoute view={Dashboard} />} />
-                    <Route path="materias" element={<MiddlewareRoute view={Publicacoes} />} />
+                    <Route path=":publicacao/:slug?" element={<MiddlewareRoute view={Publicacoes} />} />
                 </Route>
             </Routes>
         </BrowserRouter>
