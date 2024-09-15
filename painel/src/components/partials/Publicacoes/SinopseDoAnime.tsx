@@ -1,7 +1,8 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import SinopseDoAnimePlaceholder from "@/components/skeletons/Publicacoes/SinopseDoAnime/SinopseDoAnimePlaceholder";
 
-export default function Sinopse() {
+export default function SinopseDoAnime() {
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],

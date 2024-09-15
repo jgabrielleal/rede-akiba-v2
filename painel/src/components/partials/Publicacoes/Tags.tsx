@@ -1,3 +1,5 @@
+import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
+
 export default function Tags() {
     return (
         <section className="w-[70rem] flex gap-5 lg:gap-10 justify-between flex-wrap lg:flex-nowrap">

@@ -3,24 +3,15 @@ import { useParams } from "react-router-dom";
 import BotoesDeTiposDePublicacao from "@/components/partials/Publicacoes/BotoesDeTiposDePublicacao";
 import ImagemEmDestaque from "@/components/partials/Publicacoes/ImagemEmDestaque";
 import Titulo from "@/components/partials/Publicacoes/Titulo";
-import Sinopse from "@/components/partials/Publicacoes/Sinopse";
+import SinopseDoAnime from "@/components/partials/Publicacoes/SinopseDoAnime";
 import CapaDaPublicacao from "@/components/partials/Publicacoes/CapaDaPublicacao";
+import EscrevaSeuReview from "@/components/partials/Publicacoes/EscrevaSeuReview";
 import EscrevaSuaPublicacao from "@/components/partials/Publicacoes/EscrevaSuaPublicacao";
 import Tags from "@/components/partials/Publicacoes/Tags";
 import FontesDePesquisa from "@/components/partials/Publicacoes/FontesDePesquisa";
 import LocalDatas from "@/components/partials/Publicacoes/LocalDatas";
 import Controles from "@/components/partials/Publicacoes/Controles";
 import TodasAsPublicacoes from "@/components/partials/Publicacoes/TodasAsPublicacoes";
-
-import BotoesDeTiposDePublicacaoPlaceholder from "@/components/skeletons/Publicacoes/BotoesDeTiposDePublicacao/BotoesDeTiposDePublicacaoPlaceholder";
-import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/ImagemEmDestaque/ImagemEmDestaquePlaceholder";
-import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloPlaceholder";
-import SinopsePlaceholder from "@/components/skeletons/Publicacoes/Sinopse/SinopsePlaceholder";
-import CapaDaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/CapaDaPublicacao/CapaDaPublicacaoPlaceholder";
-import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
-import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
-import FontesDePesquisaPlaceholder from "@/components/skeletons/Publicacoes/FontesDePesquisa/FontesDePesquisaPlaceholder";
-import LocalDatasPlaceholder from "@/components/skeletons/Publicacoes/LocalDatas/LocalDatasPlaceholder";
 
 export default function Publicacoes() {
     const { publicacao } = useParams();
@@ -35,15 +26,18 @@ export default function Publicacoes() {
                 <div className="col-span-1 xl:col-span-3">
                     <Titulo />
                     {publicacao === "reviews" && (
-                        <Sinopse />
+                        <SinopseDoAnime />
                     )}
                     <CapaDaPublicacao />
                     {publicacao !== "reviews" && (
                         <EscrevaSuaPublicacao />
                     )}
+                    {publicacao === "reviews" && (
+                        <EscrevaSeuReview />
+                    )}
                 </div>
             </div>
-            {publicacao !== "eventos" && (
+            {publicacao !== "eventos" && publicacao !== "reviews" && (
                 <div className="w-10/12 xl:w-[75rem] mx-auto mt-10 flex justify-end">
                     <Tags />
                 </div>
@@ -61,7 +55,9 @@ export default function Publicacoes() {
             <div>
                 <Controles />
             </div>
-            <TodasAsPublicacoes />
+            {publicacao === "materias" && (
+                <TodasAsPublicacoes />
+            )}
         </>
     );
 }

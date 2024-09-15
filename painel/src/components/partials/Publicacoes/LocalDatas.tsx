@@ -1,3 +1,5 @@
+import LocalDatasPlaceholder from "@/components/skeletons/Publicacoes/LocalDatas/LocalDatasPlaceholder";
+
 export default function LocalDatas() {
     return (
         <section className="w-[70rem] flex gap-5 lg:gap-10 justify-between flex-wrap lg:flex-nowrap">

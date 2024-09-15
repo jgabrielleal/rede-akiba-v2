@@ -1,3 +1,5 @@
+import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloPlaceholder";
+
 export default function Titulo(){
     return(
         <section className="w-full mb-3">

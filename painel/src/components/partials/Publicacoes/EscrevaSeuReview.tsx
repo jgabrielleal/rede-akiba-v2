@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
 
-export default function EscrevaSuaPublicacao() {
+export default function EscrevaSeuReview() {
     const { publicacao } = useParams();
 
     const modules = {
@@ -21,8 +21,16 @@ export default function EscrevaSuaPublicacao() {
     return (
         <section>
             <span className="mb-1 block font-averta font-bold text-laranja-claro text-lg uppercase">
-                {publicacao === "eventos" ? "Escreva sobre o evento" : "Escreva sua matéria"}
+                Escreva seu review
             </span>            
+            <div className="flex gap-2 flex-wrap mb-1">
+                <button className="bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md">
+                    Neko Kirame
+                </button>
+                <button className="bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md">
+                    Suzuh
+                </button>
+            </div>
             <div className="bg-aurora h-96 rounded-md">
                 <ReactQuill theme="snow" modules={modules} />
             </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/ImagemEmDestaque/ImagemEmDestaquePlaceholder";
 
 export default function ImagemEmDestaque() {
     const [imagemPreview, setImagemPreview] = useState<string | null>(null);
