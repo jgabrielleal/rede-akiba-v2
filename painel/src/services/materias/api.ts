@@ -12,7 +12,7 @@ export async function getMaterias(pageParam: number){
 
 export async function getMateria(slug: string){
     try{
-        const response = await api.get(`/mataerias/${slug}`);
+        const response = await api.get(`/materias/${slug}`);
         return response.data;
     }catch(error:any){
         throw error;

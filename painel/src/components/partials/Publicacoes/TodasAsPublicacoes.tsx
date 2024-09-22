@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { FaPen, FaEye } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import { usePagination } from '@/hooks/usePagination';
 import { useLogado } from '@/services/login/queries';
 import { useMaterias } from '@/services/materias/queries';
@@ -23,7 +23,7 @@ export default function TodasAsPublicacoes() {
     const { data: materias, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useMaterias()
 
     if (isLoading) {
-        return <TodasAsPublicacoesPlaceholder />
+        return -<TodasAsPublicacoesPlaceholder />
     }
 
     if (!materias?.pages) {
@@ -49,16 +49,11 @@ export default function TodasAsPublicacoes() {
                             <span className="text-aurora font-averta font-bold italic uppercase">
                                 {materia.autor?.apelido}
                             </span>
-                            <div className="flex gap-3 items-center">
-                                <Link to="/painel/materias/1" className="text-aurora" title="Visualizar matéria" aria-label="Visualizar matéria">
-                                    <FaEye className="text-lg" />
+                            {logado?.niveis_de_acesso?.includes('administrador') && (
+                                <Link to={`/materias/${materia.slug}`} className="text-aurora mr-1 mt-1" title="Editar matéria" aria-label="Editar matéria">
+                                    <FaPen />
                                 </Link>
-                                {logado?.niveis_de_acesso?.includes('administrador') && (
-                                    <Link to="/painel/materias/1" className="text-aurora" title="Editar matéria" aria-label="Editar matéria">
-                                        <FaPen />
-                                    </Link>
-                                )}
-                            </div>
+                            )}
                         </div>
                     </div>
                 ))}

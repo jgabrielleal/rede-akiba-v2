@@ -14,7 +14,7 @@ import Controles from "@/components/partials/Publicacoes/Controles";
 import TodasAsPublicacoes from "@/components/partials/Publicacoes/TodasAsPublicacoes";
 
 export default function Publicacoes() {
-    const { publicacao } = useParams();
+    const { publicacao } = useParams<string>();
 
     return (
         <>
@@ -42,7 +42,7 @@ export default function Publicacoes() {
                     <Tags />
                 </div>
             )}
-            {publicacao !== "eventos" && (
+            {publicacao !== "eventos" && publicacao !== "reviews" && (
                 <div className="w-10/12 xl:w-[75rem] mx-auto mt-10 flex justify-end">
                     <FontesDePesquisa />
                 </div>

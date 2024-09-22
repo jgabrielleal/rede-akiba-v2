@@ -13,7 +13,7 @@ export function useReviews(){
 
 export function useReview(slug: string){
     return useQuery({
-        queryKey: ['Review'],
+        queryKey: ['Reviews'],
         queryFn: () => getReview(slug),
         enabled: !!slug
     })

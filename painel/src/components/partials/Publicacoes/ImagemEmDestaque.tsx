@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useQueryClient } from "@tanstack/react-query";
+import { useMateria } from "@/services/materias/queries";
+import { useEvento } from "@/services/eventos/queries";
+import { useReview } from "@/services/reviews/queries";
 import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/ImagemEmDestaque/ImagemEmDestaquePlaceholder";
 
 export default function ImagemEmDestaque() {
+    const { slug, publicacao } = useParams();
+
+    const queryClient = useQueryClient();
+    const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
+    const { data: evento, isLoading: eventoLoading } = useEvento(slug ?? "");
+    const { data: review, isLoading: reviewLoading } = useReview(slug ?? "");
+
     const [imagemPreview, setImagemPreview] = useState<string | null>(null);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +26,30 @@ export default function ImagemEmDestaque() {
             reader.readAsDataURL(file);
         }
     };
+
+    function destaqueDispatch() {
+        const tituloMap: { [key: string]: string | undefined } = {
+            eventos: evento?.capa_do_evento,
+            materias: materia?.capa_da_materia,
+            reviews: review?.capa_da_review
+        };
+        return tituloMap[publicacao ?? "materias"] ?? "";
+    }
+
+    useEffect(() => {
+        setImagemPreview(destaqueDispatch());
+    }, [materia, evento, review, publicacao]);
+
+    useEffect(() => {
+        queryClient.invalidateQueries({queryKey: ["Materias"]});
+        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});
+        queryClient.invalidateQueries({queryKey: ["Eventos"]});
+        queryClient.invalidateQueries({queryKey: ["Reviews"]});
+    }, [slug]);
+
+    if (materiaLoading || eventoLoading || reviewLoading) {
+        return <ImagemEmDestaquePlaceholder />;
+    }
 
     return (
         <>

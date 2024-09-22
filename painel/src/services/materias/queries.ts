@@ -1,5 +1,5 @@
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { 
+import {
     getMaterias,
     getMateria
 } from './api';
@@ -7,22 +7,27 @@ import {
 
 export function useMaterias() {
     return useInfiniteQuery({
-        queryKey: ['Materias'],
+        queryKey: ['MateriaInfinite'],
         queryFn: ({ pageParam = 1 }) => getMaterias(pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
-            return lastPage.next_page_url ? lastPage.current_page + 1 : undefined;
+            if (lastPage && lastPage.next_page_url) {
+                return lastPage.current_page + 1;
+            }
+            return undefined;
         },
         getPreviousPageParam: (firstPage) => {
-            return firstPage.prev_page_url ? firstPage.current_page - 1 : undefined;
+            if (firstPage && firstPage.prev_page_url) {
+                return firstPage.current_page - 1;
+            }
+            return undefined;
         },
-        maxPages: 3,
     });
 }
 
-export function useMateria(slug: string){
+export function useMateria(slug: string) {
     return useQuery({
-        queryKey: ['Materia'],
+        queryKey: ['Materias'],
         queryFn: () => getMateria(slug),
         enabled: !!slug
     })

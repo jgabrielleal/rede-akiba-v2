@@ -1,10 +1,36 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useQueryClient } from "@tanstack/react-query";
+import { useMateria } from "@/services/materias/queries";
+import { useEvento } from "@/services/eventos/queries";
 import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
 
 export default function EscrevaSuaPublicacao() {
-    const { publicacao } = useParams();
+    const { slug, publicacao } = useParams();
+
+    const queryClient = useQueryClient();
+    const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
+    const { data: evento, isLoading: eventoLoading } = useEvento(slug ?? "");
+
+    function publicacaoDispatch() {
+        const tituloMap: { [key: string]: string | undefined } = {
+            eventos: evento?.publicacao,
+            materias: materia?.conteudo,
+        };
+        return tituloMap[publicacao ?? "materias"] ?? "";
+    }
+
+    useEffect(() => {
+        queryClient.invalidateQueries({queryKey: ["Materias"]});
+        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});
+        queryClient.invalidateQueries({queryKey: ["Eventos"]});
+    }, [slug]);
+
+    if (materiaLoading || eventoLoading) {
+        return <EscrevaSuaPublicacaoPlaceholder />;
+    }
 
     const modules = {
         toolbar: [
@@ -24,7 +50,7 @@ export default function EscrevaSuaPublicacao() {
                 {publicacao === "eventos" ? "Escreva sobre o evento" : "Escreva sua matéria"}
             </span>            
             <div className="bg-aurora h-96 rounded-md">
-                <ReactQuill theme="snow" modules={modules} />
+                <ReactQuill theme="snow" modules={modules} value={publicacaoDispatch()}/>
             </div>
         </section>
     );

@@ -13,7 +13,7 @@ export async function getReviews(){
 export async function getReview(slug: string){
     try{
         const response = await api.get(`/reviews/${slug}`);
-        return response;
+        return response.data;
     }catch(error: any){
         throw error;
     }

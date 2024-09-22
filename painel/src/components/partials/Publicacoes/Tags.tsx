@@ -1,14 +1,52 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMateria } from "@/services/materias/queries";
 import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
 
 export default function Tags() {
+    const { slug } = useParams();
+
+    const queryClient = useQueryClient();
+    const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
+
+    const [isPrimeiraTag, setIsPrimeiraTag] = useState<string>("");
+    const [isSegundaTag, setSegundaTag] = useState<string>("");
+
+    useEffect(() => {
+        if (materia?.tags) {
+            setIsPrimeiraTag(materia.tags[0] || "");
+            setSegundaTag(materia.tags[1] || "");
+        }else{
+            setIsPrimeiraTag("");
+            setSegundaTag("");
+        }
+    }, [materia]);
+
+    useEffect(()=>{
+        queryClient.invalidateQueries({queryKey: ["Materias"]});
+        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});   
+    }, [slug])
+
+    if (materiaLoading) {
+        return <TagsPlaceholder />;
+    }
+
     return (
         <section className="w-[70rem] flex gap-5 lg:gap-10 justify-between flex-wrap lg:flex-nowrap">
             <div className="w-full">
                 <label htmlFor="primeiraTag" className="mb-1 block font-averta font-bold text-lg text-azul-claro uppercase text-center">
                     Primeira Tag
                 </label>
-                <select id="primeiraTag" className="h-10 w-full bg-aurora rounded-md outline-none px-2">
-                    <option value="anime">Animes</option>
+                <select 
+                    id="primeiraTag" 
+                    name="primeiraTag" 
+                    className="h-10 w-full bg-aurora rounded-md outline-none px-2" 
+                    value={isPrimeiraTag} 
+                    onChange={(event)=>{setIsPrimeiraTag(event.target.value)}}
+                >
+                    <option value="">Selecione uma tag</option>
+                    <option value="animes">Animes</option>
                     <option value="mangas">Mangás</option>
                     <option value="tops">Top's</option>
                     <option value="primeiras-impressoes">Primeiras impressões</option>
@@ -21,8 +59,15 @@ export default function Tags() {
                 <label htmlFor="segundaTag" className="mb-1 block font-averta font-bold text-lg text-azul-claro uppercase text-center">
                     Segunda Tag
                 </label>
-                <select id="segundaTag" className="h-10 w-full bg-aurora rounded-md outline-none px-2">
-                    <option value="anime">Animes</option>
+                <select
+                    id="segundaTag"
+                    name="segundaTag"
+                    className="h-10 w-full bg-aurora rounded-md outline-none px-2"
+                    value={isSegundaTag}
+                    onChange={(event)=>{setSegundaTag(event.target.value)}}
+                >
+                    <option value="">Selecione uma tag</option>
+                    <option value="animes">Animes</option>
                     <option value="mangas">Mangás</option>
                     <option value="tops">Top's</option>
                     <option value="primeiras-impressoes">Primeiras impressões</option>
@@ -32,5 +77,5 @@ export default function Tags() {
                 </select>
             </div>
         </section>
-    )
+    );
 }

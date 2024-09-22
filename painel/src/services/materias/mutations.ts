@@ -18,6 +18,7 @@ export function useCreateMateria(onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Materias'] });
+            await queryClient.invalidateQueries({ queryKey: ['MateriasInfinite'] });
         }
     })
 }
@@ -34,6 +35,7 @@ export function useUpdateMateria(slug: string, onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Materias'] });
+            await queryClient.invalidateQueries({ queryKey: ['MateriasInfinite'] });
         }
     })
 }
@@ -50,6 +52,7 @@ export function useRemoveMateria(onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Materias'] });
+            await queryClient.invalidateQueries({ queryKey: ['MateriasInfinite'] });
         }
     })
 }
