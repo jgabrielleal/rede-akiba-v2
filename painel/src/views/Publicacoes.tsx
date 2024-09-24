@@ -12,6 +12,8 @@ import FontesDePesquisa from "@/components/partials/Publicacoes/FontesDePesquisa
 import LocalDatas from "@/components/partials/Publicacoes/LocalDatas";
 import Controles from "@/components/partials/Publicacoes/Controles";
 import TodasAsPublicacoes from "@/components/partials/Publicacoes/TodasAsPublicacoes";
+import TodosOsReviews from "@/components/partials/Publicacoes/TodosOsReviews";
+import TodosOsEventos from "@/components/partials/Publicacoes/TodosOsEventos";
 
 export default function Publicacoes() {
     const { publicacao } = useParams<string>();
@@ -57,6 +59,12 @@ export default function Publicacoes() {
             </div>
             {publicacao === "materias" && (
                 <TodasAsPublicacoes />
+            )}
+            {publicacao === "reviews" && (
+                <TodosOsReviews />
+            )}
+            {publicacao === "eventos" && (
+                <TodosOsEventos />
             )}
         </>
     );

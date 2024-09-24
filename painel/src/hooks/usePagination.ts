@@ -12,5 +12,6 @@ export function usePagination<T>({ data }: usePaginationProps<T>): T[] {
     if (!data || !data.pages) {
         return [];
     }
+
     return data.pages.flatMap((page) => page.data);
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from "@tanstack/react-query";
 import { useMateria } from "@/services/materias/queries";
 import { useEvento } from "@/services/eventos/queries";
 import { useReview } from "@/services/reviews/queries";
@@ -9,7 +8,6 @@ import CapaDaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/Capa
 export default function CapaDaPublicacao() {
     const { slug, publicacao } = useParams();
 
-    const queryClient = useQueryClient();
     const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
     const { data: evento, isLoading: eventoLoading } = useEvento(slug ?? "");
     const { data: review, isLoading: reviewLoading } = useReview(slug ?? "");
@@ -39,13 +37,6 @@ export default function CapaDaPublicacao() {
     useEffect(() => {
         setImagemPreview(capaDispatch());
     }, [materia, evento, publicacao]);
-
-    useEffect(() => {
-        queryClient.invalidateQueries({queryKey: ["Materias"]});
-        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});
-        queryClient.invalidateQueries({queryKey: ["Eventos"]});
-        queryClient.invalidateQueries({queryKey: ["Reviews"]});
-    }, [slug]);
 
     if (materiaLoading || eventoLoading || reviewLoading) {
         return <CapaDaPublicacaoPlaceholder />;

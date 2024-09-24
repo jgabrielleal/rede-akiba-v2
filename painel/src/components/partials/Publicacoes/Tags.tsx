@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { useMateria } from "@/services/materias/queries";
 import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
 
 export default function Tags() {
     const { slug } = useParams();
 
-    const queryClient = useQueryClient();
-    const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
+    const { data: materia, isLoading } = useMateria(slug ?? "");
 
     const [isPrimeiraTag, setIsPrimeiraTag] = useState<string>("");
     const [isSegundaTag, setSegundaTag] = useState<string>("");
@@ -17,18 +15,13 @@ export default function Tags() {
         if (materia?.tags) {
             setIsPrimeiraTag(materia.tags[0] || "");
             setSegundaTag(materia.tags[1] || "");
-        }else{
+        } else {
             setIsPrimeiraTag("");
             setSegundaTag("");
         }
     }, [materia]);
 
-    useEffect(()=>{
-        queryClient.invalidateQueries({queryKey: ["Materias"]});
-        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});   
-    }, [slug])
-
-    if (materiaLoading) {
+    if (isLoading) {
         return <TagsPlaceholder />;
     }
 
@@ -38,12 +31,12 @@ export default function Tags() {
                 <label htmlFor="primeiraTag" className="mb-1 block font-averta font-bold text-lg text-azul-claro uppercase text-center">
                     Primeira Tag
                 </label>
-                <select 
-                    id="primeiraTag" 
-                    name="primeiraTag" 
-                    className="h-10 w-full bg-aurora rounded-md outline-none px-2" 
-                    value={isPrimeiraTag} 
-                    onChange={(event)=>{setIsPrimeiraTag(event.target.value)}}
+                <select
+                    id="primeiraTag"
+                    name="primeiraTag"
+                    className="h-10 w-full bg-aurora rounded-md outline-none px-2"
+                    value={isPrimeiraTag}
+                    onChange={(event) => { setIsPrimeiraTag(event.target.value) }}
                 >
                     <option value="">Selecione uma tag</option>
                     <option value="animes">Animes</option>
@@ -64,7 +57,7 @@ export default function Tags() {
                     name="segundaTag"
                     className="h-10 w-full bg-aurora rounded-md outline-none px-2"
                     value={isSegundaTag}
-                    onChange={(event)=>{setSegundaTag(event.target.value)}}
+                    onChange={(event) => { setSegundaTag(event.target.value) }}
                 >
                     <option value="">Selecione uma tag</option>
                     <option value="animes">Animes</option>

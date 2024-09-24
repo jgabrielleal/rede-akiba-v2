@@ -1,15 +1,39 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import classNames from 'classnames';
+import { useLogado } from '@/services/login/queries';
+import { useReview } from '@/services/reviews/queries';
 import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
 
+interface Review {
+    id: number;
+    autor: string;
+    conteudo: string;
+}
+
 export default function EscrevaSeuReview() {
-    const { publicacao } = useParams();
+    const [isReviewSelecionado, setIsReviewSelecionado] = useState<number | null>(null);
+
+    const { slug, publicacao } = useParams();
+
+    const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
+    const { data: review, isLoading } = useReview(slug ?? "");
+
+    useEffect(() => {
+        const reviewSelecionado = review?.conteudo?.find((result: Review) => result.autor === logado?.apelido);
+        setIsReviewSelecionado(reviewSelecionado?.id ?? null);
+    }, [review, slug, publicacao])
+
+    if (isLoading) {
+        return <EscrevaSuaPublicacaoPlaceholder />
+    }
 
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'align': [] }],
             [{ 'color': [] }, { 'background': [] }],
@@ -22,17 +46,31 @@ export default function EscrevaSeuReview() {
         <section>
             <span className="mb-1 block font-averta font-bold text-laranja-claro text-lg uppercase">
                 Escreva seu review
-            </span>            
+            </span>
             <div className="flex gap-2 flex-wrap mb-1">
-                <button className="bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md">
-                    Neko Kirame
-                </button>
-                <button className="bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md">
-                    Suzuh
-                </button>
+                {review?.conteudo?.map((review: Review, index: number) => (
+                    <button
+                        key={index}
+                        className={classNames( 'bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md',
+                            { 
+                                'bg-gray-200': isReviewSelecionado === review.id,
+                            }
+                        )}
+                        onClick={() => { setIsReviewSelecionado(review.id) }}
+                    >
+                        {review?.autor}
+                    </button>
+                ))}
             </div>
             <div className="bg-aurora h-96 rounded-md">
-                <ReactQuill theme="snow" modules={modules} />
+                <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    value={review?.conteudo?.find((result: Review) => result.id === isReviewSelecionado)?.conteudo}
+                    placeholder={
+                        !isReviewSelecionado ? "Oiieh ٩(＾◡＾)۶! Parece que você nunca me contou sua opinião sobre esse anime, diga algo! O que você achou?" : ""
+                    }
+                />
             </div>
         </section>
     );

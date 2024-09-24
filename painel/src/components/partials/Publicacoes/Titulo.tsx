@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { useMateria } from "@/services/materias/queries";
 import { useEvento } from "@/services/eventos/queries";
 import { useReview } from "@/services/reviews/queries";
@@ -9,7 +8,6 @@ import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloP
 export default function Titulo() {
     const { slug, publicacao } = useParams();
 
-    const queryClient = useQueryClient();
     const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
     const { data: evento, isLoading: eventoLoading } = useEvento(slug ?? "");
     const { data: review, isLoading: reviewLoading } = useReview(slug ?? "");
@@ -26,15 +24,8 @@ export default function Titulo() {
     const [isTitulo, setIsTitulo] = useState(tituloDispatch());
 
     useEffect(() => {
-        queryClient.invalidateQueries({queryKey: ["Materias"]});
-        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});
-        queryClient.invalidateQueries({queryKey: ["Eventos"]});
-        queryClient.invalidateQueries({queryKey: ["Reviews"]});
-    }, [slug]);
-
-    useEffect(() => {
         setIsTitulo(tituloDispatch());
-    }, [materia, evento, publicacao]);
+    }, [materia, evento, review, publicacao]);
 
     if (materiaLoading || eventoLoading || reviewLoading) {
         return <TituloPlaceholder />;

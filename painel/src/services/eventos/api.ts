@@ -1,9 +1,9 @@
 import { api } from "@services/axios.default"
 import { EventosTypes } from "./types"
 
-export async function getEventos(){
+export async function getEventos(pageParam: number){
     try{
-        const response = await api.get('/eventos');
+        const response = await api.get('/eventos?page='+pageParam);
         return response.data;
     }catch(error){
         throw error;

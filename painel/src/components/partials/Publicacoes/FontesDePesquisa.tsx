@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { useMateria } from "@/services/materias/queries";
 import FontesDePesquisaPlaceholder from "@/components/skeletons/Publicacoes/FontesDePesquisa/FontesDePesquisaPlaceholder";
 
 export default function FontesDePesquisa() {
     const { slug } = useParams();
 
-    const queryClient = useQueryClient();
     const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
 
     const [isPrimeiroNome, setIsPrimeiroNome] = useState<string>("");
@@ -30,11 +28,6 @@ export default function FontesDePesquisa() {
             setIsSegundoLink("");
         }
     }, [slug, materia]);
-    
-    useEffect(()=>{
-        queryClient.invalidateQueries({queryKey: ["Materias"]});
-        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});   
-    }, [slug]);
 
     if(materiaLoading){
         return <FontesDePesquisaPlaceholder />

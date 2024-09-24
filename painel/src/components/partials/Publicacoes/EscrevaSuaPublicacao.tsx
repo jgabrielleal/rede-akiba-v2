@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useQueryClient } from "@tanstack/react-query";
 import { useMateria } from "@/services/materias/queries";
 import { useEvento } from "@/services/eventos/queries";
 import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
@@ -10,23 +8,16 @@ import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/
 export default function EscrevaSuaPublicacao() {
     const { slug, publicacao } = useParams();
 
-    const queryClient = useQueryClient();
     const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
     const { data: evento, isLoading: eventoLoading } = useEvento(slug ?? "");
 
     function publicacaoDispatch() {
         const tituloMap: { [key: string]: string | undefined } = {
-            eventos: evento?.publicacao,
+            eventos: evento?.conteudo,
             materias: materia?.conteudo,
         };
         return tituloMap[publicacao ?? "materias"] ?? "";
     }
-
-    useEffect(() => {
-        queryClient.invalidateQueries({queryKey: ["Materias"]});
-        queryClient.invalidateQueries({queryKey: ["MateriasInfinite"]});
-        queryClient.invalidateQueries({queryKey: ["Eventos"]});
-    }, [slug]);
 
     if (materiaLoading || eventoLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />;

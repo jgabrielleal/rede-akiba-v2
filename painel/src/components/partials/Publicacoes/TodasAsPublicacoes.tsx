@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { FaPen } from "react-icons/fa";
 import { usePagination } from '@/hooks/usePagination';
@@ -8,8 +7,7 @@ import { useMaterias } from '@/services/materias/queries';
 import TodasAsPublicacoesPlaceholder from '@/components/skeletons/Publicacoes/TodasAsPublicacoes/TodasAsPublicacoesPlaceholder';
 import TodasAsPublicacoesFallback from '@/components/skeletons/Publicacoes/TodasAsPublicacoes/TodasAsPublicacoesFallback';
 
-export interface materias {
-    publicado?: boolean,
+export interface Materias {
     autor?: {
         apelido?: string
     },
@@ -20,23 +18,23 @@ export interface materias {
 
 export default function TodasAsPublicacoes() {
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
-    const { data: materias, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useMaterias()
+    const { data: materias, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useMaterias();
 
     if (isLoading) {
         return -<TodasAsPublicacoesPlaceholder />
     }
 
-    if (!materias?.pages) {
+    if (materias?.pages && materias.pages[0] === "") {
         return <TodasAsPublicacoesFallback />
     }
 
     return (
         <section className="w-10/12 xl:w-[75rem] mx-auto mt-8">
-            <div className="title-default">
+            <div className="title-default" id="materias-title-default">
                 <h6>Todas as matérias</h6>
             </div>
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-3">
-                {(usePagination({ data: materias }) as materias[])?.map((materia: materias, index: number) => (
+                {(usePagination({ data: materias }) as Materias[])?.map((materia: Materias, index: number) => (
                     <div key={index} className={classNames('p-2 rounded-md', {
                         'bg-azul-claro': materia?.status === 'publicado',
                         'bg-verde': materia?.status === 'rascunho',
@@ -50,9 +48,9 @@ export default function TodasAsPublicacoes() {
                                 {materia.autor?.apelido}
                             </span>
                             {logado?.niveis_de_acesso?.includes('administrador') && (
-                                <Link to={`/materias/${materia.slug}`} className="text-aurora mr-1 mt-1" title="Editar matéria" aria-label="Editar matéria">
+                                <a href={`/materias/${materia.slug}`} className="text-aurora mr-1 mt-1" title="Editar matéria" aria-label="Editar matéria">
                                     <FaPen />
-                                </Link>
+                                </a>
                             )}
                         </div>
                     </div>

@@ -1,10 +1,10 @@
 import { api } from "@services/axios.default"
 import { ReviewsTypes } from "./types"
 
-export async function getReviews(){
+export async function getReviews(pageParam: number){
     try{
-        const response = await api.get('/reviews');
-        return response;
+        const response = await api.get('/reviews?page=' + pageParam);
+        return response.data;
     }catch(error: any){
         throw error;
     }
