@@ -14,17 +14,16 @@ interface Review {
 }
 
 export default function EscrevaSeuReview() {
-    const [isReviewSelecionado, setIsReviewSelecionado] = useState<number | null>(null);
-
-    const { slug, publicacao } = useParams();
-
+    const { slug } = useParams();
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: review, isLoading } = useReview(slug ?? "");
+
+    const [isReviewSelecionado, setIsReviewSelecionado] = useState<number | null>(null);
 
     useEffect(() => {
         const reviewSelecionado = review?.conteudo?.find((result: Review) => result.autor === logado?.apelido);
         setIsReviewSelecionado(reviewSelecionado?.id ?? null);
-    }, [review, slug, publicacao])
+    }, [review, slug])
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />
@@ -49,15 +48,9 @@ export default function EscrevaSeuReview() {
             </span>
             <div className="flex gap-2 flex-wrap mb-1">
                 {review?.conteudo?.map((review: Review, index: number) => (
-                    <button
-                        key={index}
-                        className={classNames( 'bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md',
-                            { 
-                                'bg-gray-200': isReviewSelecionado === review.id,
-                            }
-                        )}
-                        onClick={() => { setIsReviewSelecionado(review.id) }}
-                    >
+                    <button key={index} onClick={() => { setIsReviewSelecionado(review.id) }} className={classNames('bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md', {
+                        'bg-gray-200': isReviewSelecionado === review.id,
+                    })}>
                         {review?.autor}
                     </button>
                 ))}

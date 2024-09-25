@@ -8,7 +8,6 @@ import SinopseDoAnimePlaceholder from "@/components/skeletons/Publicacoes/Sinops
 
 export default function SinopseDoAnime() {
     const { slug } = useParams();
-
     const { data: review, isLoading } = useReview(slug ?? "");
 
     if (isLoading) {

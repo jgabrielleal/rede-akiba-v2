@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import { FaPen } from "react-icons/fa";
 import { usePagination } from '@/hooks/usePagination';
 import { useReviews } from '@/services/reviews/queries';
 
-import TodosOsReviewsPlaceholder from '@/components/skeletons/Publicacoes/TodosOsReviews/TodosOsReviewsPlaceholder';
-import TodosOsReviewsFallback from '@/components/skeletons/Publicacoes/TodosOsReviews/TodosOsReviewsFallback';
+import TodasAsPublicacoesPlaceholder from '@/components/skeletons/Publicacoes/TodasAsPublicacoes/TodasAsPublicacoesPlaceholder';
+import TodasAsPublicacoesFallback from '@/components/skeletons/Publicacoes/TodasAsPublicacoes/TodasAsPublicacoesFallback';
 
 export interface Reviews {
     autor?: {
@@ -17,11 +18,11 @@ export default function TodosOsReviews() {
     const { data: reviews, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useReviews();
 
     if (isLoading) {
-        return <TodosOsReviewsPlaceholder />
+        return <TodasAsPublicacoesPlaceholder />
     }
 
     if (reviews?.pages && reviews.pages[0] === "") {
-        return <TodosOsReviewsFallback />;
+        return <TodasAsPublicacoesFallback type="reviews" />
     }
 
     return (
@@ -39,9 +40,15 @@ export default function TodosOsReviews() {
                             <span className="text-aurora font-averta font-bold italic uppercase">
                                 {review?.autor?.apelido}
                             </span>
-                            <a href={`/reviews/${review?.slug}`} className="text-aurora mr-1 mt-1" title="Editar review" aria-label="Editar matéria">
+                            <Link 
+                                to={`/reviews/${review?.slug}`} 
+                                onClick={()=>{ window.scrollTo({ top: 0, behavior: 'smooth' });}}
+                                className="text-aurora mr-1 mt-1" 
+                                title="Editar review" 
+                                aria-label="Editar matéria"
+                            >
                                 <FaPen />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 ))}

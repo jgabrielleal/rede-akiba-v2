@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import { FaPen } from "react-icons/fa";
 import { usePagination } from '@/hooks/usePagination';
 import { useEventos } from '@/services/eventos/queries';
 
-import TodosOsEventosFallback from '@/components/skeletons/Publicacoes/TodosOsEventos/TodosOsEventosFallback';
-import TodosOsEventosPlaceholder from '@/components/skeletons/Publicacoes/TodosOsEventos/TodosOsEventosPlaceholder';
+import TodasAsPublicacoesPlaceholder from '@/components/skeletons/Publicacoes/TodasAsPublicacoes/TodasAsPublicacoesPlaceholder';
+import TodasAsPublicacoesFallback from '@/components/skeletons/Publicacoes/TodasAsPublicacoes/TodasAsPublicacoesFallback';
 
 export interface Eventos {
     autor?: {
@@ -17,11 +18,11 @@ export default function TodosOsEventos() {
     const { data: eventos, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useEventos();
 
     if (isLoading) {
-        return <TodosOsEventosPlaceholder />
+        return <TodasAsPublicacoesPlaceholder />
     }
 
     if (eventos?.pages && eventos.pages[0] === "") {
-        return <TodosOsEventosFallback />;
+        return <TodasAsPublicacoesFallback type="eventos" />;
     }
 
     return (
@@ -39,9 +40,15 @@ export default function TodosOsEventos() {
                             <span className="text-aurora font-averta font-bold italic uppercase">
                                 {evento?.autor?.apelido}
                             </span>
-                            <a href={`/eventos/${evento?.slug}`} className="text-aurora mr-1 mt-1" title="Editar evento" aria-label="Editar matéria">
+                            <Link 
+                                to={`/eventos/${evento?.slug}`} 
+                                onClick={()=>{ window.scrollTo({ top: 0, behavior: 'smooth' });}}
+                                className="text-aurora mr-1 mt-1" 
+                                title="Editar evento" 
+                                aria-label="Editar matéria"
+                            >
                                 <FaPen />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 ))}

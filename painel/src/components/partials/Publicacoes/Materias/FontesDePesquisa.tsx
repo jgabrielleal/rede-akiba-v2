@@ -1,35 +1,33 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMateria } from "@/services/materias/queries";
+
 import FontesDePesquisaPlaceholder from "@/components/skeletons/Publicacoes/FontesDePesquisa/FontesDePesquisaPlaceholder";
 
 export default function FontesDePesquisa() {
     const { slug } = useParams();
+    const { data: materia, isLoading } = useMateria(slug ?? "");
 
-    const { data: materia, isLoading: materiaLoading } = useMateria(slug ?? "");
-
-    const [isPrimeiroNome, setIsPrimeiroNome] = useState<string>("");
-    const [isPrimeiroLink, setIsPrimeiroLink] = useState<string>("");
-    const [isSegundoNome, setIsSegundoNome] = useState<string>("");
-    const [isSegundoLink, setIsSegundoLink] = useState<string>("");
+    const [isNomePrimeiraFonteDePesquisa, setIsNomePrimeiraFonteDePesquisa] = useState<string | null>();
+    const [isLinkPrimeiraFonteDePesquisa, setIsLinkPrimeiraFonteDePesquisa] = useState<string | null>();
+    const [isNomeSegundaFonteDePesquisa, setIsNomeSegundaFonteDePesquisa] = useState<string | null>();
+    const [isLinkSegundaFonteDePesquisa, setIsLinkSegundaFonteDePesquisa] = useState<string | null>();
 
     useEffect(() => {
-        if (materia?.fontes_de_pesquisa && materia.fontes_de_pesquisa.length > 0) {
-            setIsPrimeiroNome(materia.fontes_de_pesquisa[0]?.site || "");
-            setIsPrimeiroLink(materia.fontes_de_pesquisa[0]?.link || "");
-            if (materia.fontes_de_pesquisa.length > 1) {
-                setIsSegundoNome(materia.fontes_de_pesquisa[1]?.site || "");
-                setIsSegundoLink(materia.fontes_de_pesquisa[1]?.link || "");
-            }
-        } else {
-            setIsPrimeiroNome("");
-            setIsPrimeiroLink("");
-            setIsSegundoNome("");
-            setIsSegundoLink("");
-        }
-    }, [slug, materia]);
+        setIsNomePrimeiraFonteDePesquisa(materia?.fontes_de_pesquisa?.[0]?.site || "");
+        setIsLinkPrimeiraFonteDePesquisa(materia?.fontes_de_pesquisa?.[0]?.link || "");
+        setIsNomeSegundaFonteDePesquisa(materia?.fontes_de_pesquisa?.[1]?.site || "");
+        setIsLinkSegundaFonteDePesquisa(materia?.fontes_de_pesquisa?.[1]?.link || "");
+    }, [materia]);
 
-    if(materiaLoading){
+    useEffect(()=>{
+        setIsNomePrimeiraFonteDePesquisa("");
+        setIsLinkPrimeiraFonteDePesquisa("");
+        setIsNomeSegundaFonteDePesquisa("");
+        setIsLinkSegundaFonteDePesquisa("");
+    }, [slug])
+
+    if(isLoading){
         return <FontesDePesquisaPlaceholder />
     }
 
@@ -48,8 +46,8 @@ export default function FontesDePesquisa() {
                         id="primeiraFonteDePesquisaNome" 
                         name="primeiraFonteDePesquisaNome" 
                         className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
-                        value={isPrimeiroNome}
-                        onChange={(event)=>{setIsPrimeiroNome(event.target.value)}}
+                        value={isNomePrimeiraFonteDePesquisa ?? ""}
+                        onChange={(e) => setIsNomePrimeiraFonteDePesquisa(e.target.value)}
                     />
                 </div>
                 <div className="flex justify-between items-center gap-4">
@@ -61,8 +59,8 @@ export default function FontesDePesquisa() {
                         id="primeiraFonteDePesquisaLink" 
                         name="primeiraFonteDePesquisaLink" 
                         className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
-                        value={isPrimeiroLink}
-                        onChange={(event)=>{setIsPrimeiroLink(event.target.value)}}
+                        value={isLinkPrimeiraFonteDePesquisa ?? ""}
+                        onChange={(e) => setIsLinkPrimeiraFonteDePesquisa(e.target.value)}
                     />
                 </div>
             </div>
@@ -79,8 +77,8 @@ export default function FontesDePesquisa() {
                         id="segundaFonteDePesquisaNome" 
                         name="segundaFonteDePesquisaNome" 
                         className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
-                        value={isSegundoNome}
-                        onChange={(event)=>{setIsSegundoNome(event.target.value)}}
+                        value={isNomeSegundaFonteDePesquisa ?? ""}
+                        onChange={(e) => setIsNomeSegundaFonteDePesquisa(e.target.value)}
                     />
                 </div>
                 <div className="flex justify-between items-center gap-4">
@@ -92,8 +90,8 @@ export default function FontesDePesquisa() {
                         id="segundaFonteDePesquisaLink" 
                         name="segundaFonteDePesquisaLink" 
                         className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
-                        value={isSegundoLink}
-                        onChange={(event)=>{setIsSegundoLink(event.target.value)}}
+                        value={isLinkSegundaFonteDePesquisa ?? ""}
+                        onChange={(e) => setIsLinkSegundaFonteDePesquisa(e.target.value)}
                     />
                 </div>
             </div>

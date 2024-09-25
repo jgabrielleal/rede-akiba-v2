@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom";
 
-import BotoesDeTiposDePublicacao from "@/components/partials/Publicacoes/BotoesDeTiposDePublicacao";
+import BotoesDeTiposDePublicacao from "@/components/partials/Publicacoes/SwitchDePostagem";
 import ImagemEmDestaque from "@/components/partials/Publicacoes/ImagemEmDestaque";
 import Titulo from "@/components/partials/Publicacoes/Titulo";
 import SinopseDoAnime from "@/components/partials/Publicacoes/SinopseDoAnime";
 import CapaDaPublicacao from "@/components/partials/Publicacoes/CapaDaPublicacao";
 import EscrevaSeuReview from "@/components/partials/Publicacoes/EscrevaSeuReview";
-import EscrevaSuaPublicacao from "@/components/partials/Publicacoes/EscrevaSuaPublicacao";
+import EscrevaSuaPublicacao from "@/components/partials/Publicacoes/PostagemEscreva";
 import Tags from "@/components/partials/Publicacoes/Tags";
 import FontesDePesquisa from "@/components/partials/Publicacoes/FontesDePesquisa";
 import LocalDatas from "@/components/partials/Publicacoes/LocalDatas";
-import Controles from "@/components/partials/Publicacoes/Controles";
+import Controles from "@/components/partials/Publicacoes/Submit";
 import TodasAsPublicacoes from "@/components/partials/Publicacoes/TodasAsPublicacoes";
 import TodosOsReviews from "@/components/partials/Publicacoes/TodosOsReviews";
 import TodosOsEventos from "@/components/partials/Publicacoes/TodosOsEventos";

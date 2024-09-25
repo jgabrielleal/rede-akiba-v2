@@ -1,24 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from "@tanstack/react-query";
 import { useEvento } from "@/services/eventos/queries";
-import LocalDatasPlaceholder from "@/components/skeletons/Publicacoes/LocalDatas/LocalDatasPlaceholder";
 
-export default function LocalDatas() {
+import LocalizacaoDoEventoPlaceholder from "@/components/skeletons/Publicacoes/LocalizacaoDoEvento/LocalizacaoDoEventoPlaceholder";
+
+export default function LocalizacaoDoEvento() {
+    const { slug } = useParams();
+    const { data: evento, isLoading } = useEvento(slug ?? "");
+
     const [isLocal, setIsLocal] = useState<string>("");
     const [isDatas, setIsDatas] = useState<string>("");
-
-    const { slug } = useParams();
-
-    const { data: evento, isLoading } = useEvento(slug ?? "");
 
     useEffect(() => {
         setIsLocal(evento?.local || "");
         setIsDatas(evento?.datas || "");
     }, [evento]);
 
+    useEffect(()=>{
+        setIsLocal("");
+        setIsDatas("");
+    }, [slug])
+
     if (isLoading) {
-        return <LocalDatasPlaceholder />;
+        return <LocalizacaoDoEventoPlaceholder />;
     }
 
     return (

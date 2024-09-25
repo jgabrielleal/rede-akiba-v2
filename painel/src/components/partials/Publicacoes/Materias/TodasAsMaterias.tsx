@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { FaPen } from "react-icons/fa";
 import { usePagination } from '@/hooks/usePagination';
@@ -16,16 +17,16 @@ export interface Materias {
     status?: string, // Added status property
 }
 
-export default function TodasAsPublicacoes() {
+export default function TodasAsMaterias() {
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: materias, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useMaterias();
 
     if (isLoading) {
-        return -<TodasAsPublicacoesPlaceholder />
+        return <TodasAsPublicacoesPlaceholder />
     }
 
     if (materias?.pages && materias.pages[0] === "") {
-        return <TodasAsPublicacoesFallback />
+        return <TodasAsPublicacoesFallback type="materias" />
     }
 
     return (
@@ -48,9 +49,15 @@ export default function TodasAsPublicacoes() {
                                 {materia.autor?.apelido}
                             </span>
                             {logado?.niveis_de_acesso?.includes('administrador') && (
-                                <a href={`/materias/${materia.slug}`} className="text-aurora mr-1 mt-1" title="Editar matéria" aria-label="Editar matéria">
+                                <Link 
+                                    to={`/materias/${materia.slug}`} 
+                                    onClick={()=>{ window.scrollTo({ top: 0, behavior: 'smooth' });}}
+                                    className="text-aurora mr-1 mt-1" 
+                                    title="Editar matéria" 
+                                    aria-label="Editar matéria"
+                                >
                                     <FaPen />
-                                </a>
+                                </Link>
                             )}
                         </div>
                     </div>

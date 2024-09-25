@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMateria } from "@/services/materias/queries";
+
 import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
 
 export default function Tags() {
     const { slug } = useParams();
-
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
     const [isPrimeiraTag, setIsPrimeiraTag] = useState<string>("");
     const [isSegundaTag, setSegundaTag] = useState<string>("");
 
     useEffect(() => {
-        if (materia?.tags) {
-            setIsPrimeiraTag(materia.tags[0] || "");
-            setSegundaTag(materia.tags[1] || "");
-        } else {
-            setIsPrimeiraTag("");
-            setSegundaTag("");
-        }
+        setIsPrimeiraTag(materia?.tags?.[0] || "");
+        setSegundaTag(materia?.tags?.[1] || "");
     }, [materia]);
+
+    useEffect(() => {
+        setIsPrimeiraTag("");
+        setSegundaTag("");
+    }, [slug]);
 
     if (isLoading) {
         return <TagsPlaceholder />;
