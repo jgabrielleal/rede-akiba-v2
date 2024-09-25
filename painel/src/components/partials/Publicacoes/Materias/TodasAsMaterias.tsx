@@ -22,7 +22,7 @@ export default function TodasAsMaterias() {
     const { data: materias, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useMaterias();
 
     if (isLoading) {
-        return <TodasAsPublicacoesPlaceholder />
+        return <TodasAsPublicacoesPlaceholder type="materias" />
     }
 
     if (materias?.pages && materias.pages[0] === "") {

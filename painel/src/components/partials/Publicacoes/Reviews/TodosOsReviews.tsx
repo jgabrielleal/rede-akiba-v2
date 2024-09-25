@@ -18,7 +18,7 @@ export default function TodosOsReviews() {
     const { data: reviews, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useReviews();
 
     if (isLoading) {
-        return <TodasAsPublicacoesPlaceholder />
+        return <TodasAsPublicacoesPlaceholder type="reviews" />
     }
 
     if (reviews?.pages && reviews.pages[0] === "") {

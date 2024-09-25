@@ -18,7 +18,7 @@ export default function TodosOsEventos() {
     const { data: eventos, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useEventos();
 
     if (isLoading) {
-        return <TodasAsPublicacoesPlaceholder />
+        return <TodasAsPublicacoesPlaceholder type="eventos" />
     }
 
     if (eventos?.pages && eventos.pages[0] === "") {

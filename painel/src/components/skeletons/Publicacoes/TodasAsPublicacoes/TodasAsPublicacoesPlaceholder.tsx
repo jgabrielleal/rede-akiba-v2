@@ -1,8 +1,19 @@
-export default function TodasAsPublicacoesPlaceholder() {
+
+interface Props {
+    type: 'materias' | 'reviews' | 'eventos';
+}
+
+export default function TodasAsPublicacoesPlaceholder({ type }: Props) {
+    const titulo = {
+        "materias": "Todas as matérias",
+        "reviews": "Todas as reviews",
+        "eventos": "Todos os eventos"
+    }
+
     return (
         <section className="w-10/12 xl:w-[75rem] mx-auto mt-8">
             <div className="title-default">
-                <h6>Todas as matérias</h6>
+                <h6>{titulo[type]}</h6>
             </div>
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-3">
                 {[...Array(5)].map((_, index) => (
