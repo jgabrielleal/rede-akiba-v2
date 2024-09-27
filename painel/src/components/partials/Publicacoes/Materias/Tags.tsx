@@ -4,7 +4,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
 
-export default function Tags() {
+export default function Tags({ register }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
@@ -32,6 +32,7 @@ export default function Tags() {
                     Primeira Tag
                 </label>
                 <select
+                    {...register("primeiraTag", { required: "O campo primeira tag é obrigatório" })}
                     id="primeiraTag"
                     name="primeiraTag"
                     className="h-10 w-full bg-aurora rounded-md outline-none px-2"
@@ -53,6 +54,7 @@ export default function Tags() {
                     Segunda Tag
                 </label>
                 <select
+                    {...register("segundaTag", { required: "O campo segunda tag é obrigatório" })}
                     id="segundaTag"
                     name="segundaTag"
                     className="h-10 w-full bg-aurora rounded-md outline-none px-2"

@@ -9,7 +9,7 @@ import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/Imag
 export default function ImagemEmDestaque() {
     const { slug } = useParams();
     const { data: evento, isLoading } = useEvento(slug ?? "");
-    const previewDeImagem = useImagePreview;
+    const { data: previewDeImagem } = useImagePreview();
 
     const [imagemPreview, setImagemPreview] = useState<string | null>();
 

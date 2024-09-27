@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Storage;
 
 trait RemoveImage
 {
-    public function RemoveImage($model, $attribute)
+    public function removeImage($model, $attribute)
     {
         if ($model->{$attribute} && Storage::disk('public')->exists($model->{$attribute})) {
-            Storage::disk($disk)->delete($model->{$attribute});
+            Storage::disk('public')->delete($model->{$attribute});
         }
     }
 }

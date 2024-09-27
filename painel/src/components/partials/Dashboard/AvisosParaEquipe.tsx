@@ -4,8 +4,8 @@ import AvisosParaEquipePlaceholder from "@/components/skeletons/Dashboard/Avisos
 import AvisosParaEquipeFallback from "@/components/skeletons/Dashboard/AvisosParaEquipe/AvisosParaEquipeFallback";
 
 export default function AvisosParaEquipe() {
-    const { data: avisosParaEquipe, isLoading } = useAvisosParaEquipe(); console.log(avisosParaEquipe)     
-
+    const { data: avisosParaEquipe, isLoading } = useAvisosParaEquipe();
+    
     if (isLoading) {
         return <AvisosParaEquipePlaceholder />
     }

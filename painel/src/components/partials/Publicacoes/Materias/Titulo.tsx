@@ -4,7 +4,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloPlaceholder";
 
-export default function Titulo() {
+export default function Titulo({ register }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
@@ -28,6 +28,7 @@ export default function Titulo() {
                 Titulo
             </label>
             <input
+                {...register("titulo", { required: "O campo título é obrigatório" })}
                 type="text"
                 name="titulo"
                 id="titulo"

@@ -3,120 +3,93 @@
 namespace App\Http\Controllers;;
 
 use App\Models\Calendario;
-use App\Models\Usuarios;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CalendarioController extends Controller
 {
     public function retornaTodoCalendarioDeEventos()
     {
-        try{
-            $calendario = Calendario::with(['designado'])->paginate(10);
+        $calendario = Calendario::with(['designado'])->paginate(10);
 
-            if($calendario->isNotEmpty()){
-                return response()->json($calendario, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($calendario->isNotEmpty()) {
+            return response()->json($calendario, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function retornaEventoDoCalendarioEspecifico($id)
     {
-        try{
-            $calendario = Calendario::where('id', $id)->first();
+        $calendario = Calendario::where('id', $id)->first();
 
-            if($calendario !== null){
-                $calendario->load('designado');
-                return response()->json($calendario, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($calendario !== null) {
+            $calendario->load('designado');
+            return response()->json($calendario, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function cadastraEventoNoCalendario(Request $request)
     {
-        try{
-            $validacao = $request->validate([
-                'dia' => 'required',
-                'hora' => 'required',
-                'evento' => 'required',
-                'designado' => 'required|exists:usuarios,id',
-                'categoria' => 'required',
-            ]);
+        $request->validate([
+            'dia' => 'required',
+            'hora' => 'required',
+            'evento' => 'required',
+            'designado' => 'required|exists:usuarios,id',
+            'categoria' => 'required',
+        ]);
 
-            $evento = Calendario::create([
-                'dia' => $request->dia,
-                'hora' => $request->hora,
-                'evento' => $request->evento,
-                'designado' => $request->designado,
-                'categoria' => $request->categoria,
-            ]);
+        $evento = Calendario::create([
+            'dia' => $request->dia,
+            'hora' => $request->hora,
+            'evento' => $request->evento,
+            'designado' => $request->designado,
+            'categoria' => $request->categoria,
+        ]);
 
-            return response()->json($evento, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
-        }
+        return response()->json($evento, 200);
     }
 
     public function atualizaEventoDoCalendarioEspecifico(Request $request, $id)
     {
-        try{
-            $evento = Calendario::where('id', $id)->first();
+        $evento = Calendario::where('id', $id)->first();
 
-            if(!$evento){
-                return response()->json(['mensagem' => 'Evento não encontrado'], 204);
-            }
-
-            $validacao = $request->validate([
-                'designado' => 'exists:usuarios,id',
-            ]);
-
-            $camposAtualizaveis = [
-                'dia',
-                'hora',
-                'evento',
-                'designado',
-                'categoria',
-            ];
-
-            foreach($camposAtualizaveis as $campo){
-                if($request->has($campo)){
-                    $evento->$campo = $request->$campo;
-                }
-            }
-
-            $evento->save();
-            return response()->json($evento, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if (!$evento) {
+            return response()->json(['mensagem' => 'Evento não encontrado'], 204);
         }
+
+        $request->validate([
+            'designado' => 'exists:usuarios,id',
+        ]);
+
+        $camposAtualizaveis = [
+            'dia',
+            'hora',
+            'evento',
+            'designado',
+            'categoria',
+        ];
+
+        foreach ($camposAtualizaveis as $campo) {
+            if ($request->has($campo)) {
+                $evento->$campo = $request->$campo;
+            }
+        }
+
+        $evento->save();
+        return response()->json($evento, 200);
     }
 
     public function removerEventoDoCalendarioEspecifico($id)
     {
-        try{
-            $evento = Calendario::where('id', $id)->first();
+        $evento = Calendario::where('id', $id)->first();
 
-            if(!$evento){
-                return response()->noContent();
-            }
-
-            $evento->delete();
-            return response()->json(['mensagem' => 'Evento removido com sucesso'], 200);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if (!$evento) {
+            return response()->noContent();
         }
+
+        $evento->delete();
+        return response()->json(['mensagem' => 'Evento removido com sucesso'], 200);
     }
 }

@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useImagePreview } from "@/hooks/useImagePreview";
 import { useMateria } from "@/services/materias/queries";
+
 import CapaDaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/CapaDaPublicacao/CapaDaPublicacaoPlaceholder";
 
-export default function CapaDaMateria() {
+export default function CapaDaMateria({register, setValue} : any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
-    const previewDeImagem = useImagePreview;
+    const { data: previewDeImagem } = useImagePreview();
 
-    const [imagemPreview, setImagemPreview] = useState<string | null>();
+    const [imagemPreview, setImagemPreview] = useState<string | null>(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         setImagemPreview(materia?.capa_da_materia || null);
-    }, [materia])
+    }, [materia]);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            previewDeImagem(e, setImagemPreview);
+            setValue('capa_da_materia', file); // Atualiza o valor do campo no formulário
+        }
+    };
 
     if (isLoading) {
         return <CapaDaPublicacaoPlaceholder />;
@@ -31,7 +40,13 @@ export default function CapaDaMateria() {
                     "+"
                 )}
             </label>
-            <input type="file" id="capaDaMateria" className="hidden" onChange={(e)=>{previewDeImagem(e, setImagemPreview)}} />
+            <input
+                {...register('capa_da_materia')}
+                type="file"
+                id="capaDaMateria"
+                className="hidden"
+                onChange={handleImageChange}
+            />
         </section>
-    )
+    );
 }

@@ -6,16 +6,24 @@ import { useMateria } from "@/services/materias/queries";
 
 import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/ImagemEmDestaque/ImagemEmDestaquePlaceholder";
 
-export default function ImagemEmDestaque() {
+export default function ImagemEmDestaque({register, setValue} : any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
-    const previewDeImagem = useImagePreview;
+    const { data: previewDeImagem } = useImagePreview();
 
-    const [imagemPreview, setImagemPreview] = useState<string | null>();
+    const [imagemPreview, setImagemPreview] = useState<string | null>(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         setImagemPreview(materia?.imagem_em_destaque || null);
-    }, [materia])
+    }, [materia]);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            previewDeImagem(e, setImagemPreview);
+            setValue('imagem_em_destaque', file); // Atualiza o valor do campo no formulário
+        }
+    };
 
     if (isLoading) {
         return <ImagemEmDestaquePlaceholder />;
@@ -35,7 +43,13 @@ export default function ImagemEmDestaque() {
                     "+"
                 )}
             </label>
-            <input type="file" id="imagemEmDestaque" className="hidden" onChange={(e) => previewDeImagem(e, setImagemPreview)} />
+            <input 
+                {...register('imagem_em_destaque')}
+                type="file" 
+                id="imagemEmDestaque" 
+                className="hidden" 
+                onChange={handleImageChange} 
+            />
         </>
     );
 }

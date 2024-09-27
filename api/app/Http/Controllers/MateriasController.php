@@ -1,161 +1,133 @@
 <?php
 
-namespace App\Http\Controllers;;
+namespace App\Http\Controllers;
 
 use App\Models\Materias;
-use App\Models\Usuarios;
-
 use App\Http\Traits\UploadImage;
 use App\Http\Traits\RemoveImage;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
 
 class MateriasController extends Controller
 {
-    use UploadImage;
-    use RemoveImage;
+    use UploadImage, RemoveImage;
 
     public function retornaTodasMaterias()
     {
-        try{
-            $materias = Materias::with(['autor'])->paginate(10);
+        $materias = Materias::with(['autor'])->paginate(10);
 
-            if($materias->isNotEmpty()){
-                return response()->json($materias, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($materias->isNotEmpty()) {
+            return response()->json($materias, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function retornaMateriaEspecifica($slug)
     {
-        try{
-            $materia = Materias::where('slug', $slug)->first();
+        $materia = Materias::where('slug', $slug)->first();
 
-            if($materia !== null){
-                $materia->load('autor');
-                return response()->json($materia, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($materia !== null) {
+            $materia->load('autor');
+            return response()->json($materia, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function cadastraMateria(Request $request)
     {
-        try{
-            $validacao = $request->validate([
-                'status' => 'required',
-                'autor' => 'required|exists:usuarios,id',
-                'imagem_em_destaque' => 'required|image|mimes:jpeg,png,jpg,gif',
-                'capa_da_materia' => 'required|image|mimes:jpeg,png,jpg,gif',
-                'titulo' => 'required',
-                'conteudo' => 'required',
-                'tags' => 'required',
-                'fontes_de_pesquisa' => 'required',
-                'reacoes' => 'required',
-            ]);
+        $request->validate([
+            'status' => 'required|string',
+            'autor' => 'required|exists:usuarios,id',
+            'imagem_em_destaque' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'capa_da_materia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'titulo' => 'required|string|unique:materias,titulo',
+            'conteudo' => 'required|string',
+            'tags' => 'required|array',
+            'fontes_de_pesquisa' => 'required|array',
+        ]);
 
-            $materia = Materias::create([
-                'slug' => Str::slug($request->titulo),
-                'status' => $request->status,
-                'autor' => $request->autor,
-                'imagem_em_destaque' => $this->uploadImage($request, 'imagem_em_destaque'),
-                'capa_da_materia' => $this->uploadImage($request, 'capa_da_materia'),
-                'titulo' => $request->titulo,
-                'conteudo' => $request->conteudo,
-                'tags' => $request->tags,
-                'fontes_de_pesquisa' => $request->fontes_de_pesquisa,
-                'reacoes' => $request->reacoes,
-            ]);
+        $materia = Materias::create([
+            'slug' => Str::slug($request->titulo),
+            'status' => $request->status,
+            'autor' => $request->autor,
+            'imagem_em_destaque' => $this->uploadImage($request, 'imagem_em_destaque'),
+            'capa_da_materia' => $this->uploadImage($request, 'capa_da_materia'),
+            'titulo' => $request->titulo,
+            'conteudo' => $request->conteudo,
+            'tags' => $request->tags,
+            'fontes_de_pesquisa' => $request->fontes_de_pesquisa,
+        ]);
 
-            return response()->json($materia, 200);
-        } catch (ValidationException $erro) {
-            // Retorna uma resposta JSON com os detalhes dos erros de validação
-            return response()->json(['mensagem' => 'Erro de validação', 'erros' => $erro->getMessage()], 422);
-        } catch (\Exception $erro) {
-            return response()->json(['mensagem' => 'Erro interno do servidor', 'erro' => $erro->getMessage()], 500);
-        }
+        return response()->json($materia, 200);
     }
 
     public function atualizaMateriaEspecifica(Request $request, $slug)
     {
-        try{
-            $materia = Materias::where('slug', $slug)->first();
+        $materia = Materias::where('slug', $slug)->first();
 
-            if(!$materia){
-                return response()->noContent();
-            }
+        if (!$materia) {
+            return response()->noContent();
+        }
 
-            $validacao = $request->validate([
-                'autor' => 'exists:usuarios,id',
-                'imagem_em_destaque' => 'image|mimes:jpeg,png,jpg,gif',
-                'capa_da_materia' => 'image|mimes:jpeg,png,jpg,gif',
-            ]);
+        $request->validate([
+            'autor' => 'exists:usuarios,id',
+            'imagem_em_destaque' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'capa_da_materia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'titulo' => 'string|unique:materias,titulo,' . $materia->id,
+            'conteudo' => 'string',
+            'tags' => 'array',
+            'fontes_de_pesquisa' => 'array',
+        ]);
 
-            $camposAtualizaveis = [
-                'slug',
-                'status',
-                'autor',
-                'imagem_em_destaque',
-                'capa_da_materia',
-                'titulo',
-                'conteudo',
-                'tags',
-                'fontes_de_pesquisa',
-                'reacoes',
-            ];
+        $camposAtualizaveis = [
+            'slug',
+            'status',
+            'autor',
+            'imagem_em_destaque',
+            'capa_da_materia',
+            'titulo',
+            'conteudo',
+            'tags',
+            'fontes_de_pesquisa',
+            'reacoes',
+        ];
 
-            foreach($camposAtualizaveis as $campo){
-                if($request->has($campo)){
-                    switch($campo){
-                        case 'imagem_em_destaque':
-                            $this->removeImage($materia, 'imagem_em_destaque');
-                            $materia->imagem_em_destaque = $this->uploadImage($request, 'imagem_em_destaque');
+        foreach ($camposAtualizaveis as $campo) {
+            if ($request->has($campo)) {
+                switch ($campo) {
+                    case 'imagem_em_destaque':
+                        $this->removeImage($materia, 'imagem_em_destaque');
+                        $materia->imagem_em_destaque = $this->uploadImage($request, 'imagem_em_destaque');
                         break;
-                        case 'capa_da_materia':
-                            $this->removeImage($materia, 'capa_da_materia');
-                            $materia->imagem_em_destaque = $this->uploadImage($request, 'capa_da_materia');
+                    case 'capa_da_materia':
+                        $this->removeImage($materia, 'capa_da_materia');
+                        $materia->capa_da_materia = $this->uploadImage($request, 'capa_da_materia');
                         break;
-                        default:
-                            $materia->$campo = $request->$campo;
+                    default:
+                        $materia->$campo = $request->$campo;
                         break;
-                    }
                 }
             }
-
-            $materia->save();
-            return response()->json($materia, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
+
+        $materia->save();
+        return response()->json($materia, 200);
     }
 
     public function removerMateriaEspecifica($id)
     {
-        try{
-            $materia = Materias::find($id);
+        $materia = Materias::find($id);
 
-            if(!$materia){
-                return response()->noContent();
-            }
-
-            $this->removeImage($materia, 'imagem_em_destaque');
-            $this->removeImage($materia, 'capa_da_materia');
-
-            $materia->delete();
-            return response()->json(['mensagem' => 'Matéria removida com sucesso'], 200);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if (!$materia) {
+            return response()->noContent();
         }
+
+        $this->removeImage($materia, 'imagem_em_destaque');
+        $this->removeImage($materia, 'capa_da_materia');
+
+        $materia->delete();
+        return response()->json(['mensagem' => 'Matéria removida com sucesso'], 200);
     }
 }

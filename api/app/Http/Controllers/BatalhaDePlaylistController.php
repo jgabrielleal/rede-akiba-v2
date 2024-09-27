@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;;
 
 use App\Models\BatalhaDePlaylist;
-use App\Models\Usuarios;
-
 use App\Http\Traits\UploadImage;
 use App\Http\Traits\RemoveImage;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class BatalhaDePlaylistController extends Controller
 {
@@ -18,59 +15,49 @@ class BatalhaDePlaylistController extends Controller
 
     public function retornaBatalhaDePlaylistEspecifica()
     {
-        try{
-            $batalha = BatalhaDePlaylist::where('id', 1)->first();
+        $batalha = BatalhaDePlaylist::where('id', 1)->first();
 
-            if($batalha !== null){
-                $batalha->load('primeiro_competidor');
-                $batalha->load('segundo_competidor');
-                return response()->json($batalha, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($batalha !== null) {
+            $batalha->load('primeiro_competidor');
+            $batalha->load('segundo_competidor');
+            return response()->json($batalha, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function atualizaBatalhaDePlaylistEspecifica(Request $request)
     {
-        try{
-            $batalha = BatalhaDePlaylist::where('id', 1)->first();
+        $batalha = BatalhaDePlaylist::where('id', 1)->first();
 
-            if(!$batalha){
-                return response()->noContent();
-            }
+        if (!$batalha) {
+            return response()->noContent();
+        }
 
-            $validacao = $request->validate([
-                'imagem' => 'image|mimes:jpeg,png,jpg,gif',
-                'primeiro_competidor' => 'required|exists:usuarios,id',
-                'segundo_competidor' => 'required|exists:usuarios,id'
-            ]);
+        $request->validate([
+            'imagem' => 'image|mimes:jpeg,png,jpg,gif',
+            'primeiro_competidor' => 'required|exists:usuarios,id',
+            'segundo_competidor' => 'required|exists:usuarios,id'
+        ]);
 
-            $camposAtualizaveis = [
-                'imagem',
-                'primeiro_competidor',
-                'segundo_competidor',
-            ];  
+        $camposAtualizaveis = [
+            'imagem',
+            'primeiro_competidor',
+            'segundo_competidor',
+        ];
 
-            foreach($camposAtualizaveis as $campo){
-                if(isset($validacao[$campo])){
-                    if($campo == 'imagem'){
-                        $this->removeImage($batalha, 'imagem');
-                        $batalha->$campo = $this->uploadImage($request, 'imagem');
-                    }else{
-                        $batalha->$campo = $request->$campo;
-                    }
+        foreach ($camposAtualizaveis as $campo) {
+            if (isset($campo)) {
+                if ($campo == 'imagem') {
+                    $this->removeImage($batalha, 'imagem');
+                    $batalha->$campo = $this->uploadImage($request, 'imagem');
+                } else {
+                    $batalha->$campo = $request->$campo;
                 }
             }
-            
-            $batalha->save();
-            return response()->json($batalha, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
+
+        $batalha->save();
+        return response()->json($batalha, 200);
     }
 }

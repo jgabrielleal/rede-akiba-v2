@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;;
 
 use App\Models\RepositorioDeArquivos;
-use App\Models\Usuarios;
-
 use App\Http\Traits\UploadImage;
 use App\Http\Traits\RemoveImage;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class RepositorioDeArquivosController extends Controller
 {
@@ -18,119 +14,95 @@ class RepositorioDeArquivosController extends Controller
 
     public function retornaTodoRepositorio()
     {
-        try{
-            $repositorio = RepositorioDeArquivos::with(['uploader'])->paginate(10);
+        $repositorio = RepositorioDeArquivos::with(['uploader'])->paginate(10);
 
-            if($repositorio->isNotEmpty()){
-                return response()->json($repositorio, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($repositorio->isNotEmpty()) {
+            return response()->json($repositorio, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function retornaArquivoDoRepositorioEspecifico($id)
     {
-        try{
-            $repositorio = RepositorioDeArquivos::where('id', $id)->first();
+        $repositorio = RepositorioDeArquivos::where('id', $id)->first();
 
-            if($repositorio !== null){
-                $repositorio->load('uploader');
-                return response()->json($repositorio, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($repositorio !== null) {
+            $repositorio->load('uploader');
+            return response()->json($repositorio, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function cadastraArquivoNoRepositorio(Request $request)
     {
-        try{
-            $validacao = $request->validate([
-                'uploader' => 'required|exists:usuarios,id',
-                'nome_do_arquivo' => 'required',
-                'icone_do_arquivo' => 'required|image|mimes:jpeg,png,jpg,gif',
-                'endereco_do_download' => 'required',
-                'categoria' => 'required',
-            ]); 
+        $request->validate([
+            'uploader' => 'required|exists:usuarios,id',
+            'nome_do_arquivo' => 'required',
+            'icone_do_arquivo' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'endereco_do_download' => 'required',
+            'categoria' => 'required',
+        ]);
 
-            $arquivo = RepositorioDeArquivos::create([
-                'uploader' => $request->uploader,
-                'nome_do_arquivo' => $request->nome_do_arquivo,
-                'icone_do_arquivo' => $this->uploadImage($request, 'icone_do_arquivo'),
-                'endereco_do_download' => $request->endereco_do_download,
-                'categoria' => $request->categoria,
-            ]);
+        $arquivo = RepositorioDeArquivos::create([
+            'uploader' => $request->uploader,
+            'nome_do_arquivo' => $request->nome_do_arquivo,
+            'icone_do_arquivo' => $this->uploadImage($request, 'icone_do_arquivo'),
+            'endereco_do_download' => $request->endereco_do_download,
+            'categoria' => $request->categoria,
+        ]);
 
-            return response()->json($arquivo, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
-        }
+        return response()->json($arquivo, 200);
     }
 
     public function atualizaArquivoDoRepositorioEspecifico(Request $request, $id)
     {
-        try{
-            $repositorio = RepositorioDeArquivos::where('id', $id)->first();
+        $repositorio = RepositorioDeArquivos::where('id', $id)->first();
 
-            if(!$repositorio){
-                return response()->noContent();
-            }
+        if (!$repositorio) {
+            return response()->noContent();
+        }
 
-            $validacao = $request->validate([
-                'uploader' => 'exists:usuarios,id',
-                'icone_do_arquivo' => 'image|mimes:jpeg,png,jpg,gif',
-            ]);
+        $request->validate([
+            'uploader' => 'exists:usuarios,id',
+            'icone_do_arquivo' => 'image|mimes:jpeg,png,jpg,gif',
+        ]);
 
-            $camposAtualizaveis = [
-                'uploader',
-                'nome_do_arquivo',
-                'icone_do_arquivo',
-                'endereco_do_download',
-                'categoria',
-            ];
-        
-            foreach($camposAtualizaveis as $campo){
-                if($request->has($campo)){
-                    if($campo == 'icone_do_arquivo'){
-                        $this->removeImage($repositorio, 'icone_do_arquivo');
-                        $repositorio->icone_do_arquivo = $this->uploadImage($request, 'icone_do_arquivo');
-                    }else{
-                        $repositorio->$campo = $request->$campo;
-                    }
+        $camposAtualizaveis = [
+            'uploader',
+            'nome_do_arquivo',
+            'icone_do_arquivo',
+            'endereco_do_download',
+            'categoria',
+        ];
+
+        foreach ($camposAtualizaveis as $campo) {
+            if ($request->has($campo)) {
+                if ($campo == 'icone_do_arquivo') {
+                    $this->removeImage($repositorio, 'icone_do_arquivo');
+                    $repositorio->icone_do_arquivo = $this->uploadImage($request, 'icone_do_arquivo');
+                } else {
+                    $repositorio->$campo = $request->$campo;
                 }
             }
-
-            $repositorio->save();
-            return response()->json($repositorio, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
         }
+
+        $repositorio->save();
+        return response()->json($repositorio, 200);
     }
 
     public function removerArquivoDoRepositorioEspecifico($id)
     {
-        try{
-            $repositorio = RepositorioDeArquivos::where('id', $id)->first();
+        $repositorio = RepositorioDeArquivos::where('id', $id)->first();
 
-            if(!$repositorio){
-                return response()->noContent();
-            }
-
-            $this->removeImage($repositorio, 'icone_do_arquivo');
-            $repositorio->delete();
-
-            return response()->json(['mensagem' => 'Arquivo removido com sucesso'], 200);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if (!$repositorio) {
+            return response()->noContent();
         }
+
+        $this->removeImage($repositorio, 'icone_do_arquivo');
+        $repositorio->delete();
+
+        return response()->json(['mensagem' => 'Arquivo removido com sucesso'], 200);
     }
 }

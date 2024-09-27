@@ -6,7 +6,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
 
-export default function EscrevaSuaMateria() {
+export default function EscrevaSuaMateria({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
@@ -19,6 +19,10 @@ export default function EscrevaSuaMateria() {
     useEffect(()=>{
         setConteudo("");
     }, [slug])
+
+    useEffect(()=>{
+        register("conteudo", { required: "O campo conteúdo é obrigatório" });
+    }, [register])
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />;
@@ -42,7 +46,11 @@ export default function EscrevaSuaMateria() {
                 Escreva sua Matéria
             </span>            
             <div className="bg-aurora h-96 rounded-md">
-                <ReactQuill theme="snow" modules={modules} value={isConteudo ?? ""}/>
+                <ReactQuill 
+                    theme="snow" 
+                    modules={modules} value={isConteudo ?? ""} 
+                    onChange={(content) => {setValue("conteudo", content)}}
+                />
             </div>
         </section>
     );

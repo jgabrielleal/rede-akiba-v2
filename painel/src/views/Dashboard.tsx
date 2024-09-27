@@ -8,7 +8,8 @@ import UltimasMaterias from "@/components/partials/Dashboard/UltimasMaterias";
 import Calendario from "@/components/partials/Dashboard/Calendario";
 
 export default function Dashboard() {
-    usePageName('Dashboard');
+    const { data: pageName } = usePageName()
+    pageName('Dashboard');
     
     return (
         <>

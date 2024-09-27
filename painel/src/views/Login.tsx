@@ -4,7 +4,8 @@ import { usePageName } from "@/hooks/usePageName";
 import Rodape from "@/components/layout/Rodape";
 
 export default function Login(){
-    usePageName("Realize o Login");
+    const { data: pageName } = usePageName();
+    pageName("Realize o Login");
 
     return(
         <div className="w-screen h-screen bg-azul-escuro flex justify-center items-center animate-fade-in">

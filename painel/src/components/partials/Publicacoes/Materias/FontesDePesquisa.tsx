@@ -4,7 +4,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import FontesDePesquisaPlaceholder from "@/components/skeletons/Publicacoes/FontesDePesquisa/FontesDePesquisaPlaceholder";
 
-export default function FontesDePesquisa() {
+export default function FontesDePesquisa({ register }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
@@ -42,6 +42,7 @@ export default function FontesDePesquisa() {
                         Nome
                     </label>
                     <input 
+                        {...register("primeiraFonteDePesquisaNome", { required: "O campo nome da primeira fonte de pesquisa é obrigatório" })}
                         type="text" 
                         id="primeiraFonteDePesquisaNome" 
                         name="primeiraFonteDePesquisaNome" 
@@ -55,6 +56,7 @@ export default function FontesDePesquisa() {
                         Link
                     </label>
                     <input 
+                        {...register("primeiraFonteDePesquisaLink", { required: "O campo link da primeira fonte de pesquisa é obrigatório" })}
                         type="text" 
                         id="primeiraFonteDePesquisaLink" 
                         name="primeiraFonteDePesquisaLink" 
@@ -73,6 +75,7 @@ export default function FontesDePesquisa() {
                         Nome
                     </label>
                     <input 
+                        {...register("segundaFonteDePesquisaNome", { required: "O campo nome da segunda fonte de pesquisa é obrigatório" })}
                         type="text" 
                         id="segundaFonteDePesquisaNome" 
                         name="segundaFonteDePesquisaNome" 
@@ -86,6 +89,7 @@ export default function FontesDePesquisa() {
                         Link
                     </label>
                     <input 
+                        {...register("segundaFonteDePesquisaLink", { required: "O campo link da segunda fonte de pesquisa é obrigatório" })}
                         type="text" 
                         id="segundaFonteDePesquisaLink" 
                         name="segundaFonteDePesquisaLink" 

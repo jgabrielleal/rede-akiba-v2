@@ -9,7 +9,7 @@ import CapaDaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/Capa
 export default function CapaDoReview() {
     const { slug } = useParams();
     const { data: review, isLoading } = useReview(slug ?? "");
-    const previewDeImagem = useImagePreview;
+    const { data: previewDeImagem } = useImagePreview();
 
     const [imagemPreview, setImagemPreview] = useState<string | null>();
 

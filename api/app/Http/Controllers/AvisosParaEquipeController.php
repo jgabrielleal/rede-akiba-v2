@@ -3,115 +3,88 @@
 namespace App\Http\Controllers;;
 
 use App\Models\AvisosParaEquipe;
-use App\Models\Usuarios;
-
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class AvisosParaEquipeController extends Controller
 {
     public function retornaTodosOsAvisosParaEquipe()
     {
-        try{
-            $avisos = AvisosParaEquipe::with(['remetente', 'destinatario'])->paginate(10);
+        $avisos = AvisosParaEquipe::with(['remetente', 'destinatario'])->paginate(10);
 
-            if($avisos->isNotEmpty()){
-                return response()->json($avisos, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($avisos->isNotEmpty()) {
+            return response()->json($avisos, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function retornaAvisoParaEquipeEspecifico($id)
     {
-        try{
-            $aviso = AvisosParaEquipe::where('id', $id)->first();
+        $aviso = AvisosParaEquipe::where('id', $id)->first();
 
-            if($aviso !== null){
-                $aviso->load('remetente', 'destinatario');
-                return response()->json($aviso, 200);
-            }else{
-                return response()->noContent();
-            }
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if ($aviso !== null) {
+            $aviso->load('remetente', 'destinatario');
+            return response()->json($aviso, 200);
+        } else {
+            return response()->noContent();
         }
     }
 
     public function cadastraAvisoParaEquipe(Request $request)
     {
-        try{
-            $validacao = $request->validate([
-                'remetente' => 'required|exists:usuarios,id',
-                'destinatario' => 'required|exists:usuarios,id',   
-                'mensagem' => 'required',
-            ]);
+        $validacao = $request->validate([
+            'remetente' => 'required|exists:usuarios,id',
+            'destinatario' => 'required|exists:usuarios,id',
+            'mensagem' => 'required',
+        ]);
 
-            $aviso = AvisosParaEquipe::create([
-                'remetente' => $request->remetente,
-                'destinatario' => $request->destinatario,
-                'mensagem' => $request->mensagem,
-            ]);
+        $aviso = AvisosParaEquipe::create([
+            'remetente' => $request->remetente,
+            'destinatario' => $request->destinatario,
+            'mensagem' => $request->mensagem,
+        ]);
 
-            return response()->json($aviso, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro], 500);
-        }
+        return response()->json($aviso, 200);
     }
 
     public function atualizaAvisoParaEquipeEspecifico(Request $request, $id)
     {
-        try{
-            $aviso = AvisosParaEquipe::where('id', $id)->first();
+        $aviso = AvisosParaEquipe::where('id', $id)->first();
 
-            if(!$aviso){
-                return response()->noContent();
-            }
-
-            $validacao = $request->validate([
-                'remente' => 'exists:usuarios,id',
-                'destinatario' => 'exists:usuarios,id',
-            ]);
-
-            $camposAtualizaveis = [
-                'remente',
-                'destinatario',
-                'mensagem'
-            ];
-
-            foreach($camposAtualizaveis as $campo){
-                if($request->has($campo)){
-                    $aviso->$campo = $request->$campo;
-                }
-            }
-
-            $aviso->save();
-            return response()->json($aviso, 200);
-        }catch(ValidationException $erro){
-            return response()->json(['mensagem' => 'Erro de validação', $erro->getMessage()], 400);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if (!$aviso) {
+            return response()->noContent();
         }
+
+        $validacao = $request->validate([
+            'remente' => 'exists:usuarios,id',
+            'destinatario' => 'exists:usuarios,id',
+        ]);
+
+        $camposAtualizaveis = [
+            'remente',
+            'destinatario',
+            'mensagem'
+        ];
+
+        foreach ($camposAtualizaveis as $campo) {
+            if ($request->has($campo)) {
+                $aviso->$campo = $request->$campo;
+            }
+        }
+
+        $aviso->save();
+        return response()->json($aviso, 200);
     }
 
     public function removerAvisoParaEquipeEspecifico($id)
     {
-        try{
-            $aviso = AvisosParaEquipe::where('id', $id)->first();
+        $aviso = AvisosParaEquipe::where('id', $id)->first();
 
-            if(!$aviso){
-                return response()->noContent();
-            }
-
-            $aviso->delete();
-            return response()->json(['mensagem' => 'Aviso removido com sucesso'], 200);
-        }catch(\Exception $erro){
-            return response()->json(['mensagem' => 'Erro interno do servidor', $erro->getMessage()], 500);
+        if (!$aviso) {
+            return response()->noContent();
         }
+
+        $aviso->delete();
+        return response()->json(['mensagem' => 'Aviso removido com sucesso'], 200);
     }
 }

@@ -15,7 +15,9 @@ export default function Reviews() {
     const { slug } = useParams();
     const queryClient = useQueryClient();
     const { data: review } = useReview(slug ?? "");
-    usePageName(review?.titulo || "Novo review");
+    const { data: pageName } = usePageName();
+    
+    pageName(review?.titulo || "Novo review");
 
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ['Reviews']});

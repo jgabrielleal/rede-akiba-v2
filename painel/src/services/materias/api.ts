@@ -21,7 +21,11 @@ export async function getMateria(slug: string){
 
 export async function createMateria(data: MateriasTypes){
     try{
-        const response = await api.post('/materias', data);
+        const response = await api.post('/materias', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         return response.data;
     }catch(error:any){
         throw error;

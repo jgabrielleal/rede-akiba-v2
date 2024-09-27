@@ -9,7 +9,7 @@ import CapaDaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/Capa
 export default function CapaDoEvento() {
     const { slug } = useParams();
     const { data: evento, isLoading } = useEvento(slug ?? "");
-    const previewDeImagem = useImagePreview;
+    const { data: previewDeImagem } = useImagePreview();
 
     const [imagemPreview, setImagemPreview] = useState<string | null>();
 
