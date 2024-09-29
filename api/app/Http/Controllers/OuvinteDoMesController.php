@@ -3,25 +3,21 @@
 namespace App\Http\Controllers;;
 
 use App\Models\OuvinteDoMes;
-use App\Http\Traits\UploadImage;
-use App\Http\Traits\RemoveImage;
 use Illuminate\Http\Request;
 
 class OuvinteDoMesController extends Controller
 {
-    use UploadImage;
-    use RemoveImage;
-
     public function retornaOuvinteDoMesEspecifico()
     {
         $ouvinte = OuvinteDoMes::where('id', 1)->first();
 
         if ($ouvinte !== null) {
             $ouvinte->load('programa_favorito');
+
             return response()->json($ouvinte, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function atualizaOuvinteDoMesEspecifico(Request $request)
@@ -33,31 +29,22 @@ class OuvinteDoMesController extends Controller
         }
 
         $request->validate([
-            'nome' => 'required',
-            'endereco' => 'required',
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif',
-            'quantidade_de_pedidos' => 'required',
+            'nome' => 'required|string',
+            'endereco' => 'required|string',
+            'avatar' => 'required|string',
+            'quantidade_de_pedidos' => 'required|string',
             'programa_favorito' => 'required|exists:programas,id',
         ]);
 
-        $camposAtualizaveis = [
-            'nome',
-            'endereco',
-            'avatar',
-            'quantidade_de_pedidos',
-            'programa_favorito',
+        $update = [
+            'nome' => $request->nome,
+            'endereco' => $request->endereco,
+            'avatar' => $request->avatar,
+            'quantidade_de_pedidos' => $request->quantidade_de_pedidos,
+            'programa_favorito' => $request->programa_favorito,
         ];
-
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                if ($campo === 'avatar') {
-                    $this->removeImage($ouvinte, 'avatar');
-                    $ouvinte->avatar = $this->uploadImage($request, 'avatar', 'ouvinte_do_mes');
-                }
-            }
-        }
-
-        $ouvinte->save();
+        
+        $ouvinte->update($update);
         return response()->json($ouvinte, 200);
     }
 }

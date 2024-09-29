@@ -3,16 +3,10 @@
 namespace App\Http\Controllers;;
 
 use App\Models\BatalhaDePlaylist;
-use App\Http\Traits\UploadImage;
-use App\Http\Traits\RemoveImage;
-
 use Illuminate\Http\Request;
 
 class BatalhaDePlaylistController extends Controller
 {
-    use UploadImage;
-    use RemoveImage;
-
     public function retornaBatalhaDePlaylistEspecifica()
     {
         $batalha = BatalhaDePlaylist::where('id', 1)->first();
@@ -20,10 +14,11 @@ class BatalhaDePlaylistController extends Controller
         if ($batalha !== null) {
             $batalha->load('primeiro_competidor');
             $batalha->load('segundo_competidor');
+
             return response()->json($batalha, 200);
-        } else {
-            return response()->noContent();
-        }
+        } 
+
+        return response()->noContent();
     }
 
     public function atualizaBatalhaDePlaylistEspecifica(Request $request)
@@ -35,29 +30,18 @@ class BatalhaDePlaylistController extends Controller
         }
 
         $request->validate([
-            'imagem' => 'image|mimes:jpeg,png,jpg,gif',
+            'imagem' => 'required|string',
             'primeiro_competidor' => 'required|exists:usuarios,id',
             'segundo_competidor' => 'required|exists:usuarios,id'
         ]);
 
-        $camposAtualizaveis = [
-            'imagem',
-            'primeiro_competidor',
-            'segundo_competidor',
+        $update = [
+            'imagem' => $request->imagem,
+            'primeiro_competidor' => $request->primeiro_competidor,
+            'segundo_competidor' => $request->segundo_competidor,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if (isset($campo)) {
-                if ($campo == 'imagem') {
-                    $this->removeImage($batalha, 'imagem');
-                    $batalha->$campo = $this->uploadImage($request, 'imagem');
-                } else {
-                    $batalha->$campo = $request->$campo;
-                }
-            }
-        }
-
-        $batalha->save();
+        $batalha->update($update);
         return response()->json($batalha, 200);
     }
 }

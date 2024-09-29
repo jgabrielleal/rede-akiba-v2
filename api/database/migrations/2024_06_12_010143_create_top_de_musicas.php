@@ -16,7 +16,7 @@ class CreateTopDeMusicas extends Migration
         Schema::create('top_de_musicas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('avatar')->nullable();
+            $table->longText('avatar')->nullable();
             $table->unsignedBigInteger('musica');
             $table->integer('numero_de_vezes_tocada')->nullable();
         });

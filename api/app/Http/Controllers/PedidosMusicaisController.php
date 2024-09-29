@@ -13,9 +13,9 @@ class PedidosMusicaisController extends Controller
 
         if ($pedidos->isNotEmpty()) {
             return response()->json($pedidos, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaPedidoMusicalEspecifico($id)
@@ -25,18 +25,19 @@ class PedidosMusicaisController extends Controller
         if ($pedido !== null) {
             $pedido->load('programa_no_ar');
             $pedido->load('musica_pedida');
+
             return response()->json($pedido, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function cadastraPedidoMusical(Request $request)
     {
         $request->validate([
-            'apelido_do_ouvinte' => 'required',
-            'endereco_do_ouvinte' => 'required',
-            'recado_para_o_locutor' => 'required',
+            'apelido_do_ouvinte' => 'required|string',
+            'endereco_do_ouvinte' => 'required|string',
+            'recado_para_o_locutor' => 'required|string',
             'programa_no_ar' => 'required|exists:no_ar,id',
             'musica_pedida' => 'required|exists:lista_de_musicas,id',
         ]);
@@ -61,25 +62,22 @@ class PedidosMusicaisController extends Controller
         }
 
         $request->validate([
-            'programa_no_ar' => 'exists:no_ar,id',
-            'musica_pedida' => 'exists:lista_de_musicas,id',
+            'apelido_do_ouvinte' => 'required|string',
+            'endereco_do_ouvinte' => 'required|string',
+            'recado_para_o_locutor' => 'required|string',
+            'programa_no_ar' => 'required|exists:no_ar,id',
+            'musica_pedida' => 'required|exists:lista_de_musicas,id',
         ]);
 
-        $camposAtualizaveis = [
-            'apelido_do_ouvinte',
-            'endereco_do_ouvinte',
-            'recado_para_o_locutor',
-            'programa_no_ar',
-            'musica_pedida',
+        $update = [
+            'apelido_do_ouvinte' => $request->apelido_do_ouvinte,
+            'endereco_do_ouvinte' => $request->endereco_do_ouvinte,
+            'recado_para_o_locutor' => $request->recado_para_o_locutor,
+            'programa_no_ar' => $request->programa_no_ar,
+            'musica_pedida' => $request->musica_pedida,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $pedido->$campo = $request->$campo;
-            }
-        }
-
-        $pedido->save();
+        $pedido->update($update);
         return response()->json($pedido, 200);
     }
 

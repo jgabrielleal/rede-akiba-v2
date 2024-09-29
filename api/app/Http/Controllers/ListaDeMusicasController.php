@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;;
 
 use App\Models\ListaDeMusicas;
-
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class ListaDeMusicasController extends Controller
 {
@@ -24,21 +22,21 @@ class ListaDeMusicasController extends Controller
     {
         $musica = ListaDeMusicas::where('id', $id)->first();
 
-        if ($musica !== null) {
+        if ($musica) {
             return response()->json($musica, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function cadastraMusica(Request $request)
     {
         $request->validate([
-            'nome_do_anime' => 'required',
-            'nome_da_musica' => 'required',
-            'nome_do_artista' => 'required',
-            'nome_do_album' => 'required',
-            'ano_de_lancamento' => 'required',
+            'nome_do_anime' => 'required|string',
+            'nome_da_musica' => 'required|string',
+            'nome_do_artista' => 'required|string',
+            'nome_do_album' => 'required|string',
+            'ano_de_lancamento' => 'required|string',
         ]);
 
         $musica = ListaDeMusicas::create([
@@ -60,22 +58,24 @@ class ListaDeMusicasController extends Controller
             return response()->noContent();
         }
 
-        $camposAtualizaveis = [
-            'numero_de_vezes_tocada',
-            'nome_do_anime',
-            'nome_da_musica',
-            'nome_do_artista',
-            'nome_do_album',
-            'ano_de_lancamento',
+        $request->validate([
+            'nome_do_anime' => 'required|string',
+            'nome_da_musica' => 'required|string',
+            'nome_do_artista' => 'required|string',
+            'nome_do_album' => 'required|string',
+            'ano_de_lancamento' => 'required|string',
+        ]);
+
+        $update = [
+            'numero_de_vezes_tocada' => $request->numero_de_vezes_tocada,
+            'nome_do_anime' => $request->nome_do_anime,
+            'nome_da_musica' => $request->nome_da_musica,
+            'nome_do_artista' => $request->nome_do_artista,
+            'nome_do_album' => $request->nome_do_album,
+            'ano_de_lancamento' => $request->ano_de_lancamento,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $musica->$campo = $request->$campo;
-            }
-        }
-
-        $musica->save();
+        $musica->update($update);
         return response()->json($musica, 200);
     }
 

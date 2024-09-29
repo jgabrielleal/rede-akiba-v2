@@ -22,7 +22,7 @@ class CreateUsuariosTable extends Migration
             $table->string('login');
             $table->string('senha');
             $table->json('niveis_de_acesso');
-            $table->string('avatar')->nullable();
+            $table->longText('avatar')->nullable();
             $table->string('nome')->nullable();
             $table->string('apelido')->nullable();
             $table->string('email')->nullable();

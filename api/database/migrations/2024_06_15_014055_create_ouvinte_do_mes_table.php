@@ -18,7 +18,7 @@ class CreateOuvinteDoMesTable extends Migration
             $table->timestamps();
             $table->string('nome')->nullable();
             $table->string('endereco')->nullable();
-            $table->string('avatar')->nullable();
+            $table->longText('avatar')->nullable();
             $table->integer('quantidade_de_pedidos')->nullable();
             $table->unsignedBigInteger('programa_favorito')->nullable();
 

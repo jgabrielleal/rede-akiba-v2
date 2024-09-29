@@ -24,20 +24,21 @@ class CalendarioController extends Controller
 
         if ($calendario !== null) {
             $calendario->load('designado');
+
             return response()->json($calendario, 200);
-        } else {
-            return response()->noContent();
         }
+        
+        return response()->noContent();
     }
 
     public function cadastraEventoNoCalendario(Request $request)
     {
         $request->validate([
-            'dia' => 'required',
-            'hora' => 'required',
-            'evento' => 'required',
+            'dia' => 'required|string',
+            'hora' => 'required|string',
+            'evento' => 'required|string',
             'designado' => 'required|exists:usuarios,id',
-            'categoria' => 'required',
+            'categoria' => 'required|string',
         ]);
 
         $evento = Calendario::create([
@@ -56,28 +57,26 @@ class CalendarioController extends Controller
         $evento = Calendario::where('id', $id)->first();
 
         if (!$evento) {
-            return response()->json(['mensagem' => 'Evento não encontrado'], 204);
+            return response()->noContent();
         }
 
         $request->validate([
-            'designado' => 'exists:usuarios,id',
+            'dia' => 'required|string',
+            'hora' => 'required|string',
+            'evento' => 'required|string',
+            'designado' => 'required|exists:usuarios,id',
+            'categoria' => 'required|string',
         ]);
 
-        $camposAtualizaveis = [
-            'dia',
-            'hora',
-            'evento',
-            'designado',
-            'categoria',
+        $update = [
+            'dia' => $request->dia,
+            'hora' => $request->hora,
+            'evento' => $request->evento,
+            'designado' => $request->designado,
+            'categoria' => $request->categoria,
         ];
-
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $evento->$campo = $request->$campo;
-            }
-        }
-
-        $evento->save();
+        
+        $evento->update($update);
         return response()->json($evento, 200);
     }
 

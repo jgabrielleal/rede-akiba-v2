@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Materias;
-use App\Http\Traits\UploadImage;
-use App\Http\Traits\RemoveImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class MateriasController extends Controller
 {
-    use UploadImage, RemoveImage;
-
     public function retornaTodasMaterias()
     {
         $materias = Materias::with(['autor'])->paginate(10);
@@ -29,10 +25,11 @@ class MateriasController extends Controller
 
         if ($materia !== null) {
             $materia->load('autor');
+
             return response()->json($materia, 200);
-        } else {
-            return response()->noContent();
         }
+
+        return response()->noContent();
     }
 
     public function cadastraMateria(Request $request)
@@ -40,27 +37,27 @@ class MateriasController extends Controller
         $request->validate([
             'status' => 'required|string',
             'autor' => 'required|exists:usuarios,id',
-            'imagem_em_destaque' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'capa_da_materia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'titulo' => 'required|string|unique:materias,titulo',
+            'titulo' => 'required|string',
             'conteudo' => 'required|string',
             'tags' => 'required|array',
             'fontes_de_pesquisa' => 'required|array',
+            'imagem_em_destaque' => 'required|string',
+            'capa_da_materia' => 'required|string',
         ]);
 
         $materia = Materias::create([
             'slug' => Str::slug($request->titulo),
             'status' => $request->status,
             'autor' => $request->autor,
-            'imagem_em_destaque' => $this->uploadImage($request, 'imagem_em_destaque'),
-            'capa_da_materia' => $this->uploadImage($request, 'capa_da_materia'),
+            'imagem_em_destaque' => $request->imagem_em_destaque,
+            'capa_da_materia' => $request->capa_da_materia,
             'titulo' => $request->titulo,
             'conteudo' => $request->conteudo,
             'tags' => $request->tags,
             'fontes_de_pesquisa' => $request->fontes_de_pesquisa,
         ]);
 
-        return response()->json($materia, 200);
+        return response()->json($materia, 201);
     }
 
     public function atualizaMateriaEspecifica(Request $request, $slug)
@@ -71,48 +68,18 @@ class MateriasController extends Controller
             return response()->noContent();
         }
 
-        $request->validate([
-            'autor' => 'exists:usuarios,id',
-            'imagem_em_destaque' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'capa_da_materia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'titulo' => 'string|unique:materias,titulo,' . $materia->id,
-            'conteudo' => 'string',
-            'tags' => 'array',
-            'fontes_de_pesquisa' => 'array',
-        ]);
-
-        $camposAtualizaveis = [
-            'slug',
-            'status',
-            'autor',
-            'imagem_em_destaque',
-            'capa_da_materia',
-            'titulo',
-            'conteudo',
-            'tags',
-            'fontes_de_pesquisa',
-            'reacoes',
+        $update = [
+            'slug' => Str::slug($request->titulo),
+            'status' => $request->status,
+            'imagem_em_destaque' => $request->imagem_em_destaque,
+            'capa_da_materia' => $request->capa_da_materia,
+            'titulo' => $request->titulo,
+            'conteudo' => $request->conteudo,
+            'tags' => $request->tags,
+            'fontes_de_pesquisa' => $request->fontes_de_pesquisa,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                switch ($campo) {
-                    case 'imagem_em_destaque':
-                        $this->removeImage($materia, 'imagem_em_destaque');
-                        $materia->imagem_em_destaque = $this->uploadImage($request, 'imagem_em_destaque');
-                        break;
-                    case 'capa_da_materia':
-                        $this->removeImage($materia, 'capa_da_materia');
-                        $materia->capa_da_materia = $this->uploadImage($request, 'capa_da_materia');
-                        break;
-                    default:
-                        $materia->$campo = $request->$campo;
-                        break;
-                }
-            }
-        }
-
-        $materia->save();
+        $materia->update($update);
         return response()->json($materia, 200);
     }
 
@@ -123,9 +90,6 @@ class MateriasController extends Controller
         if (!$materia) {
             return response()->noContent();
         }
-
-        $this->removeImage($materia, 'imagem_em_destaque');
-        $this->removeImage($materia, 'capa_da_materia');
 
         $materia->delete();
         return response()->json(['mensagem' => 'Matéria removida com sucesso'], 200);

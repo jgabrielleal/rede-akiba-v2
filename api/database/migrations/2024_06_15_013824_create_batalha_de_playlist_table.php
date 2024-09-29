@@ -16,7 +16,7 @@ class CreateBatalhaDePlaylistTable extends Migration
         Schema::create('batalha_de_playlist', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('imagem')->nullable();
+            $table->longText('imagem')->nullable();
             $table->unsignedInteger('primeiro_competidor')->nullable();
             $table->unsignedInteger('segundo_competidor')->nullable();
 

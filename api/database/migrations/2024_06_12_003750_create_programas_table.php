@@ -19,7 +19,7 @@ class CreateProgramasTable extends Migration
             $table->string('slug');
             $table->unsignedBigInteger('locutor');
             $table->string('nome_do_programa')->nullable();
-            $table->string('logo_do_programa')->nullable();
+            $table->longText('logo_do_programa')->nullable();
 
             //Relacionamentos
             $table->foreign('locutor')->references('id')->on('usuarios');

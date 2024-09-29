@@ -13,9 +13,9 @@ class TarefasController extends Controller
 
         if ($tarefas->isNotEmpty()) {
             return response()->json($tarefas, 200);
-        } else {
-            return response()->noContent();
         }
+           
+        return response()->noContent();
     }
 
     public function retornaTarefaEspecifica($id)
@@ -24,10 +24,11 @@ class TarefasController extends Controller
 
         if ($tarefa !== null) {
             $tarefa->load('administrador', 'executante');
+
             return response()->json($tarefa, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function cadastraTarefa(Request $request)
@@ -35,8 +36,8 @@ class TarefasController extends Controller
         $request->validate([
             'administrador' => 'required|exists:usuarios,id',
             'executante' => 'required|exists:usuarios,id',
-            'tarefa_a_ser_executada' => 'required',
-            'tarefa_concluida' => 'required',
+            'tarefa_a_ser_executada' => 'required|string',
+            'tarefa_concluida' => 'required|string',
         ]);
 
         $tarefa = Tarefas::create([
@@ -58,24 +59,18 @@ class TarefasController extends Controller
         }
 
         $request->validate([
-            'administrador' => 'exists:usuarios,id',
-            'executante' => 'exists:usuarios,id',
+            'executante' => 'required|exists:usuarios,id',
+            'tarefa_a_ser_executada' => 'required|string',
+            'tarefa_concluida' => 'required|string',
         ]);
 
-        $camposAtualizaveis = [
-            'administrador',
-            'executante',
-            'tarefa_a_ser_executada',
-            'tarefa_concluida'
+        $update = [
+            'executante' => $request->executante,
+            'tarefa_a_ser_executada' => $request->tarefa_a_ser_executada,
+            'tarefa_concluida' => $request->tarefa_concluida,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $tarefa->$campo = $request->$campo;
-            }
-        }
-
-        $tarefa->save();
+        $tarefa->update($update);
         return response()->json($tarefa, 200);
     }
 

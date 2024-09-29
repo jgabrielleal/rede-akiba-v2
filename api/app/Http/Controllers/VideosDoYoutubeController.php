@@ -13,9 +13,9 @@ class VideosDoYoutubeController extends Controller
 
         if ($videos->isNotEmpty()) {
             return response()->json($videos, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaVideoEspecifico($id)
@@ -24,10 +24,11 @@ class VideosDoYoutubeController extends Controller
 
         if ($video !== null) {
             $video->load('autor');
+
             return response()->json($video, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function cadastraVideo(Request $request)
@@ -56,22 +57,16 @@ class VideosDoYoutubeController extends Controller
         }
 
         $request->validate([
-            'autor' => 'exists:usuarios,id',
+            'titulo_do_video' => 'required',
+            'identificador_do_video' => 'required',
         ]);
 
-        $camposAtualizaveis = [
-            'autor',
-            'titulo_do_video',
-            'identificador_do_video'
+        $update = [
+            'titulo_do_video' => $request->titulo_do_video,
+            'identificador_do_video' => $request->identificador_do_video,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $video->$campo = $request->$campo;
-            }
-        }
-
-        $video->save();
+        $video->update($update);
         return response()->json($video, 200);
     }
 

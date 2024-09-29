@@ -18,8 +18,8 @@ class CreateReviewsTable extends Migration
             $table->timestamps();
             $table->string('slug');
             $table->unsignedBigInteger('autor');
-            $table->string('imagem_em_destaque')->nullable();
-            $table->string('capa_da_review')->nullable();
+            $table->longText('imagem_em_destaque')->nullable();
+            $table->longText('capa_da_review')->nullable();
             $table->string('titulo')->nullable();
             $table->string('sinopse', 1000)->nullable();
             $table->json('conteudo')->nullable();

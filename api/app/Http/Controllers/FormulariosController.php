@@ -22,16 +22,22 @@ class FormulariosController extends Controller
     {
         $formulario = Formularios::where('id', $id)->first();
 
-        if ($formulario !== null) {
+        if ($formulario) {
             $formulario->load('ultima_visualizacao');
+
             return response()->json($formulario, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function cadastraFormulario(Request $request)
     {
+        $request->validate([
+            'tipo_de_formulario' => 'required',
+            'dados_do_formulario' => 'required',
+        ]);
+
         $formulario = Formularios::create([
             'tipo_de_formulario' => $request->tipo_de_formulario,
             'dados_do_formulario' => $request->dados_do_formulario,
@@ -48,23 +54,19 @@ class FormulariosController extends Controller
             return response()->noContent();
         }
 
-        $validacao = $request->validate([
+        $request->validate([
             'ultima_visualizacao' => 'exists:usuarios,id',
+            'tipo_de_formulario' => 'required',
+            'dados_do_formulario' => 'required',
         ]);
 
-        $camposAtualizaveis = [
-            'ultima_visualizacao',
-            'tipo_de_formulario',
-            'dados_do_formulario',
+        $update = [
+            'ultima_visualizacao' => $request->ultima_visualizacao,
+            'tipo_de_formulario' => $request->tipo_de_formulario,
+            'dados_do_formulario' => $request->dados_do_formulario,
         ];
-
-        foreach ($camposAtualizaveis as $campo) {
-            if (isset($request->$campo)) {
-                $formulario->$campo = $request->$campo;
-            }
-        }
-
-        $formulario->save();
+    
+        $formulario->update($update);
         return response()->json($formulario, 200);
     }
 

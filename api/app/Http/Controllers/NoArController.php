@@ -13,9 +13,9 @@ class NoArController extends Controller
 
         if ($noAr->isNotEmpty()) {
             return response()->json($noAr, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaRegistroEspecificoDoNoAr($id)
@@ -24,20 +24,21 @@ class NoArController extends Controller
 
         if ($noAr !== null) {
             $noAr->load('programa');
+
             return response()->json($noAr, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function cadastraRegistroDoNoAr(Request $request)
     {
         $request->validate([
             'programa' => 'required|exists:programas,id',
-            'tipo_de_transmissao' => 'required',
-            'data_da_transmissao' => 'required',
-            'inicio_da_transmissao' => 'required',
-            'fim_da_transmissao' => 'required',
+            'tipo_de_transmissao' => 'required|string',
+            'data_da_transmissao' => 'required|string',
+            'inicio_da_transmissao' => 'required|string',
+            'fim_da_transmissao' => 'required|string',
         ]);
 
         $noAr = NoAr::create([
@@ -57,29 +58,26 @@ class NoArController extends Controller
         $NoAr = NoAr::where('id', $id)->first();
 
         if (!$NoAr) {
-            return response()->json(['mensagem' => 'Registro no histórico de programação não encontrado'], 204);
+            return response()->noContent();
         }
-
         $request->validate([
-            'programa' => 'exists:programas,id',
+            'programa' => 'required|exists:programas,id',
+            'tipo_de_transmissao' => 'required|string',
+            'data_da_transmissao' => 'required|string',
+            'inicio_da_transmissao' => 'required|string',
+            'fim_da_transmissao' => 'required|string',
         ]);
 
-        $camposAtualizaveis = [
-            'programa',
-            'controle_de_pedidos',
-            'tipo_de_transmissao',
-            'data_da_transmissao',
-            'inicio_da_transmissao',
-            'fim_da_transmissao',
+        $update = [
+            'programa' => $request->programa,
+            'controle_de_pedidos' => $request->controle_de_pedidos,
+            'tipo_de_transmissao' => $request->tipo_de_transmissao,
+            'data_da_transmissao' => $request->data_da_transmissao,
+            'inicio_da_transmissao' => $request->inicio_da_transmissao,
+            'fim_da_transmissao' => $request->fim_da_transmissao,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $NoAr->$campo = $request->$campo;
-            }
-        }
-
-        $NoAr->save();
+        $NoAr->update($update);
         return response()->json($NoAr, 200);
     }
 

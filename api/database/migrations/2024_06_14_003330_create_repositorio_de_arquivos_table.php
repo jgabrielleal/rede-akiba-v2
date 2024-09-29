@@ -18,7 +18,7 @@ class CreateRepositorioDeArquivosTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('uploader');
             $table->string('nome_do_arquivo')->nullable();
-            $table->string('icone_do_arquivo')->nullable();
+            $table->longText('icone_do_arquivo')->nullable();
             $table->string('endereco_do_download')->nullable();
             $table->string('categoria')->nullable();
 

@@ -19,8 +19,8 @@ class CreateEventosTable extends Migration
             $table->string('slug');
             $table->unsignedBigInteger('autor');
             $table->string('titulo')->nullable();
-            $table->string('imagem_em_destaque')->nullable();
-            $table->string('capa_do_evento')->nullable();
+            $table->longText('imagem_em_destaque')->nullable();
+            $table->longText('capa_do_evento')->nullable();
             $table->string('datas')->nullable();
             $table->string('local')->nullable();
             $table->string('conteudo', 1000)->nullable();

@@ -22,20 +22,21 @@ class AvisosParaEquipeController extends Controller
     {
         $aviso = AvisosParaEquipe::where('id', $id)->first();
 
-        if ($aviso !== null) {
+        if ($aviso) {
             $aviso->load('remetente', 'destinatario');
+
             return response()->json($aviso, 200);
-        } else {
-            return response()->noContent();
         }
+
+        return response()->noContent();
     }
 
     public function cadastraAvisoParaEquipe(Request $request)
     {
-        $validacao = $request->validate([
+        $request->validate([
             'remetente' => 'required|exists:usuarios,id',
             'destinatario' => 'required|exists:usuarios,id',
-            'mensagem' => 'required',
+            'mensagem' => 'required|string',
         ]);
 
         $aviso = AvisosParaEquipe::create([
@@ -55,24 +56,19 @@ class AvisosParaEquipeController extends Controller
             return response()->noContent();
         }
 
-        $validacao = $request->validate([
-            'remente' => 'exists:usuarios,id',
-            'destinatario' => 'exists:usuarios,id',
+        $request->validate([
+            'remente' => 'required|exists:usuarios,id',
+            'destinatario' => 'required|exists:usuarios,id',
+            'mensagem' => 'required|string',
         ]);
 
-        $camposAtualizaveis = [
-            'remente',
-            'destinatario',
-            'mensagem'
+        $update = [
+            'remetente' => $request->remetente,
+            'destinatario' => $request->destinatario,
+            'mensagem' => $request->mensagem,
         ];
 
-        foreach ($camposAtualizaveis as $campo) {
-            if ($request->has($campo)) {
-                $aviso->$campo = $request->$campo;
-            }
-        }
-
-        $aviso->save();
+        $aviso->update($update);
         return response()->json($aviso, 200);
     }
 
