@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useError } from "@/hooks/useError";
@@ -21,10 +22,15 @@ import TodasAsMaterias from "@/components/partials/Publicacoes/Materias/TodasAsM
 
 export default function Materias() {
     const { slug } = useParams();
+
     const queryClient = useQueryClient();
     const { data: materia } = useMateria(slug ?? "");
-    const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { alert("Matéria atualizada com sucesso!"); });
-    const { mutate: createMateria } = useCreateMateria(() => { alert("Matéria criada com sucesso!"); });
+    const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
+        toast.success("Minikui! Corrigindo a matéria! (╯°□°）╯︵ ┻━┻",); 
+    });
+    const { mutate: createMateria } = useCreateMateria(() => { 
+        toast.success("Sugoi! Mais uma matéria feita! ٩(＾◡＾)۶"); 
+    });
     const { register, handleSubmit, setValue } = useForm();
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: onError } = useError();
@@ -40,14 +46,13 @@ export default function Materias() {
     const [isStatusDaMateria, setIsStatusDaMateria] = useState<string | null>();
 
     function onSubmit(data: any) {
-
         const newData = {
             status: isStatusDaMateria,
             autor: logado.id,
             imagem_em_destaque: data.imagem_em_destaque,
             capa_da_materia: data.capa_da_materia,
             titulo: data.titulo,
-            conteudo: data.escreva_sua_materia,
+            conteudo: data.conteudo,
             tags: [data.primeiraTag, data.segundaTag],
             fontes_de_pesquisa: [
                 { site: data.primeiraFonteDePesquisaNome, link: data.primeiraFonteDePesquisaLink },
@@ -56,14 +61,6 @@ export default function Materias() {
         };
 
         if (slug) {
-            if (data.imagem_em_destaque.length === 0) {
-                delete newData.imagem_em_destaque;
-            }
-            if (data.capa_da_materia.length === 0) {
-                delete newData.capa_da_materia;
-            }
-
-            delete newData.autor;
             updateMateria(newData);
         } else {
             createMateria(newData);
@@ -79,16 +76,16 @@ export default function Materias() {
                         <ImagemEmDestaque register={register} setValue={setValue} />
                     </div>
                     <div className="col-span-1 xl:col-span-3">
-                        <Titulo register={register} />
+                        <Titulo register={register} setValue={setValue} />
                         <CapaDaMateria register={register} setValue={setValue} />
                         <EscrevaSuaMateria register={register} setValue={setValue} />
                     </div>
                 </div>
                 <div className="w-10/12 xl:w-[75rem] mx-auto mt-10 flex justify-end">
-                    <Tags register={register} />
+                    <Tags register={register} setValue={setValue} />
                 </div>
                 <div className="w-10/12 xl:w-[75rem] mx-auto mt-10 flex justify-end">
-                    <FontesDePesquisa register={register} />
+                    <FontesDePesquisa register={register} setValue={setValue} />
                 </div>
                 <div>
                     <SubmitDeMateria setStatusDaMateria={setIsStatusDaMateria} />

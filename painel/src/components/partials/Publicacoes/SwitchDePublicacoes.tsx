@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 export default function SwitchDePublicacoes() {
+
     return (
         <section className="w-10/12 xl:w-[75rem] mx-auto pt-8">
             <div className="title-default">

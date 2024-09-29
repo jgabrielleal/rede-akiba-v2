@@ -4,7 +4,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import FontesDePesquisaPlaceholder from "@/components/skeletons/Publicacoes/FontesDePesquisa/FontesDePesquisaPlaceholder";
 
-export default function FontesDePesquisa({ register }: any) {
+export default function FontesDePesquisa({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
@@ -14,20 +14,20 @@ export default function FontesDePesquisa({ register }: any) {
     const [isLinkSegundaFonteDePesquisa, setIsLinkSegundaFonteDePesquisa] = useState<string | null>();
 
     useEffect(() => {
-        setIsNomePrimeiraFonteDePesquisa(materia?.fontes_de_pesquisa?.[0]?.site || "");
-        setIsLinkPrimeiraFonteDePesquisa(materia?.fontes_de_pesquisa?.[0]?.link || "");
-        setIsNomeSegundaFonteDePesquisa(materia?.fontes_de_pesquisa?.[1]?.site || "");
-        setIsLinkSegundaFonteDePesquisa(materia?.fontes_de_pesquisa?.[1]?.link || "");
-    }, [materia]);
+        if (slug && materia && materia.fontes_de_pesquisa) {
+            setIsNomePrimeiraFonteDePesquisa(materia.fontes_de_pesquisa[0].site ?? "");
+            setIsLinkPrimeiraFonteDePesquisa(materia.fontes_de_pesquisa[0].link ?? "");
+            setIsNomeSegundaFonteDePesquisa(materia.fontes_de_pesquisa[1].site ?? "");
+            setIsLinkSegundaFonteDePesquisa(materia.fontes_de_pesquisa[1].link ?? "");
 
-    useEffect(()=>{
-        setIsNomePrimeiraFonteDePesquisa("");
-        setIsLinkPrimeiraFonteDePesquisa("");
-        setIsNomeSegundaFonteDePesquisa("");
-        setIsLinkSegundaFonteDePesquisa("");
-    }, [slug])
+            setValue("primeiraFonteDePesquisaNome", materia.fontes_de_pesquisa[0].site ?? "");
+            setValue("primeiraFonteDePesquisaLink", materia.fontes_de_pesquisa[0].link ?? "");
+            setValue("segundaFonteDePesquisaNome", materia.fontes_de_pesquisa[1].site ?? "");
+            setValue("segundaFonteDePesquisaLink", materia.fontes_de_pesquisa[1].link ?? "");
+        }
+    }, [slug, materia]);
 
-    if(isLoading){
+    if (isLoading) {
         return <FontesDePesquisaPlaceholder />
     }
 
@@ -41,12 +41,12 @@ export default function FontesDePesquisa({ register }: any) {
                     <label htmlFor="primeiraFonteDePesquisaNome" className="font-averta text-laranja-claro text-center uppercase">
                         Nome
                     </label>
-                    <input 
+                    <input
                         {...register("primeiraFonteDePesquisaNome", { required: "O campo nome da primeira fonte de pesquisa é obrigatório" })}
-                        type="text" 
-                        id="primeiraFonteDePesquisaNome" 
-                        name="primeiraFonteDePesquisaNome" 
-                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
+                        type="text"
+                        id="primeiraFonteDePesquisaNome"
+                        name="primeiraFonteDePesquisaNome"
+                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora"
                         value={isNomePrimeiraFonteDePesquisa ?? ""}
                         onChange={(e) => setIsNomePrimeiraFonteDePesquisa(e.target.value)}
                     />
@@ -55,12 +55,12 @@ export default function FontesDePesquisa({ register }: any) {
                     <label htmlFor="primeiraFonteDePesquisaLink" className="font-averta text-laranja-claro text-center uppercase">
                         Link
                     </label>
-                    <input 
+                    <input
                         {...register("primeiraFonteDePesquisaLink", { required: "O campo link da primeira fonte de pesquisa é obrigatório" })}
-                        type="text" 
-                        id="primeiraFonteDePesquisaLink" 
-                        name="primeiraFonteDePesquisaLink" 
-                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
+                        type="text"
+                        id="primeiraFonteDePesquisaLink"
+                        name="primeiraFonteDePesquisaLink"
+                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora"
                         value={isLinkPrimeiraFonteDePesquisa ?? ""}
                         onChange={(e) => setIsLinkPrimeiraFonteDePesquisa(e.target.value)}
                     />
@@ -74,12 +74,12 @@ export default function FontesDePesquisa({ register }: any) {
                     <label htmlFor="segundaFonteDePesquisaNome" className="font-averta text-laranja-claro text-center uppercase">
                         Nome
                     </label>
-                    <input 
+                    <input
                         {...register("segundaFonteDePesquisaNome", { required: "O campo nome da segunda fonte de pesquisa é obrigatório" })}
-                        type="text" 
-                        id="segundaFonteDePesquisaNome" 
-                        name="segundaFonteDePesquisaNome" 
-                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
+                        type="text"
+                        id="segundaFonteDePesquisaNome"
+                        name="segundaFonteDePesquisaNome"
+                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora"
                         value={isNomeSegundaFonteDePesquisa ?? ""}
                         onChange={(e) => setIsNomeSegundaFonteDePesquisa(e.target.value)}
                     />
@@ -88,12 +88,12 @@ export default function FontesDePesquisa({ register }: any) {
                     <label htmlFor="segundaFonteDePesquisaLink" className="font-averta text-laranja-claro text-center uppercase">
                         Link
                     </label>
-                    <input 
+                    <input
                         {...register("segundaFonteDePesquisaLink", { required: "O campo link da segunda fonte de pesquisa é obrigatório" })}
-                        type="text" 
-                        id="segundaFonteDePesquisaLink" 
-                        name="segundaFonteDePesquisaLink" 
-                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora" 
+                        type="text"
+                        id="segundaFonteDePesquisaLink"
+                        name="segundaFonteDePesquisaLink"
+                        className="w-full xl:w-[29.5rem] h-10 w-full rounded-md outline-none px-2 bg-aurora"
                         value={isLinkSegundaFonteDePesquisa ?? ""}
                         onChange={(e) => setIsLinkSegundaFonteDePesquisa(e.target.value)}
                     />

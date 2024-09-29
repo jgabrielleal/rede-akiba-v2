@@ -13,16 +13,12 @@ export default function EscrevaSuaMateria({ register, setValue }: any) {
     const[isConteudo, setConteudo] = useState<string | null>();
 
     useEffect(() => {
-        setConteudo(materia?.conteudo || "");
-    }, [materia]);
-
-    useEffect(()=>{
-        setConteudo("");
-    }, [slug])
-
-    useEffect(()=>{
-        register("conteudo", { required: "O campo conteúdo é obrigatório" });
-    }, [register])
+        if(slug && materia) {
+            setConteudo(materia.conteudo ?? "")           
+            register("conteudo");
+            setValue("conteudo", materia.conteudo ?? "");
+        }
+    }, [slug, materia]);
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />;

@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export function useImagePreview() {
-    const handleImagePreview = (event: React.ChangeEvent<HTMLInputElement>, setImagemPreview: (value: string | null) => void) => {
-        const file = event.target.files?.[0];
+    const [ preview, setPreview ] = useState<string | null>(null);
+
+    function converter(e: React.ChangeEvent<HTMLInputElement>, setValue: any, campo: string) {
+        console.log(campo)
+        const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setImagemPreview(reader.result as string);
+                const base64String = reader.result as string;                
+                setValue(campo, base64String);
+                setPreview(base64String);
             };
             reader.readAsDataURL(file);
         }
     };
 
-    return { data: handleImagePreview };
+    return { converter, preview, setPreview };
 }

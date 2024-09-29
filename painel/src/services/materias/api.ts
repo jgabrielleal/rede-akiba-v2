@@ -21,11 +21,7 @@ export async function getMateria(slug: string){
 
 export async function createMateria(data: MateriasTypes){
     try{
-        const response = await api.post('/materias', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
+        const response = await api.post('/materias', data);
         return response.data;
     }catch(error:any){
         throw error;
@@ -34,7 +30,7 @@ export async function createMateria(data: MateriasTypes){
 
 export async function updateMateria(slug: string, data: MateriasTypes){
     try{
-        const response = await api.put(`/materias/update/${slug}`, data);
+        const response = await api.patch(`/materias/update/${slug}`, data);
         return response.data;
     }catch(error:any){
         throw error;

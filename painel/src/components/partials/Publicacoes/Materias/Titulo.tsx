@@ -4,19 +4,18 @@ import { useMateria } from "@/services/materias/queries";
 
 import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloPlaceholder";
 
-export default function Titulo({ register }: any) {
+export default function Titulo({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
     const [isTitulo, setTitulo] = useState<string | null>();
 
     useEffect(() => {
-        setTitulo(materia?.titulo || "");
-    }, [materia]);
-
-    useEffect(()=>{
-        setTitulo("");
-    }, [slug])
+        if (slug && materia) {
+            setValue("titulo", materia.titulo ?? "");
+            setTitulo(materia.titulo ?? "");
+        }
+    }, [slug, materia]);
 
     if (isLoading) {
         return <TituloPlaceholder />;

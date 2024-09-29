@@ -4,7 +4,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import TagsPlaceholder from "@/components/skeletons/Publicacoes/Tags/TagsPlaceholder";
 
-export default function Tags({ register }: any) {
+export default function Tags({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
@@ -12,14 +12,13 @@ export default function Tags({ register }: any) {
     const [isSegundaTag, setSegundaTag] = useState<string>("");
 
     useEffect(() => {
-        setIsPrimeiraTag(materia?.tags?.[0] || "");
-        setSegundaTag(materia?.tags?.[1] || "");
-    }, [materia]);
-
-    useEffect(() => {
-        setIsPrimeiraTag("");
-        setSegundaTag("");
-    }, [slug]);
+        if(slug && materia) {
+            setValue("primeiraTag", materia.tags[0] ?? "");
+            setValue("segundaTag", materia.tags[1] ?? "");
+            setIsPrimeiraTag(materia.tags[0] ?? "");
+            setSegundaTag(materia.tags[1] ?? "");
+        }
+    }, [slug, materia]);
 
     if (isLoading) {
         return <TagsPlaceholder />;

@@ -1,7 +1,7 @@
 export interface MateriasTypes{
     publicado?: boolean,
     autor?: number,
-    imagem_em_destaque?: File,
+    imagem_em_destaque?: string,
     capa_da_materia?: string,
     titulo?: string,
     conteudo?: string,
