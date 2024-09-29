@@ -13,10 +13,11 @@ export default function Tags({ register, setValue }: any) {
 
     useEffect(() => {
         if(slug && materia) {
-            setValue("primeiraTag", materia.tags[0] ?? "");
-            setValue("segundaTag", materia.tags[1] ?? "");
-            setIsPrimeiraTag(materia.tags[0] ?? "");
-            setSegundaTag(materia.tags[1] ?? "");
+            setValue("primeiraTag", materia.tags?.[0] ?? "");
+            setValue("segundaTag", materia.tags?.[1] ?? "");
+            
+            setIsPrimeiraTag(materia.tags?.[0] ?? "");
+            setSegundaTag(materia.tags?.[1] ?? "");
         }
     }, [slug, materia]);
 

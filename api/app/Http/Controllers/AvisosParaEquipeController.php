@@ -13,9 +13,9 @@ class AvisosParaEquipeController extends Controller
 
         if ($avisos->isNotEmpty()) {
             return response()->json($avisos, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaAvisoParaEquipeEspecifico($id)

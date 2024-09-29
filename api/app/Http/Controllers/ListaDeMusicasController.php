@@ -13,9 +13,9 @@ class ListaDeMusicasController extends Controller
 
         if ($musicas->isNotEmpty()) {
             return response()->json($musicas, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaMusicaEspecifica($id)

@@ -14,9 +14,9 @@ class EventosController extends Controller
 
         if ($eventos->isNotEmpty()) {
             return response()->json($eventos, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaEventoEspecifico($slug)

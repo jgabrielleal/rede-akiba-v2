@@ -16,7 +16,6 @@ export default function EscrevaSuaMateria({ register, setValue }: any) {
         if(slug && materia) {
             setConteudo(materia.conteudo ?? "")           
             register("conteudo");
-            setValue("conteudo", materia.conteudo ?? "");
         }
     }, [slug, materia]);
 
@@ -44,8 +43,9 @@ export default function EscrevaSuaMateria({ register, setValue }: any) {
             <div className="bg-aurora h-96 rounded-md">
                 <ReactQuill 
                     theme="snow" 
-                    modules={modules} value={isConteudo ?? ""} 
-                    onChange={(content) => {setValue("conteudo", content)}}
+                    modules={modules} 
+                    value={isConteudo ?? ""} 
+                    onChange={(content) => { setConteudo(content); setValue("conteudo", content) }}
                 />
             </div>
         </section>

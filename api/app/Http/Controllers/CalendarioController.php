@@ -13,9 +13,9 @@ class CalendarioController extends Controller
 
         if ($calendario->isNotEmpty()) {
             return response()->json($calendario, 200);
-        } else {
-            return response()->noContent();
         }
+
+        return response()->noContent();
     }
 
     public function retornaEventoDoCalendarioEspecifico($id)

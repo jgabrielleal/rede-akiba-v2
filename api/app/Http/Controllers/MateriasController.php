@@ -10,13 +10,13 @@ class MateriasController extends Controller
 {
     public function retornaTodasMaterias()
     {
-        $materias = Materias::with(['autor'])->paginate(10);
+        $materias = Materias::with(['autor'])->orderBy('id', 'desc')->paginate(10);
 
         if ($materias->isNotEmpty()) {
             return response()->json($materias, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaMateriaEspecifica($slug)
@@ -37,7 +37,7 @@ class MateriasController extends Controller
         $request->validate([
             'status' => 'required|string',
             'autor' => 'required|exists:usuarios,id',
-            'titulo' => 'required|string',
+            'titulo' => 'required|string|unique:materias,titulo',
             'conteudo' => 'required|string',
             'tags' => 'required|array',
             'fontes_de_pesquisa' => 'required|array',
@@ -57,7 +57,7 @@ class MateriasController extends Controller
             'fontes_de_pesquisa' => $request->fontes_de_pesquisa,
         ]);
 
-        return response()->json($materia, 201);
+        return response()->json($materia, 200);
     }
 
     public function atualizaMateriaEspecifica(Request $request, $slug)

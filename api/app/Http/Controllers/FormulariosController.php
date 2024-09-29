@@ -13,9 +13,9 @@ class FormulariosController extends Controller
 
         if ($formularios->isNotEmpty()) {
             return response()->json($formularios, 200);
-        } else {
-            return response()->noContent();
         }
+            
+        return response()->noContent();
     }
 
     public function retornaFormularioEspecifico($id)

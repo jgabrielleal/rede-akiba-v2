@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useError } from "@/hooks/useError";
 import { usePageName } from "@/hooks/usePageName";
@@ -22,24 +22,29 @@ import TodasAsMaterias from "@/components/partials/Publicacoes/Materias/TodasAsM
 
 export default function Materias() {
     const { slug } = useParams();
+    const navigate = useNavigate();
 
+    const { register, handleSubmit, setValue } = useForm();
+    
     const queryClient = useQueryClient();
     const { data: materia } = useMateria(slug ?? "");
     const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
-        toast.success("Minikui! Corrigindo a matéria! (╯°□°）╯︵ ┻━┻",); 
+        toast.success("Minikui! Que bom que você viu que errou, acabei de arrumar para você! (¬‿¬)"); 
     });
-    const { mutate: createMateria } = useCreateMateria(() => { 
+    const { mutate: createMateria } = useCreateMateria((data:any) => { 
         toast.success("Sugoi! Mais uma matéria feita! ٩(＾◡＾)۶"); 
+        toast.success("Vamos revisar a matéria? (⊙_☉). Vai que tem algo errado! Se não tiver é só atualiza a página! (¬‿¬)", { autoClose: 10000 });
+        navigate(data.slug)
     });
-    const { register, handleSubmit, setValue } = useForm();
+
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: onError } = useError();
     const { data: pageName } = usePageName();
 
     pageName(materia?.titulo || "Nova matéria");
 
-    useEffect(() => {
-        queryClient.invalidateQueries({ queryKey: ['Materias'] });
+    useEffect(()=>{
+        queryClient.invalidateQueries({queryKey: ['Materias']});
         queryClient.invalidateQueries({ queryKey: ['MateriasInfinite'] });
     }, [slug]);
 

@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 export default function SwitchDePublicacoes() {
 
     return (
@@ -8,15 +6,15 @@ export default function SwitchDePublicacoes() {
                 <h6>Criar matéria</h6>
             </div>
             <div className="flex gap-3 flex-wrap justify-center items-center my-3">
-                <Link to="/materias" className="px-4 py-1 border-4 border-azul-claro rounded-xl font-averta font-bold text-aurora text-xl text-azul-claro uppercase">
+                <a href="/materias" className="px-4 py-1 border-4 border-azul-claro rounded-xl font-averta font-bold text-aurora text-xl text-azul-claro uppercase">
                     Matérias
-                </Link>
-                <Link to="/reviews" className="px-4 py-1 border-4 border-roxo rounded-xl font-averta font-bold text-xl text-roxo uppercase">
+                </a>
+                <a href="/reviews" className="px-4 py-1 border-4 border-roxo rounded-xl font-averta font-bold text-xl text-roxo uppercase">
                     Reviews
-                </Link>
-                <Link to="/eventos" className="px-4 py-1 border-4 border-laranja-medio rounded-xl font-averta font-bold text-xl text-laranja-medio uppercase">
+                </a>
+                <a href="/eventos" className="px-4 py-1 border-4 border-laranja-medio rounded-xl font-averta font-bold text-xl text-laranja-medio uppercase">
                     Eventos
-                </Link>
+                </a>
             </div>
         </section>
     );
