@@ -21,6 +21,8 @@ import SubmitDeMateria from "@/components/partials/Publicacoes/Materias/SubmitDe
 import TodasAsMaterias from "@/components/partials/Publicacoes/Materias/TodasAsMaterias";
 
 export default function Materias() {
+    const [isStatusDaMateria, setIsStatusDaMateria] = useState<string | null>();
+
     const { slug } = useParams();
     const navigate = useNavigate();
 
@@ -29,11 +31,11 @@ export default function Materias() {
     const queryClient = useQueryClient();
     const { data: materia } = useMateria(slug ?? "");
     const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
-        toast.success("Minikui! Que bom que você viu que errou, acabei de arrumar para você! (¬‿¬)"); 
+        toasts();
     });
     const { mutate: createMateria } = useCreateMateria((data:any) => { 
-        toast.success("Sugoi! Mais uma matéria feita! ٩(＾◡＾)۶"); 
-        toast.success("Vamos revisar a matéria? (⊙_☉). Vai que tem algo errado! Se não tiver é só atualiza a página! (¬‿¬)", { autoClose: 10000 });
+        toasts();
+        toast.info("Vamos revisar a matéria? (⊙_☉). Vai que tem algo errado! Se não tiver é só atualiza a página! (¬‿¬)");
         navigate(data.slug)
     });
 
@@ -41,14 +43,26 @@ export default function Materias() {
     const { data: onError } = useError();
     const { data: pageName } = usePageName();
 
+    function toasts(){
+        switch(isStatusDaMateria){
+            case "publicado":
+                toast.success("Sugoi! A matéria foi publicada! ٩(＾◡＾)۶");
+                break;
+            case "revisao":
+                toast.success("Sugoi! Sua matéria foi enviada para revisão! ٩(＾◡＾)۶");
+                break;
+            case "rascunho":
+                toast.success("Sugoi! Sua matéria foi salva como rascunho! ٩(＾◡＾)۶");
+                break;
+        }
+    }
+
     pageName(materia?.titulo || "Nova matéria");
 
     useEffect(()=>{
         queryClient.invalidateQueries({queryKey: ['Materias']});
         queryClient.invalidateQueries({ queryKey: ['MateriasInfinite'] });
     }, [slug]);
-
-    const [isStatusDaMateria, setIsStatusDaMateria] = useState<string | null>();
 
     function onSubmit(data: any) {
         const newData = {

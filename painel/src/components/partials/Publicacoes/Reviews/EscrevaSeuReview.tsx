@@ -13,17 +13,20 @@ interface Review {
     conteudo: string;
 }
 
-export default function EscrevaSeuReview() {
+export default function EscrevaSeuReview({ register, setValue }: any) {
     const { slug } = useParams();
-    const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
+    const { data: logado } = useLogado(localStorage.getItem('aki-token') ?? '');
     const { data: review, isLoading } = useReview(slug ?? "");
+    
+    register("conteudo");
 
     const [isReviewSelecionado, setIsReviewSelecionado] = useState<number | null>(null);
 
     useEffect(() => {
-        const reviewSelecionado = review?.conteudo?.find((result: Review) => result.autor === logado?.apelido);
-        setIsReviewSelecionado(reviewSelecionado?.id ?? null);
-    }, [review, slug])
+        if(slug && review && logado) {
+            setIsReviewSelecionado(review.conteudo.find((result: Review) => result.autor === logado.apelido).id);
+        }
+    }, [slug, review, logado])
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />
@@ -60,6 +63,7 @@ export default function EscrevaSeuReview() {
                     theme="snow"
                     modules={modules}
                     value={review?.conteudo?.find((result: Review) => result.id === isReviewSelecionado)?.conteudo}
+                    onChange={(content) => { setValue("conteudo", content) }}
                     placeholder={
                         !isReviewSelecionado ? "Oiieh ٩(＾◡＾)۶! Parece que você nunca me contou sua opinião sobre esse anime, diga algo! O que você achou?" : ""
                     }

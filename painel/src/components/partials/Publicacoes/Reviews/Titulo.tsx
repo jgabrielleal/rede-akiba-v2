@@ -4,19 +4,18 @@ import { useReview } from "@/services/reviews/queries";
 
 import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloPlaceholder";
 
-export default function Titulo() {
+export default function Titulo({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: review, isLoading } = useReview(slug ?? "");
 
     const [isTitulo, setTitulo] = useState<string | null>();
 
     useEffect(() => {
-        setTitulo(review?.titulo || "");
-    }, [review]);
-
-    useEffect(()=>{
-        setTitulo("");
-    }, [slug])
+        if (slug && review) {
+            setValue("titulo", review?.titulo ?? "");
+            setTitulo(review?.titulo ?? "");
+        }
+    }, [slug, review]);
 
     if (isLoading) {
         return <TituloPlaceholder />;
@@ -28,6 +27,7 @@ export default function Titulo() {
                 Titulo
             </label>
             <input
+                {...register("titulo")}
                 type="text"
                 name="titulo"
                 id="titulo"

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import classNames from 'classnames';
 import { useImagePreview } from "@/hooks/useImagePreview";
 import { useMateria } from "@/services/materias/queries";
 
@@ -26,8 +27,10 @@ export default function CapaDaMateria({register, setValue} : any) {
             <span className="mb-1 block font-averta font-bold text-laranja-claro text-lg uppercase">
                 Capa da matéria
             </span>
-            <label htmlFor="capaDaMateria" className={`w-full h-72 ${!preview && "bg-aurora"} rounded-md overflow-hidden flex justify-center items-center text-azul-claro text-6xl font-averta font-bold`}>
-                {preview ? (
+            <label htmlFor="capaDaMateria" className={classNames('w-full rounded-md flex justify-center items-center text-azul-claro text-6xl font-averta font-bold',
+                { 'h-72 bg-aurora': !preview }
+            )}>                
+            {preview ? (
                     <img src={preview} alt="Capa da matéria" className="w-full h-72 bg-aurora rounded-md object-cover" />
                 ) : (
                     "+"

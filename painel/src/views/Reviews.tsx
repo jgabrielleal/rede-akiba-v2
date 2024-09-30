@@ -13,6 +13,7 @@ import TodosOsReviews from "@/components/partials/Publicacoes/Reviews/TodosOsRev
 
 export default function Reviews() {
     const { slug } = useParams();
+    
     const queryClient = useQueryClient();
     const { data: review } = useReview(slug ?? "");
     const { data: pageName } = usePageName();
