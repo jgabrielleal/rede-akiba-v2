@@ -8,7 +8,7 @@ export default function SinopseDoAnime({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: review, isLoading } = useReview(slug ?? "");
 
-    register("sinopseDoAnime");
+    register("sinopse");
 
     if (isLoading) {
         return <SinopseDoAnimePlaceholder />
@@ -36,7 +36,7 @@ export default function SinopseDoAnime({ register, setValue }: any) {
                     theme="snow" 
                     modules={modules} 
                     value={review?.sinopse} 
-                    onChange={(content) => {setValue("sinopseDoAnime", content)}} />
+                    onChange={(content) => {setValue("sinopse", content)}} />
             </div>
         </section>
     );

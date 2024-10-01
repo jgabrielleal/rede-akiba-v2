@@ -40,8 +40,7 @@ class ReviewsController extends Controller
             'capa_da_review' => 'required|string',
             'titulo' => 'required|string',
             'sinopse' => 'required|string',
-            'conteudo' => 'required|string',
-            'reacoes' => 'required|string',
+            'conteudo' => 'required',
         ]);
 
         $review = Reviews::create([

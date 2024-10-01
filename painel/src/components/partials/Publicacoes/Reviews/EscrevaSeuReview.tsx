@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -13,18 +13,16 @@ interface Review {
     conteudo: string;
 }
 
-export default function EscrevaSeuReview({ register, setValue }: any) {
+export default function EscrevaSeuReview({ register, setValue, isReviewSelecionado, setIsReviewSelecionado }: any) {
     const { slug } = useParams();
     const { data: logado } = useLogado(localStorage.getItem('aki-token') ?? '');
     const { data: review, isLoading } = useReview(slug ?? "");
     
     register("conteudo");
 
-    const [isReviewSelecionado, setIsReviewSelecionado] = useState<number | null>(null);
-
     useEffect(() => {
         if(slug && review && logado) {
-            setIsReviewSelecionado(review.conteudo.find((result: Review) => result.autor === logado.apelido).id);
+            setIsReviewSelecionado(review.conteudo.find((result: Review) => result.autor === logado.apelido)?.id);
         }
     }, [slug, review, logado])
 
@@ -51,8 +49,8 @@ export default function EscrevaSeuReview({ register, setValue }: any) {
             </span>
             <div className="flex gap-2 flex-wrap mb-1">
                 {review?.conteudo?.map((review: Review, index: number) => (
-                    <button key={index} onClick={() => { setIsReviewSelecionado(review.id) }} className={classNames('bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md', {
-                        'bg-gray-200': isReviewSelecionado === review.id,
+                    <button type="button" key={index} onClick={() => { setIsReviewSelecionado(review?.id) }} className={classNames('bg-aurora text-laranja-claro font-averta font-bold uppercase px-4 py-1 rounded-md', {
+                        'bg-gray-200': isReviewSelecionado === review?.id,
                     })}>
                         {review?.autor}
                     </button>

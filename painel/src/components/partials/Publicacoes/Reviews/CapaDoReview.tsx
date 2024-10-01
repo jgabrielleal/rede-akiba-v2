@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useImagePreview } from "@/hooks/useImagePreview";
@@ -7,13 +7,14 @@ import { useReview } from "@/services/reviews/queries";
 import CapaDaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/CapaDaPublicacao/CapaDaPublicacaoPlaceholder";
 
 export default function CapaDoReview({register, setValue} : any) {
+
     const { slug } = useParams();
     const { data: review, isLoading } = useReview(slug ?? "");
     const { converter, preview, setPreview } = useImagePreview();
 
     useEffect(() => {
         if (slug && review) {
-            setValue('capa_da_materia', review.capa_da_review ?? null);
+            setValue('capa_da_review', review.capa_da_review ?? null);
             setPreview(review.capa_da_review ?? null);
         }
     }, [slug, review]);
@@ -25,13 +26,13 @@ export default function CapaDoReview({register, setValue} : any) {
     return (
         <section className="mb-3">
             <span className="mb-1 block font-averta font-bold text-laranja-claro text-lg uppercase">
-                Capa da matéria
+                Capa da review
             </span>
             <label htmlFor="capaDoReview" className={classNames('w-full rounded-md flex justify-center items-center text-azul-claro text-6xl font-averta font-bold',
                 { 'h-72 bg-aurora': !preview }
             )}>                
             {preview ? (
-                    <img src={preview} alt="Capa da matéria" className="w-full h-72 bg-aurora rounded-md object-cover" />
+                    <img src={preview} alt="Capa do review" className="w-full h-72 bg-aurora rounded-md object-cover" />
                 ) : (
                     "+"
                 )}
@@ -39,9 +40,9 @@ export default function CapaDoReview({register, setValue} : any) {
             <input
                 {...register("capa_da_review")}
                 type="file"
-                id="capaDaMateria"
+                id="capaDoReview"
                 className="hidden"
-                onChange={(e) => { converter(e, setValue, 'capa_da_materia') }}
+                onChange={(e) => { converter(e, setValue, 'capa_da_review') }}
             />
         </section>
     );
