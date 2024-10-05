@@ -12,7 +12,7 @@ export async function getBatalhaDePlaylist(){
 
 export async function updateBatalhaDePlaylist(data: BatalhaDePlaylistTypes){
     try{
-        const response = await api.patch('/batalhadeplaylist', data)
+        const response = await api.put('/batalhadeplaylist', data)
         return response
     }catch(error:any){
         throw error;

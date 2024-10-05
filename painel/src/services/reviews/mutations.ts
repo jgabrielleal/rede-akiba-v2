@@ -10,8 +10,8 @@ export function useCreateReview(onSuccessCallback: Function){
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: ReviewsTypes) => createReview(data),
-        onSuccess: () => {
-            onSuccessCallback()
+        onSuccess: (data) => {
+            onSuccessCallback(data)
         },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao criar uma review:', error)

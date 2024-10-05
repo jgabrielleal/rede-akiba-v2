@@ -4,7 +4,7 @@ import { useEvento } from "@/services/eventos/queries";
 
 import LocalizacaoDoEventoPlaceholder from "@/components/skeletons/Publicacoes/LocalizacaoDoEvento/LocalizacaoDoEventoPlaceholder";
 
-export default function LocalizacaoDoEvento() {
+export default function LocalizacaoDoEvento({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: evento, isLoading } = useEvento(slug ?? "");
 
@@ -12,14 +12,13 @@ export default function LocalizacaoDoEvento() {
     const [isDatas, setIsDatas] = useState<string>("");
 
     useEffect(() => {
-        setIsLocal(evento?.local || "");
-        setIsDatas(evento?.datas || "");
-    }, [evento]);
-
-    useEffect(()=>{
-        setIsLocal("");
-        setIsDatas("");
-    }, [slug])
+        if (slug && evento) {
+            setValue("local", evento?.local ?? "");
+            setValue("datas", evento?.datas ?? "");
+            setIsLocal(evento?.local ?? "");
+            setIsDatas(evento?.datas ?? "");
+        }
+    }, [slug, evento]);
 
     if (isLoading) {
         return <LocalizacaoDoEventoPlaceholder />;
@@ -33,6 +32,7 @@ export default function LocalizacaoDoEvento() {
                         Local
                     </label>
                     <input
+                        {...register("local", { required: "O campo local é obrigatório" })}
                         type="text"
                         id="local"
                         name="local"
@@ -48,6 +48,7 @@ export default function LocalizacaoDoEvento() {
                         Datas
                     </label>
                     <input
+                        {...register("datas", { required: "O campo datas é obrigatório" })}
                         type="text"
                         id="datas"
                         name="datas"

@@ -30,7 +30,7 @@ export async function createArquivo(data: RepositorioDeArquivosTypes){
 
 export async function updateArquivo(id: number, data: RepositorioDeArquivosTypes){
     try{
-        const response = await api.patch(`/repositoriodearquivos/update/${id}`, data)
+        const response = await api.put(`/repositoriodearquivos/update/${id}`, data)
         return response
     }catch(error:any){
         throw error

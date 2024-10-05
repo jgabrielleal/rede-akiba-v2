@@ -30,7 +30,7 @@ export async function createUsuario(data: UsuarioType){
 
 export async function updateUsuario(slug: string, data: UsuarioType ){
     try{
-        const response = await api.patch(`/usuarios/update/${slug}`, data);
+        const response = await api.put(`/usuarios/update/${slug}`, data);
         return response.data
     }catch(error: any){
         throw error

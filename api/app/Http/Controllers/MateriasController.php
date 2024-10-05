@@ -77,6 +77,7 @@ class MateriasController extends Controller
             'conteudo' => $request->conteudo,
             'tags' => $request->tags,
             'fontes_de_pesquisa' => $request->fontes_de_pesquisa,
+            'reacoes' => $request->reacoes,
         ];
 
         $materia->update($update);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -22,27 +22,29 @@ import TodasAsMaterias from "@/components/partials/Publicacoes/Materias/TodasAsM
 
 export default function Materias() {
     const [isStatusDaMateria, setIsStatusDaMateria] = useState<string | null>();
+    const [isRefresh, setIsRefresh] = useState<boolean>(false);
 
+    const { register, handleSubmit, setValue, reset } = useForm();
+    
     const { slug } = useParams();
-    const navigate = useNavigate();
-
-    const { register, handleSubmit, setValue } = useForm();
     
     const queryClient = useQueryClient();
+    const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: materia } = useMateria(slug ?? "");
     const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
         toasts();
+        setIsRefresh(prev => !prev);
+        reset();
     });
-    const { mutate: createMateria } = useCreateMateria((data:any) => { 
+    const { mutate: createMateria } = useCreateMateria(() => { 
         toasts();
-        toast.info("Vamos revisar a matéria? (⊙_☉). Vai que tem algo errado! Se não tiver é só atualiza a página! (¬‿¬)");
-        navigate(data.slug)
+        setIsRefresh(prev => !prev);
+        reset();
     });
 
-    const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: onError } = useError();
     const { data: pageName } = usePageName();
-
+    
     function toasts(){
         switch(isStatusDaMateria){
             case "publicado":
@@ -77,6 +79,7 @@ export default function Materias() {
                 { site: data.primeiraFonteDePesquisaNome, link: data.primeiraFonteDePesquisaLink },
                 { site: data.segundaFonteDePesquisaNome, link: data.segundaFonteDePesquisaLink }
             ],
+            reacoes: data.reacoes,
         };
 
         if (slug) {
@@ -89,7 +92,7 @@ export default function Materias() {
     return (
         <>
             <SwitchDePublicacoes />
-            <form onSubmit={handleSubmit(onSubmit, onError)}>
+            <form onSubmit={handleSubmit(onSubmit, onError)} key={isRefresh ? 'refresh-true' : 'refresh-false'}>
                 <div className="container mx-auto mt-8 grid grid-cols-1 xl:grid-cols-4 gap-4 w-10/12 xl:w-[75rem]">
                     <div className="col-span-1 xl:col-span-1">
                         <ImagemEmDestaque register={register} setValue={setValue} />

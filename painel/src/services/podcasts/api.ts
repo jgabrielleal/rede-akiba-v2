@@ -30,7 +30,7 @@ export async function createPodcast(data: PodcastsTypes){
 
 export async function updatePodcast(slug: string, data: PodcastsTypes){
     try{
-        const response = await api.patch(`/podcasts/update/${slug}`, data);
+        const response = await api.put(`/podcasts/update/${slug}`, data);
         return response;
     }catch(error: any){
         throw error;

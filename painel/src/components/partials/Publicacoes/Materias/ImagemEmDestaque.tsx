@@ -6,8 +6,7 @@ import { useMateria } from "@/services/materias/queries";
 
 import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/ImagemEmDestaque/ImagemEmDestaquePlaceholder";
 
-export default function 
-ImagemEmDestaque({register, setValue} : any) {
+export default function ImagemEmDestaque({register, setValue} : any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
     const { converter, preview, setPreview } = useImagePreview();

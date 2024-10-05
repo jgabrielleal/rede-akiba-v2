@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -8,7 +9,12 @@ export default function SinopseDoAnime({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: review, isLoading } = useReview(slug ?? "");
 
-    register("sinopse");
+    useEffect(() => {
+        if (slug && review) {
+            register("sinopse");
+            setValue("sinopse", review?.sinopse);
+        }
+    }, [review]);
 
     if (isLoading) {
         return <SinopseDoAnimePlaceholder />
@@ -32,11 +38,11 @@ export default function SinopseDoAnime({ register, setValue }: any) {
                 Sinopse do anime
             </span>
             <div className="bg-aurora h-60 rounded-md">
-                <ReactQuill 
-                    theme="snow" 
-                    modules={modules} 
-                    value={review?.sinopse} 
-                    onChange={(content) => {setValue("sinopse", content)}} />
+                <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    value={review?.sinopse}
+                    onChange={(content) => { setValue("sinopse", content) }} />
             </div>
         </section>
     );

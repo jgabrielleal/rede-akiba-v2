@@ -1,10 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { useLogado } from '@/services/login/queries';
 import { useMateria } from '@/services/materias/queries';
 
 export default function SubmitDeMateria({ setStatusDaMateria }: any) {
     const { slug } = useParams();
-    const { data: logado } = useLogado(localStorage.getItem('aki-token') ?? '');
     const { data: materia } = useMateria(slug ?? "");
 
     return (
@@ -16,11 +14,9 @@ export default function SubmitDeMateria({ setStatusDaMateria }: any) {
                 <button onClick={() => { setStatusDaMateria("revisao") }} className="px-4 py-1 border-4 border-laranja-claro rounded-xl font-averta font-bold text-laranja-claro text-xl uppercase">
                     Mandar para revisão
                 </button>
-                {logado?.niveis_de_acesso.includes("administrador") && (
-                    <button onClick={() => { setStatusDaMateria("publicado") }} className="px-4 py-1 border-4 border-azul-claro rounded-xl font-averta font-bold text-azul-claro text-xl uppercase">
-                        {materia?.status === "revisao" ? "Validar e publicar" : slug ? "Atualizar publicação" : "Publicar"}
-                    </button>
-                )}
+                <button onClick={() => { setStatusDaMateria("publicado") }} className="px-4 py-1 border-4 border-azul-claro rounded-xl font-averta font-bold text-azul-claro text-xl uppercase">
+                    {materia?.status === "revisao" ? "Validar e publicar" : slug ? "Atualizar publicação" : "Publicar"}
+                </button>
             </div>
         </section>
     )

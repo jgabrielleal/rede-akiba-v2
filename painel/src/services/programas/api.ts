@@ -30,7 +30,7 @@ export async function createPrograma(data: ProgramasTypes){
 
 export async function updatePrograma(slug: string, data: ProgramasTypes){
     try{
-        const response = await api.patch(`/programas/update/${slug}`, data);
+        const response = await api.put(`/programas/update/${slug}`, data);
         return response;
     }catch(error: any){
         throw error;

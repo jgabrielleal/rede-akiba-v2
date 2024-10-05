@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useImagePreview } from "@/hooks/useImagePreview";
@@ -6,16 +6,17 @@ import { useEvento } from "@/services/eventos/queries";
 
 import ImagemEmDestaquePlaceholder from "@/components/skeletons/Publicacoes/ImagemEmDestaque/ImagemEmDestaquePlaceholder";
 
-export default function ImagemEmDestaque() {
+export default function ImagemEmDestaque({register, setValue} : any) {
     const { slug } = useParams();
     const { data: evento, isLoading } = useEvento(slug ?? "");
-    const { data: previewDeImagem } = useImagePreview();
+    const { converter, preview, setPreview } = useImagePreview();
 
-    const [imagemPreview, setImagemPreview] = useState<string | null>();
-
-    useEffect(()=>{
-        setImagemPreview(evento?.imagem_em_destaque || null);
-    }, [evento])
+    useEffect(() => {
+        if (slug && evento) {
+            setValue('imagem_em_destaque', evento.imagem_em_destaque ?? null);
+            setPreview(evento.imagem_em_destaque ?? null);
+        }
+    }, [slug, evento]);
 
     if (isLoading) {
         return <ImagemEmDestaquePlaceholder />;
@@ -27,15 +28,21 @@ export default function ImagemEmDestaque() {
                 Imagem em destaque
             </span>
             <label htmlFor="imagemEmDestaque" className={classNames('w-full rounded-md flex justify-center items-center text-azul-claro text-6xl font-averta font-bold',
-                { 'h-72 bg-aurora': !imagemPreview }
+                { 'h-72 bg-aurora': !preview }
             )}>
-                {imagemPreview ? (
-                    <img src={imagemPreview} alt="Imagem em destaque" className="w-full h-auto bg-aurora rounded-md object-cover" />
+                {preview ? (
+                    <img src={preview} alt="Imagem em destaque" className="w-full h-auto bg-aurora rounded-md object-cover" />
                 ) : (
                     "+"
                 )}
             </label>
-            <input type="file" id="imagemEmDestaque" className="hidden" onChange={(e) => previewDeImagem(e, setImagemPreview)} />
+            <input 
+                {...register("imagem_em_destaque")}
+                type="file" 
+                id="imagemEmDestaque" 
+                className="hidden" 
+                onChange={(e)=>{converter(e, setValue, "imagem_em_destaque")}} 
+            />
         </>
     );
 }

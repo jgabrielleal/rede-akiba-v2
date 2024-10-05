@@ -30,7 +30,7 @@ export async function createEventoCalendario(data: CalendarioTypes){
 
 export async function updateEventoCalendario(id: number, data: CalendarioTypes){
     try{
-        const response = await api.patch(`/calendario/update/${id}`, data)
+        const response = await api.put(`/calendario/update/${id}`, data)
         return response
     }catch(error:any){
         throw error

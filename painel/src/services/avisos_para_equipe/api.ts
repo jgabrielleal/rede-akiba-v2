@@ -30,7 +30,7 @@ export async function createAvisoParaEquipe(data: AvisosParaEquipeTypes){
 
 export async function updateAvisoParaEquipe(id: number, data: AvisosParaEquipeTypes){
     try{
-        const response = await api.patch(`/avisosparaequipe/update/${id}`, data)
+        const response = await api.put(`/avisosparaequipe/update/${id}`, data)
         return response
     }catch(error:any){
         throw error

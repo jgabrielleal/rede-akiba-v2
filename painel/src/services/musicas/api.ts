@@ -30,7 +30,7 @@ export async function createMusica(data: MusicasTypes){
 
 export async function updateMusica(id: number, data: MusicasTypes){
     try{
-        const response = await api.patch(`/musicas/update/${id}`, data);
+        const response = await api.put(`/musicas/update/${id}`, data);
         return response.data;
     }catch(error:any){
         throw error;

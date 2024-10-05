@@ -4,19 +4,18 @@ import { useEvento } from "@/services/eventos/queries";
 
 import TituloPlaceholder from "@/components/skeletons/Publicacoes/Titulo/TituloPlaceholder";
 
-export default function Titulo() {
+export default function Titulo({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: evento, isLoading } = useEvento(slug ?? "");
 
     const [isTitulo, setTitulo] = useState<string | null>();
 
     useEffect(() => {
-        setTitulo(evento?.titulo || "");
-    }, [evento]);
-
-    useEffect(()=>{
-        setTitulo("");
-    }, [slug])
+        if (slug && evento) {
+            setValue("titulo", evento.titulo ?? "");
+            setTitulo(evento.titulo ?? "");
+        }
+    }, [slug, evento]);
 
     if (isLoading) {
         return <TituloPlaceholder />;
@@ -28,6 +27,7 @@ export default function Titulo() {
                 Titulo
             </label>
             <input
+                {...register("titulo", { required: "O campo título é obrigatório" })}
                 type="text"
                 name="titulo"
                 id="titulo"

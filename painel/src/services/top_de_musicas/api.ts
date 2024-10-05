@@ -30,7 +30,7 @@ export async function createPosicaoTopDeMusica(data: TopDeMusicasTypes){
 
 export async function updatePosicaoTopDeMusica(id: number, data: TopDeMusicasTypes){
     try{
-        const response = await api.patch(`/topdemusicas/update/${id}`, data);
+        const response = await api.put(`/topdemusicas/update/${id}`, data);
         return response;
     }catch(error: any){
         throw error;

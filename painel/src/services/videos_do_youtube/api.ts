@@ -30,7 +30,7 @@ export async function createVideoDoYoutube(data: VideosDoYoutubeType){
 
 export async function updateVideoDoYoutube(id: number, data: VideosDoYoutubeType){
     try{
-        const response = await api.patch(`/videosdoyoutube/update/${id}`, data);
+        const response = await api.put(`/videosdoyoutube/update/${id}`, data);
         return response;
     }catch(error: any){
         throw error;

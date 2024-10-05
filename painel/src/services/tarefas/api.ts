@@ -30,7 +30,7 @@ export async function createTarefa(data: TarefasTypes){
 
 export async function updateTarefa(id: number, data: TarefasTypes){
     try{
-        const response = await api.patch(`/tarefas/update/${id}`, data);
+        const response = await api.put(`/tarefas/update/${id}`, data);
         return response.data;
     }catch(error){
         throw error

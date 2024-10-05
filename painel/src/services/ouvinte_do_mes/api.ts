@@ -12,7 +12,7 @@ export async function getOuvinteDoMes(){
 
 export async function updateOuvinteDoMes(data: OuvinteDoMesTypes){
     try{
-        const response = await api.patch('/ouvintedomes', data);
+        const response = await api.put('/ouvintedomes', data);
         return response;
     }catch(error: any){
         throw error;

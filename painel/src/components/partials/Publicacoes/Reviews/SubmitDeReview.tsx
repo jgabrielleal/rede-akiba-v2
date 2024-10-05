@@ -1,4 +1,4 @@
-export default function SubmitDeReview() {
+export default function SubmitDeReview() {    
     return (
         <section className="w-10/12 xl:w-[75rem] mx-auto pt-3">
             <div className="flex gap-3 flex-wrap justify-center items-center my-3">

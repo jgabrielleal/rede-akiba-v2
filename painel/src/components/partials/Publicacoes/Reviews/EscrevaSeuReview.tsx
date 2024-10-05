@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import classNames from 'classnames';
 import { useLogado } from '@/services/login/queries';
 import { useReview } from '@/services/reviews/queries';
+
 import EscrevaSuaPublicacaoPlaceholder from "@/components/skeletons/Publicacoes/EscrevaSuaPublicacao/EscrevaSuaPublicacaoPlaceholder";
 
 interface Review {
@@ -18,11 +19,13 @@ export default function EscrevaSeuReview({ register, setValue, isReviewSeleciona
     const { data: logado } = useLogado(localStorage.getItem('aki-token') ?? '');
     const { data: review, isLoading } = useReview(slug ?? "");
     
-    register("conteudo");
-
     useEffect(() => {
         if(slug && review && logado) {
-            setIsReviewSelecionado(review.conteudo.find((result: Review) => result.autor === logado.apelido)?.id);
+            const find = review.conteudo.find((result: Review) => result.autor === logado.apelido);
+            
+            setIsReviewSelecionado(find?.id);
+            register("conteudo");   
+            setValue("conteudo", find?.conteudo);
         }
     }, [slug, review, logado])
 
