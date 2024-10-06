@@ -18,6 +18,7 @@ export function useCreateEvento(onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Eventos'] });
+            await queryClient.invalidateQueries({ queryKey: ['EventosInfinite'] });
         }
     })
 }
@@ -34,6 +35,7 @@ export function useUpdateEvento(slug: string, onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Eventos'] });
+            await queryClient.invalidateQueries({ queryKey: ['EventosInfinite'] });
         }
     })
 }
@@ -50,6 +52,7 @@ export function useRemoveEvento(onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Eventos'] });
+            await queryClient.invalidateQueries({ queryKey: ['EventosInfinite'] });
         }
     })
 }

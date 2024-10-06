@@ -18,16 +18,16 @@ export default function EscrevaSeuReview({ register, setValue, isReviewSeleciona
     const { slug } = useParams();
     const { data: logado } = useLogado(localStorage.getItem('aki-token') ?? '');
     const { data: review, isLoading } = useReview(slug ?? "");
-    
+
+    const buscaReviewDoUsuarioLogado = review?.conteudo?.find((result: Review) => result.autor === logado.apelido);    
+    const buscaReviewDoUsuarioSelecionado = review?.conteudo?.find((result: Review) => result.id === isReviewSelecionado)
+
     useEffect(() => {
-        if(slug && review && logado) {
-            const find = review.conteudo.find((result: Review) => result.autor === logado.apelido);
-            
-            setIsReviewSelecionado(find?.id);
+        if(slug && review) {
+            setIsReviewSelecionado(buscaReviewDoUsuarioLogado?.id);
             register("conteudo");   
-            setValue("conteudo", find?.conteudo);
         }
-    }, [slug, review, logado])
+    }, [slug, review])
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />
@@ -63,7 +63,7 @@ export default function EscrevaSeuReview({ register, setValue, isReviewSeleciona
                 <ReactQuill
                     theme="snow"
                     modules={modules}
-                    value={review?.conteudo?.find((result: Review) => result.id === isReviewSelecionado)?.conteudo}
+                    value={buscaReviewDoUsuarioSelecionado?.conteudo ?? ""}
                     onChange={(content) => { setValue("conteudo", content) }}
                     placeholder={
                         !isReviewSelecionado ? "Oiieh ٩(＾◡＾)۶! Parece que você nunca me contou sua opinião sobre esse anime, diga algo! O que você achou?" : ""

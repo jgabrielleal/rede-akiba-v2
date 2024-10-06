@@ -31,12 +31,12 @@ export default function Materias() {
     const queryClient = useQueryClient();
     const { data: logado } = useLogado(localStorage.getItem('aki-token') || '');
     const { data: materia } = useMateria(slug ?? "");
-    const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
+    const { mutate: createMateria } = useCreateMateria(() => { 
         toasts();
         setIsRefresh(prev => !prev);
         reset();
     });
-    const { mutate: createMateria } = useCreateMateria(() => { 
+    const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
         toasts();
         setIsRefresh(prev => !prev);
         reset();
@@ -81,6 +81,8 @@ export default function Materias() {
             ],
             reacoes: data.reacoes,
         };
+
+        console.log(newData);
 
         if (slug) {
             updateMateria(newData);

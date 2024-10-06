@@ -18,6 +18,7 @@ export function useCreateReview(onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Reviews'] });
+            await queryClient.invalidateQueries({ queryKey: ['ReviewsInfinite'] });
         }
     })
 }
@@ -34,6 +35,7 @@ export function useUpdateReview(slug: string, onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Reviews'] });
+            await queryClient.invalidateQueries({ queryKey: ['ReviewsInfinite'] });
         }
     })
 }
@@ -50,6 +52,7 @@ export function useRemoveReview(onSuccessCallback: Function){
         },
         onSettled: async () => {
             await queryClient.invalidateQueries({ queryKey: ['Reviews'] });
+            await queryClient.invalidateQueries({ queryKey: ['ReviewsInfinite'] });
         }
     })
 }

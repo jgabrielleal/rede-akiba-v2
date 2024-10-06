@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -9,10 +9,12 @@ export default function SinopseDoAnime({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: review, isLoading } = useReview(slug ?? "");
 
+    const [isConteudo, setIsConteudo] = useState<string | null>(null);
+
     useEffect(() => {
         if (slug && review) {
+            setIsConteudo(review?.sinopse);
             register("sinopse");
-            setValue("sinopse", review?.sinopse);
         }
     }, [review]);
 
@@ -41,8 +43,8 @@ export default function SinopseDoAnime({ register, setValue }: any) {
                 <ReactQuill
                     theme="snow"
                     modules={modules}
-                    value={review?.sinopse}
-                    onChange={(content) => { setValue("sinopse", content) }} />
+                    value={isConteudo ?? ""}
+                    onChange={(content) => { setValue("sinopse", content), setIsConteudo(content) }} />
             </div>
         </section>
     );

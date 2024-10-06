@@ -10,7 +10,14 @@ export default function EscrevaSuaMateria({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: materia, isLoading } = useMateria(slug ?? "");
 
-    register("conteudo");
+    const [ isConteudo, setIsConteudo ] = useState<string | null>(null);
+
+    useEffect(() => {
+        if(slug && materia){
+            setIsConteudo(materia.conteudo ?? "");
+            register("conteudo");
+        }
+    }, [slug, materia]);
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />;
@@ -37,8 +44,8 @@ export default function EscrevaSuaMateria({ register, setValue }: any) {
                 <ReactQuill 
                     theme="snow" 
                     modules={modules} 
-                    value={materia?.conteudo ?? ""} 
-                    onChange={(content) => { setValue("conteudo", content) }}
+                    value={isConteudo ?? ""} 
+                    onChange={(content) => { setValue("conteudo", content), setIsConteudo(content) }}
                 />
             </div>
         </section>

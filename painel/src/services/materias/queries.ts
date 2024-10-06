@@ -7,7 +7,7 @@ import {
 
 export function useMaterias() {
     return useInfiniteQuery({
-        queryKey: ['MateriaInfinite'],
+        queryKey: ['MateriasInfinite'],
         queryFn: ({ pageParam = 1 }) => getMaterias(pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {

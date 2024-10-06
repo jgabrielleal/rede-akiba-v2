@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -9,7 +10,14 @@ export default function EscrevaSobreOEvento({ register, setValue }: any) {
     const { slug } = useParams();
     const { data: evento, isLoading } = useEvento(slug ?? "");
 
-    register("conteudo");
+    const[isConteudo, setIsConteudo] = useState<string | null>(null);
+
+    useEffect(() => {
+        if(slug && evento){
+            setIsConteudo(evento.conteudo ?? "");
+            register("conteudo");
+        }
+    }, [slug, evento]);
 
     if (isLoading) {
         return <EscrevaSuaPublicacaoPlaceholder />;
@@ -36,8 +44,8 @@ export default function EscrevaSobreOEvento({ register, setValue }: any) {
                 <ReactQuill 
                     theme="snow" 
                     modules={modules} 
-                    value={evento?.conteudo ?? ""} 
-                    onChange={(content) => { setValue("conteudo", content) }}
+                    value={isConteudo ?? ""} 
+                    onChange={(content) => { setValue("conteudo", content), setIsConteudo(content) }}
                 />
             </div>
         </section>

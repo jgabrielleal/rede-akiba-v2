@@ -10,7 +10,7 @@ class ReviewsController extends Controller
 {
     public function retornaTodosReviews()
     {
-        $reviews = Reviews::with(['autor'])->paginate(10);
+        $reviews = Reviews::with(['autor'])->orderBy('id', 'desc')->paginate(10);
 
         if ($reviews->isNotEmpty()) {
             return response()->json($reviews, 200);

@@ -10,7 +10,7 @@ class EventosController extends Controller
 {
     public function retornaTodosEventos()
     {
-        $eventos = Eventos::with(['autor'])->paginate(10);
+        $eventos = Eventos::with(['autor'])->orderBy('id', 'desc')->paginate(10);
 
         if ($eventos->isNotEmpty()) {
             return response()->json($eventos, 200);

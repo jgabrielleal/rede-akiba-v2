@@ -6,7 +6,7 @@ import {
 
 export function useEventos(){
     return useInfiniteQuery({
-        queryKey: ['eventosInfinite'],
+        queryKey: ['EventosInfinite'],
         queryFn: ({ pageParam = 1 }) => getEventos(pageParam),
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
@@ -27,7 +27,7 @@ export function useEventos(){
 
 export function useEvento(slug: string){
     return useQuery({
-        queryKey: ['Evento'],
+        queryKey: ['Eventos'],
         queryFn: () => getEvento(slug),
         enabled: !!slug
     })

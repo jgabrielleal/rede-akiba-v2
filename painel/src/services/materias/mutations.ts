@@ -10,8 +10,8 @@ export function useCreateMateria(onSuccessCallback: Function){
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: MateriasTypes) => createMateria(data),
-        onSuccess: () => {
-            onSuccessCallback()
+        onSuccess: async () => {
+            onSuccessCallback();
         },
         onError: (error: any) => {
             console.log('Ocorreu um erro ao criar uma matéria:', error)
