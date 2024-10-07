@@ -11,11 +11,8 @@ export default function SubmitDeMateria({ setStatusDaMateria }: any) {
                 <button onClick={() => { setStatusDaMateria("rascunho") }} className="px-4 py-1 border-4 border-verde rounded-xl font-averta font-bold text-verde text-xl text-azul-claro uppercase">
                     Salvar rascunho
                 </button>
-                <button onClick={() => { setStatusDaMateria("revisao") }} className="px-4 py-1 border-4 border-laranja-claro rounded-xl font-averta font-bold text-laranja-claro text-xl uppercase">
-                    Mandar para revisão
-                </button>
                 <button onClick={() => { setStatusDaMateria("publicado") }} className="px-4 py-1 border-4 border-azul-claro rounded-xl font-averta font-bold text-azul-claro text-xl uppercase">
-                    {materia?.status === "revisao" ? "Validar e publicar" : slug ? "Atualizar publicação" : "Publicar"}
+                    {materia?.status === "revisao" ? "Publicar matéria" : slug ? "Atualizar publicação" : "Publicar matéria"}
                 </button>
             </div>
         </section>

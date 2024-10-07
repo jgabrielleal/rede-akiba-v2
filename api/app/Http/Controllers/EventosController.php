@@ -46,6 +46,7 @@ class EventosController extends Controller
 
         $evento = Eventos::create([
             'slug' => Str::slug($request->titulo),
+            'status' => $request->status,
             'autor' => $request->autor,
             'titulo' => $request->titulo,
             'imagem_em_destaque' => $request->imagem_em_destaque,
@@ -67,6 +68,7 @@ class EventosController extends Controller
         }
 
         $request->validate([
+            'status' => 'required|string',
             'titulo' => 'required|string',
             'imagem_em_destaque' => 'required|string',
             'capa_do_evento' => 'required|string',
@@ -77,6 +79,7 @@ class EventosController extends Controller
 
         $update = [
             'slug' => Str::slug($request->titulo),
+            'status' => $request->status,
             'titulo' => $request->titulo,
             'imagem_em_destaque' => $request->imagem_em_destaque,
             'capa_do_evento' => $request->capa_do_evento,

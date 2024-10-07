@@ -7,15 +7,15 @@ export default function StatusDaRadio() {
                 <h6>Status da rádio</h6>
             </div>
             <div className="flex flex-wrap gap-5 lg:gap-0 mt-3">
-                <div className="flex itens-center gap-3 lg:border-r lg:pr-5">
+                <div className="flex itens-center gap-3 lg:border-r xl:pr-5">
                     <FaChartSimple className="text-azul-claro text-3xl"/>
                     <span className="text-laranja-claro text-2xl text-uppercase font-averta">320KBPS</span>
                 </div>
-                <div className="flex itens-center gap-3 lg:border-r lg:pl-5 lg:pr-5">
+                <div className="flex itens-center gap-3 xl:border-r xl:pl-5 xl:pr-5">
                     <FaSatellite className="text-azul-claro text-3xl"/>
                     <span className="text-laranja-claro text-2xl text-uppercase font-averta">ONLINE</span>
                 </div>
-                <div className="flex itens-center gap-3 lg:pl-5 lg:pr-5">
+                <div className="flex itens-center gap-3 xl:pl-5 xl:pr-5">
                     <FaHeadphonesSimple className="text-azul-claro text-3xl"/>
                     <span className="text-laranja-claro text-2xl text-uppercase font-averta">350 OUVINTES</span>
                 </div>

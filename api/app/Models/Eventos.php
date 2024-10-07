@@ -25,6 +25,7 @@ class Eventos extends Model
      */
     protected $fillable = [
         'slug',
+        'status',
         'autor',
         'titulo',
         'imagem_em_destaque',

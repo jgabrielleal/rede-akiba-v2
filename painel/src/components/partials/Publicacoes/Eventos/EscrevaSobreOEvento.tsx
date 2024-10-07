@@ -16,6 +16,7 @@ export default function EscrevaSobreOEvento({ register, setValue }: any) {
         if(slug && evento){
             setIsConteudo(evento.conteudo ?? "");
             register("conteudo");
+            setValue("conteudo", evento.conteudo ?? "");
         }
     }, [slug, evento]);
 

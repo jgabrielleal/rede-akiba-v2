@@ -1,13 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import MiddlewareRoute from './MiddlewareRoute';
+
 import Outlet from '@/views/Layout';
 import Login from '@views/Login';
 import Dashboard from '@views/Dashboard';
 import Materias from '@views/Materias';
 import Reviews from '@/views/Reviews';
 import Eventos from '@/views/Eventos';
+import Locucao from '@/views/Locucao';
 
 export default function Router(){
+
     return(
         <BrowserRouter>
             <Routes>
@@ -17,6 +21,7 @@ export default function Router(){
                     <Route path="materias/:slug?" element={<MiddlewareRoute view={Materias} />} />
                     <Route path="reviews/:slug?" element={<MiddlewareRoute view={Reviews} />} />
                     <Route path="eventos/:slug?" element={<MiddlewareRoute view={Eventos} />} />
+                    <Route path="locucao" element={<MiddlewareRoute view={Locucao} />} />
                 </Route>
             </Routes>
         </BrowserRouter>

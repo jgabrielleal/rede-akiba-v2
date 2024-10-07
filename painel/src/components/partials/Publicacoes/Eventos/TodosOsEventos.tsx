@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FaPen } from "react-icons/fa";
+import classNames from 'classnames';
 import { usePagination } from '@/hooks/usePagination';
 import { useEventos } from '@/services/eventos/queries';
 
@@ -11,6 +12,7 @@ export interface Eventos {
         apelido?: string
     },
     slug?: string,
+    status?: string,
     titulo?: string,
 }
 
@@ -32,8 +34,10 @@ export default function TodosOsEventos() {
             </div>
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-3">
                 {(usePagination({ data: eventos }) as Eventos[])?.map((evento: Eventos, index: number) => (
-                    <div key={index} className='p-2 rounded-md bg-azul-claro'>
-                        <p className="h-[7.5rem] mb-3 line-clamp-6 font-averta uppercase text-aurora leading-5">
+                    <div key={index} className={classNames('p-2 rounded-md', {
+                        'bg-verde': evento?.status === 'rascunho',
+                    })}>                        
+                    <p className="h-[7.5rem] mb-3 line-clamp-6 font-averta uppercase text-aurora leading-5">
                             {evento?.titulo}
                         </p>
                         <div className="flex justify-between">

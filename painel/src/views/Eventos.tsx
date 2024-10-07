@@ -19,7 +19,8 @@ import SubmitDoEvento from "@/components/partials/Publicacoes/Eventos/SubmitDoEv
 import TodosOsEventos from "@/components/partials/Publicacoes/Eventos/TodosOsEventos";
 import LocalizacaoDoEvento from "@/components/partials/Publicacoes/Eventos/LocalizacaoDoEvento";
 
-export default function Reviews() {
+export default function Eventos() {
+    const [isStatusDoEvento, setIsStatusDoEvento] = useState<string | null>();
     const [isRefresh, setIsRefresh] = useState<boolean>(false);
 
     const { register, handleSubmit, setValue, reset } = useForm();
@@ -30,19 +31,28 @@ export default function Reviews() {
     const { data: logado } = useLogado(localStorage.getItem("aki-token") ?? "");
     const { data: evento } = useEvento(slug ?? "");
     const { mutate: createEvento } = useCreateEvento(() => {
-        toast.success('"Sugoi! O seu evento foi criado! ٩(＾◡＾)۶"');
-        setIsRefresh(prev => !prev);
-        reset();
+        toasts();
     })
     const { mutate: updateEvento } = useUpdateEvento(slug ?? "", () => {
-        toast.success("Sugoi! O evento foi atualizado! ٩(＾◡＾)۶");
-        setIsRefresh(prev => !prev);
-        reset();
+        toasts();
     })
 
     const { data: onError } = useError();
     const { data: pageName } = usePageName();
 
+    function toasts(){
+        switch(isStatusDoEvento){
+            case "publicado":
+                toast.success("Sugoi! O evento foi publicada! ٩(＾◡＾)۶");
+                break;
+            case "rascunho":
+                toast.success("Sugoi! O evento foi salva como rascunho! ٩(＾◡＾)۶");
+                break;
+        }
+
+        setIsRefresh(prev => !prev);
+        reset();
+    }
     pageName(evento?.titulo || "Novo evento");
 
     useEffect(() => {
@@ -53,6 +63,7 @@ export default function Reviews() {
     function onSubmit(data: any) {
         const newData = {
             autor: logado?.id,
+            status: isStatusDoEvento,
             titulo: data.titulo,
             imagem_em_destaque: data.imagem_em_destaque,
             capa_do_evento: data.capa_do_evento,
@@ -85,7 +96,7 @@ export default function Reviews() {
                         <LocalizacaoDoEvento register={register} setValue={setValue} />
                     </div>
                 </div>
-                <SubmitDoEvento />
+                <SubmitDoEvento setIsStatusDoEvento={setIsStatusDoEvento}/>
             </form>
             <TodosOsEventos />
         </>

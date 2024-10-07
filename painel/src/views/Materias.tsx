@@ -33,13 +33,9 @@ export default function Materias() {
     const { data: materia } = useMateria(slug ?? "");
     const { mutate: createMateria } = useCreateMateria(() => { 
         toasts();
-        setIsRefresh(prev => !prev);
-        reset();
     });
     const { mutate: updateMateria } = useUpdateMateria(slug ?? "", () => { 
         toasts();
-        setIsRefresh(prev => !prev);
-        reset();
     });
 
     const { data: onError } = useError();
@@ -50,13 +46,13 @@ export default function Materias() {
             case "publicado":
                 toast.success("Sugoi! A matéria foi publicada! ٩(＾◡＾)۶");
                 break;
-            case "revisao":
-                toast.success("Sugoi! Sua matéria foi enviada para revisão! ٩(＾◡＾)۶");
-                break;
             case "rascunho":
                 toast.success("Sugoi! Sua matéria foi salva como rascunho! ٩(＾◡＾)۶");
                 break;
         }
+
+        setIsRefresh(prev => !prev);
+        reset();
     }
 
     pageName(materia?.titulo || "Nova matéria");
@@ -81,8 +77,6 @@ export default function Materias() {
             ],
             reacoes: data.reacoes,
         };
-
-        console.log(newData);
 
         if (slug) {
             updateMateria(newData);
