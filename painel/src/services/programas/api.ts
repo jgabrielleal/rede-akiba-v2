@@ -4,7 +4,7 @@ import { ProgramasTypes } from './types';
 export async function getProgramas(){
     try{
         const response = await api.get('/programas');
-        return response;
+        return response.data;
     }catch(error: any){
         throw error;
     }

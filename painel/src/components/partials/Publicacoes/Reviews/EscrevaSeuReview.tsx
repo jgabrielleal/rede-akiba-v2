@@ -65,9 +65,6 @@ export default function EscrevaSeuReview({ register, setValue, isReviewSeleciona
                     modules={modules}
                     value={buscaReviewDoUsuarioSelecionado?.conteudo ?? ""}
                     onChange={(content) => { setValue("conteudo", content) }}
-                    placeholder={
-                        !isReviewSelecionado ? "Oiieh ٩(＾◡＾)۶! Parece que você nunca me contou sua opinião sobre esse anime, diga algo! O que você achou?" : ""
-                    }
                 />
             </div>
         </section>

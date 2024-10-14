@@ -11,7 +11,7 @@ class ProgramasController extends Controller
 {
     public function retornaTodosProgramas()
     {
-        $programas = Programas::with(['locutor'])->paginate(10);
+        $programas = Programas::with(['locutor'])->get();
 
         if ($programas->isNotEmpty()) {
             return response()->json($programas, 200);
@@ -36,6 +36,7 @@ class ProgramasController extends Controller
     public function cadastraPrograma(Request $request)
     {
         $request->validate([
+            'auto_dj' => 'required|boolean',
             'locutor' => 'required|exists:usuarios,id',
             'nome_do_programa' => 'required|unique:programas,nome_do_programa',
             'logo_do_programa' => 'required|string',
@@ -43,6 +44,7 @@ class ProgramasController extends Controller
 
         $programa = Programas::create([
             'slug' => Str::slug($request->nome_do_programa),
+            'auto_dj' => $request->auto_dj,
             'locutor' => $request->locutor,
             'nome_do_programa' => $request->nome_do_programa,
             'logo_do_programa' => $request->logo_do_programa,
@@ -60,12 +62,14 @@ class ProgramasController extends Controller
         }
 
         $request->validate([
+            'auto_dj' => 'required|boolean',
             'locutor' => 'required|exists:usuarios,id',
             'nome_do_programa' => 'required|unique:programas,nome_do_programa',
             'logo_do_programa' => 'required|string',
         ]);
 
         $update = [
+            'auto_dj' => $request->auto_dj,
             'locutor' => $request->locutor,
             'nome_do_programa' => $request->nome_do_programa,
             'logo_do_programa' => $request->logo_do_programa,

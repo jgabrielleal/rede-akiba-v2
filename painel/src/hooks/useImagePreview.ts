@@ -29,7 +29,7 @@ export function useImagePreview() {
                 canvas.width = width;
                 canvas.height = height;
                 ctx?.drawImage(img, 0, 0, width, height);
-                const dataUrl = canvas.toDataURL('image/jpeg');
+                const dataUrl = canvas.toDataURL('image/png');
                 callback(dataUrl);
             };
         };

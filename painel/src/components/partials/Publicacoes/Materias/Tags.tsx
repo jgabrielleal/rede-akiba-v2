@@ -39,7 +39,7 @@ export default function Tags({ register, setValue }: any) {
                     value={isPrimeiraTag}
                     onChange={(event) => { setIsPrimeiraTag(event.target.value) }}
                 >
-                    <option value="">Selecione uma tag</option>
+                    <option value=""></option>
                     <option value="animes">Animes</option>
                     <option value="mangas">Mangás</option>
                     <option value="tops">Top's</option>
@@ -61,7 +61,7 @@ export default function Tags({ register, setValue }: any) {
                     value={isSegundaTag}
                     onChange={(event) => { setSegundaTag(event.target.value) }}
                 >
-                    <option value="">Selecione uma tag</option>
+                    <option value=""></option>
                     <option value="animes">Animes</option>
                     <option value="mangas">Mangás</option>
                     <option value="tops">Top's</option>

@@ -17,6 +17,7 @@ class CreateProgramasTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('slug');
+            $table->boolean('auto_dj')->nullable();
             $table->unsignedBigInteger('locutor');
             $table->string('nome_do_programa')->nullable();
             $table->longText('logo_do_programa')->nullable();

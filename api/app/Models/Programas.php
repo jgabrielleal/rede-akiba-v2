@@ -27,6 +27,7 @@ class Programas extends Model
      */
     protected $fillable = [
         'slug',
+        'auto_dj',
         'locutor',
         'nome_do_programa',
         'logo_do_programa',
