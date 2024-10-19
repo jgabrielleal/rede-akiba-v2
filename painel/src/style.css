@@ -22,7 +22,7 @@
     REACT QUILL STYLES
     - Define a estilização padrão o framework de edição de texto React Quill
 **/
-.ql-snow{
+.ql-snow {
     border: 0 !important;
 }
 
@@ -39,35 +39,70 @@
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
-  }
-  
-  .title-default h6::after {
+}
+
+.title-default h6::after {
     width: 100%;
     position: absolute;
     content: "";
     border-bottom: 0.1rem solid #FFA919 !important;
     margin-top: 0.9rem;
     margin-left: 0.6rem;
-  }
-  
+}
+
+/**
+    ICONE DE DIVISÓRIA DOS PEDIDOS STYLES
+    - Define a estilização padrão para os ícones de divisória de pedidos
+**/
+.icone-divisoria-pedidos span {
+    color: #FFF6E6 !important;
+    font-family: 'Averta', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.icone-divisoria-pedidos span::after {
+    width: 100%;
+    position: absolute;
+    content: "";
+    border-bottom: 0.1rem solid #FFF6E6 !important;
+    margin-top: 0.7rem;
+    margin-left: 20rem;
+}
+
+.icone-divisoria-pedidos span::before {
+    width: 100%;
+    position: absolute;
+    content: "";
+    border-bottom: 0.1rem solid #FFF6E6 !important;
+    margin-top: 0.7rem;
+    margin-left: -20rem;
+}
+
 
 /**
     NAVBAR STYLES
     - Define a configuração de hover para os itens do navbar e a animação de abertura e fechamento do menu
 **/
-.nav-hover:hover{
-    color: #0091FF; 
+.nav-hover:hover {
+    color: #0091FF;
 }
 
-.nav-hover:hover img{
+.nav-hover:hover img {
     filter: invert(39%) sepia(59%) saturate(2524%) hue-rotate(186deg) brightness(100%) contrast(111%);
 }
 
-.nav-animation-open{
+.nav-animation-open {
     animation: nav-animation-open 0.5s linear forwards;
 }
 
-.nav-animation-close{
+.nav-animation-close {
     animation: nav-animation-close 0.5s linear forwards;
 }
 
@@ -76,19 +111,21 @@
         width: 0;
         right: -5rem;
     }
+
     100% {
         width: 11rem;
     }
-    
+
 }
 
 @keyframes nav-animation-close {
     0% {
         width: 11rem;
     }
+
     100% {
         width: 0;
         right: -5rem;
     }
-    
+
 }
